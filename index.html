@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gianluca Frassoni | BRC Blog Portfolio</title>
+    
+    <!-- Font Pixelato -->
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+    <!-- IMPORT D3.JS PER LA LAVA LAMP -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <style>
+        /* PALETTE CYBERFUNK E WIN98 */
+        :root {
+            --brc-yellow: #f2e300;
+            --brc-orange: #ff5900;
+            --brc-cyan: #00f0ff;
+            --brc-pink: #ff0055;
+            --brc-dark: #121212;
+            --black: #000000;
+            --white: #ffffff;
+            
+            --win98-bg: #c0c0c0;
+            --win98-blue: #000080;
+            --win98-blue-grad: #1084d0;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--brc-dark);
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            font-family: 'VT323', monospace;
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        .blog-container {
+            max-width: 750px;
+            margin: 0 auto 40px auto; 
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 50px; 
+        }
+
+        /* ==================================================
+           1. INTESTAZIONE: LA VIA DI MEZZO PERFETTA
+           ================================================== */
+        header { 
+            text-align: center; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* VIA DI MEZZO: 100px dal soffitto */
+            padding-top: 100px; 
+            /* Distanza perfetta tra il logo e la scritta sotto */
+            gap: 15px; 
+        }
+
+        .logo-container {
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: drop-shadow(4px 4px 0px var(--black));
+        }
+
+        /* Sottotitolo */
+        h2.subtitle {
+            font-family: 'VT323', monospace;
+            font-size: 1.6rem;
+            color: var(--white);
+            background-color: transparent;
+            padding: 0;
+            margin: 0; 
+            text-shadow: 2px 2px 0px var(--black);
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Banda Treno Ultrasottile */
+        .marquee-wrapper {
+            background-color: var(--black); 
+            color: var(--brc-yellow); 
+            font-family: 'VT323', monospace;
+            font-size: 1.3rem; 
+            padding: 4px 0; 
+            margin: 10px -20px 0 -20px;
+            width: calc(100% + 40px);
+            transform: skewY(-2deg);
+            border-top: 2px solid var(--brc-yellow); 
+            border-bottom: 2px solid var(--brc-yellow);
+            box-shadow: 0px 5px 0px rgba(0,0,0,0.5);
+            text-shadow: 0 0 6px var(--brc-yellow);
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 3px 3px; 
+            letter-spacing: 3px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--white);
+            border-bottom: 4px dashed var(--brc-cyan);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        /* ==================================================
+           2. SEZIONE CENTRALE
+           ================================================== */
+        .sketch-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .folder-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .folder-wrapper {
+            position: relative;
+            transform: skewX(-3deg);
+            transition: transform 0.2s;
+            cursor: pointer;
+            width: 100%; 
+            max-width: 320px; 
+        }
+
+        .folder-wrapper:hover {
+            transform: skewX(-3deg) translate(-4px, -4px);
+        }
+
+        .sparkle-group { position: absolute; width: 40px; height: 40px; z-index: 10; }
+        .sparkle-group.top-right { top: -15px; right: -15px; }
+        .sparkle-group.bottom-left { bottom: -15px; left: -15px; }
+
+        .sparkle {
+            position: absolute;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='5' y1='0' x2='5' y2='3' stroke='white' stroke-width='1.5' /%3E%3Cline x1='5' y1='7' x2='5' y2='10' stroke='white' stroke-width='1.5' /%3E%3Cline x1='0' y1='5' x2='3' y2='5' stroke='white' stroke-width='1.5' /%3E%3Cline x1='7' y1='5' x2='10' y2='5' stroke='white' stroke-width='1.5' /%3E%3C/svg%3E");
+            background-size: cover;
+            animation: scatto-crt 0.4s infinite;
+        }
+        .s-big { width: 22px; height: 22px; top: 0; left: 15px; animation-delay: 0s; }
+        .s-med { width: 14px; height: 14px; top: 20px; left: 0; animation-delay: 0.1s; }
+        .s-small { width: 10px; height: 10px; top: 25px; left: 25px; animation-delay: 0.2s; }
+        @keyframes scatto-crt { 0%, 49.99% { transform: rotate(0deg); } 50%, 100% { transform: rotate(45deg); } }
+
+        .folder-tab {
+            width: 45%; height: 25px; 
+            background-color: var(--brc-pink);
+            border: 4px solid var(--black);
+            border-bottom: none;
+            margin-left: 10px;
+        }
+
+        .folder-body {
+            position: relative;
+            background-color: var(--brc-pink);
+            border: 4px solid var(--black);
+            aspect-ratio: 1.4 / 1; 
+            padding: 20px;
+            box-shadow: 6px 6px 0px var(--black);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Testo della Cartella Flat Bianco */
+        .folder-body .line {
+            font-size: 2.8rem;
+            color: #ffffff;
+            line-height: 1;
+            display: block;
+            -webkit-text-stroke: 0px; 
+            text-shadow: 
+                2px 0 0 var(--black), -2px 0 0 var(--black),
+                0 2px 0 var(--black), 0 -2px 0 var(--black),
+                2px 2px 0 var(--black), -2px -2px 0 var(--black),
+                2px -2px 0 var(--black), -2px 2px 0 var(--black);
+        }
+        .folder-body .line-1 { transform: translateX(-12px) rotate(-3deg); }
+        .folder-body .line-2 { transform: translateX(12px) rotate(2deg); margin-top: 8px; }
+
+        /* ==================================================
+           3. WINDOWS 98 E WEBCAM CON FILTRO CRT
+           ================================================== */
+        .win98-window {
+            background-color: var(--win98-bg);
+            border-top: 2px solid #ffffff; border-left: 2px solid #ffffff;
+            border-right: 2px solid #000000; border-bottom: 2px solid #000000;
+            box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf;
+            padding: 2px;
+            font-family: 'Arial', sans-serif;
+            color: var(--black);
+            display: flex; flex-direction: column;
+            transform: none !important; 
+        }
+
+        .win98-titlebar {
+            background: linear-gradient(90deg, var(--win98-blue), var(--win98-blue-grad));
+            color: white; padding: 2px 4px; font-size: 14px; font-weight: bold;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .win98-close-btn {
+            background-color: var(--win98-bg);
+            border-top: 1px solid #ffffff; border-left: 1px solid #ffffff;
+            border-right: 1px solid #000000; border-bottom: 1px solid #000000;
+            box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf;
+            padding: 0 4px; font-weight: bold; font-size: 12px; color: #ff0000; cursor: pointer;
+        }
+        .win98-close-btn:active {
+            border-top: 1px solid #000000; border-left: 1px solid #000000;
+            border-right: 1px solid #ffffff; border-bottom: 1px solid #ffffff;
+            box-shadow: inset 1px 1px #808080;
+        }
+
+        .window-square { aspect-ratio: 1 / 1; }
+
+        .window-content {
+            flex-grow: 1; display: flex; flex-direction: column; color: #333;
+            margin: 2px; border: 1px solid #808080; border-right: 1px solid #fff; border-bottom: 1px solid #fff;
+            background: #000; 
+            position: relative; overflow: hidden;
+        }
+
+        /* OVERLAY CRT PER WEBCAM */
+        .crt-overlay::after {
+            content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
+            background: 
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2; background-size: 100% 4px, 3px 100%; pointer-events: none;
+        }
+
+        #source-video { display: none; }
+        #webcam-canvas { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(10%) contrast(125%) brightness(1.1); }
+
+        /* ==================================================
+           4. LAVA LAMP TRASPARENTE
+           ================================================== */
+        .lava-window {
+            grid-column: 1 / -1; 
+            aspect-ratio: 21 / 9;
+            width: 100%;
+            background: transparent; 
+            border: none;            
+            box-shadow: none;        
+            overflow: hidden;        
+            position: relative;
+            margin-top: 30px;
+            pointer-events: none;    
+        }
+
+        /* ==================================================
+           RECENT WORKS (BLINKIES & INDENTAZIONE CODICE)
+           ================================================== */
+        .works-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .year-block {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            /* Indentazione laterale globale per simulare il codice */
+            padding-left: 20px;
+        }
+
+        .year-title {
+            font-size: 2.2rem;
+            color: var(--white); /* Anno bianco */
+            font-weight: normal; /* Meno bold per farlo sembrare più testo terminale */
+            margin: 0;
+            text-shadow: 1px 1px 0 var(--black); /* Ombra alleggerita */
+        }
+        
+        .year-title::before {
+            content: "> "; /* Terminal style */
+            color: var(--brc-cyan);
+        }
+
+        .dashed-line {
+            width: calc(100% - 20px);
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.5);
+            margin: 5px 0 20px 20px; /* Allineato all'indentazione */
+        }
+
+        .blinkie-img {
+            image-rendering: pixelated; /* Scalabilità perfetta per la pixel art */
+            box-shadow: 4px 4px 0px var(--black);
+            border: 2px solid var(--black);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            
+            /* Ridimensionati leggermente in piccolo */
+            width: 100%;
+            max-width: 380px; 
+            height: auto;
+            
+            /* Indentazione "annidata" per il contenuto */
+            margin-left: 40px; 
+        }
+
+        .blinkie-img:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 8px 8px 0px var(--black);
+        }
+
+        /* ==================================================
+           5. MODAL WIN98 E ALTRE SEZIONI
+           ================================================== */
+        .custom-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            z-index: 1000; justify-content: center; align-items: center;
+        }
+        .custom-modal.active { display: flex; }
+        .custom-modal.active::before {
+            content: ''; position: absolute; width: 90%; max-width: 600px; min-height: 400px; 
+            border: 2px dashed #fff; z-index: 1001; pointer-events: none; opacity: 0;
+            animation: ghost-zoom 0.3s forwards steps(1); 
+        }
+        @keyframes ghost-zoom {
+            0% { transform: scale(0.2); opacity: 1; } 25% { transform: scale(0.5); opacity: 1; }
+            50% { transform: scale(0.75); opacity: 1; } 75% { transform: scale(0.9); opacity: 1; }
+            100% { transform: scale(1); opacity: 0; } 
+        }
+
+        .modal-content-win98 { width: 90%; max-width: 600px; min-height: 400px; box-shadow: 4px 4px 10px rgba(0,0,0,0.5); opacity: 0; }
+        .custom-modal.active .modal-content-win98 { animation: final-window-pop 0s 0.3s forwards; }
+        @keyframes final-window-pop { to { opacity: 1; } }
+
+        details { margin-bottom: 20px; transform: skewX(-3deg); }
+        details > summary { background-color: var(--brc-cyan); color: var(--black); border: 4px solid var(--black); padding: 15px; font-size: 1.8rem; font-weight: bold; text-transform: uppercase; cursor: pointer; box-shadow: 6px 6px 0px var(--black); list-style: none; transition: background-color 0.2s; }
+        details > summary::-webkit-details-marker { display: none; }
+        details > summary:hover { background-color: var(--white); }
+        details[open] > summary { background-color: var(--brc-orange); color: var(--white); box-shadow: 6px 0px 0px var(--black); }
+        
+        details .accordion-content { background-color: var(--white); color: var(--black); border: 4px solid var(--black); border-top: none; padding: 20px; font-size: 1.3rem; box-shadow: 6px 6px 0px var(--black); transform: skewX(0deg); }
+        
+        /* Stile per i link nella sezione data expansion */
+        details .accordion-content a { color: var(--brc-pink); font-weight: bold; text-decoration: none; border-bottom: 2px dashed var(--brc-pink); transition: all 0.2s; cursor: pointer;}
+        details .accordion-content a:hover { color: var(--brc-orange); border-bottom-color: var(--brc-orange); }
+
+        .btn-3d { display: block; background-color: var(--brc-orange); color: var(--black); text-align: center; padding: 20px; font-size: 1.8rem; font-weight: bold; text-decoration: none; border: 4px solid var(--black); box-shadow: 8px 8px 0px var(--black); transform: skewX(-6deg); transition: all 0.2s; }
+        .btn-3d span { display: inline-block; transform: skewX(6deg); }
+        .btn-3d:hover { background-color: var(--white); transform: skewX(-6deg) translate(-4px, -4px); box-shadow: 12px 12px 0px var(--black); }
+    </style>
+</head>
+<body>
+
+    <div class="blog-container">
+        
+        <!-- ==========================================
+             HEADER
+             ========================================== -->
+        <header>
+            <div class="logo-container">
+                <img src="portfolio_Logo.png" alt="Portfolio Logo">
+            </div>
+
+            <h2 class="subtitle">Aspiring UI/UX & Frontend Developer</h2>
+            
+            <div class="marquee-wrapper">
+                <marquee scrollamount="12">
+                    /// UI/UX DESIGN ORIENTED /// OPEN TO ANY TECH CHALLENGE /// VANILLA JS SPECIALIST ///
+                </marquee>
+            </div>
+        </header>
+
+        <section id="personali">
+            <div class="sketch-grid">
+                
+                <!-- A. Cartella Progetti -->
+                <div class="folder-container">
+                    <div class="folder-wrapper" id="folder-trigger">
+                        <div class="folder-tab"></div>
+                        <div class="folder-body">
+                            <div class="sparkle-group top-right">
+                                <div class="sparkle s-big"></div>
+                                <div class="sparkle s-small"></div>
+                                <div class="sparkle s-med"></div>
+                            </div>
+                            <div class="sparkle-group bottom-left">
+                                <div class="sparkle s-med"></div>
+                                <div class="sparkle s-big"></div>
+                                <div class="sparkle s-small"></div>
+                            </div>
+                            
+                            <span class="line line-1">PERSONAL</span>
+                            <span class="line line-2">PROJECTS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- B. Finestra Win98 Webcam con Overlay CRT -->
+                <div class="win98-window window-square">
+                    <div class="win98-titlebar">
+                        <span>programmer_video.mp4</span>
+                        <button class="win98-close-btn" style="pointer-events: none;">X</button>
+                    </div>
+                    <div class="window-content crt-overlay">
+                        <video id="source-video" src="programmer_video.mp4" autoplay muted loop playsinline></video>
+                        <canvas id="webcam-canvas"></canvas>
+                    </div>
+                </div>
+
+                <!-- C. Lava Lamp Trasparente -->
+                <div id="lava-container" class="lava-window"></div>
+
+            </div>
+        </section>
+
+        <!-- SEZIONE RECENT WORKS -->
+        <section id="lavori-recenti">
+            <h2 class="section-title">/// Recent Works</h2>
+            
+            <div class="works-timeline">
+                <!-- 2026: Exerplaza -->
+                <div class="year-block">
+                    <h3 class="year-title">2026</h3>
+                    <div class="dashed-line"></div>
+                    <!-- Aggiunto ID per il trigger della modale -->
+                    <img src="blinkies/Exerplaza.gif" alt="Exerplaza Project Blinkie" class="blinkie-img" id="exerplaza-trigger">
+                </div>
+
+                <!-- 2025: D&D -->
+                <div class="year-block">
+                    <h3 class="year-title">2025</h3>
+                    <div class="dashed-line"></div>
+                    <!-- Aggiunto ID per il trigger della modale -->
+                    <img src="blinkies/D&D.gif" alt="D&D Project Blinkie" class="blinkie-img" id="dnd-trigger">
+                </div>
+            </div>
+            
+        </section>
+
+        <!-- SEZIONE DATA EXPANSION -->
+        <section id="data-expansion">
+            <h2 class="section-title">/// Data Expansion</h2>
+
+            <!-- 1. ABOUT ME -->
+            <details>
+                <summary>+ ABOUT ME</summary>
+                <div class="accordion-content">
+                    <p>Hi, I'm Gianluca Frassoni, a budding Computer Engineer. I proudly identify as a nerd; my hobbies include developing and playing video games, as well as a strong passion for music. Throughout my life, I've played both the piano and the guitar, and I've always stayed active by practicing a wide variety of sports. I am currently in my final year of university and will be graduating soon. While I am eager to explore various opportunities across the tech industry, my true predisposition lies in frontend development and UI/UX, driven by the challenge of crafting intuitive interfaces and dynamic interactive visualizations. I'm now seeking a stimulating role that will challenge me and allow me to grow.</p>
+                </div>
+            </details>
+
+            <!-- 2. SKILLS & BADGES -->
+            <details>
+                <summary>+ SKILLS & BADGES</summary>
+                <div class="accordion-content">
+                    <p><b>Core Technologies:</b> Vanilla JavaScript, HTML5, CSS3/Grid/Flexbox.</p>
+                    <p><b>Graphic Libraries:</b> Three.js (WebGL), D3.js (Data Visualization).</p>
+                    <p><b>Design & Tools:</b> UI/UX Prototyping, Adobe Photoshop, Adobe Lightroom, dynamic & responsive interfaces.</p>
+                    <p><b>Badges:</b> <a id="badge-trigger">B2 Receptive Skills (University Badge)</a>.</p>
+                </div>
+            </details>
+            
+            <!-- 3. REFERENCES -->
+            <details>
+                <summary>+ REFERENCES</summary>
+                <div class="accordion-content">
+                    <p style="font-size: 1.4rem; margin-bottom: 15px;">
+                        <a href="https://www.linkedin.com/in/damianovaragnolo/" target="_blank">Damiano Varagnolo</a> - Mentor during internship at UNIPD
+                    </p>
+                    <div style="font-style: italic; border-left: 4px solid var(--brc-pink); padding-left: 15px;">
+                        <p>"I had the pleasure of supervising Gianluca during his internship, where he contributed to the development of Exerplaza, a learning analytics oriented educational platform. His work has been aimed at making relationships between concepts, topics, and learning outcomes more intuitive and accessible by means of a dedicated relations visualizer.</p>
+
+                        <p>Throughout the internship, he consistently demonstrated creativity, initiative, and a remarkable ability to work independently. Rather than simply implementing assigned tasks, he actively proposed new ideas, designed alternative user experience solutions, and validated them through thoughtful testing and iteration. His contributions significantly improved the way complex educational structures could be visualized and understood.</p>
+
+                        <p>Beyond his technical skills, what impressed me most was his positive attitude and collaborative mindset. He naturally approached the project with a community-oriented perspective, always seeking solutions that would benefit future users and the broader educational ecosystem. He was proactive, receptive to feedback, and a pleasure to work with throughout the project.</p>
+
+                        <p>I am confident that he will bring the same creativity, independence, and team spirit to any future endeavor, and I would gladly recommend him to anyone looking for a thoughtful and motivated young professional."</p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- 4. SOCIAL LINKS -->
+            <details>
+                <summary>+ SOCIAL LINKS</summary>
+                <div class="accordion-content">
+                    <p style="font-size: 1.5rem; display: flex; flex-direction: column; gap: 10px;">
+                        <a href="https://www.linkedin.com/in/gianluca-frassoni-585065423" target="_blank" style="align-self: flex-start;">
+                            /// LINKEDIN
+                        </a>
+                        <a href="https://github.com/GianSette" target="_blank" style="align-self: flex-start;">
+                            /// GITHUB
+                        </a>
+                    </p>
+                </div>
+            </details>
+        </section>
+
+        <a href="index.html" class="btn-3d">
+            <span>/// AVVIA PROTOCOLLO 3D [ DESKTOP ONLY ] ///</span>
+        </a>
+
+    </div>
+
+    <!-- ======================================================================
+         MODALS (FINESTRE POPUP)
+         ====================================================================== -->
+
+    <!-- MODAL WIN98 1: PERSONAL PROJECTS -->
+    <div id="personal-projects-modal" class="custom-modal">
+        <div class="win98-window modal-content-win98">
+            <div class="win98-titlebar">
+                <span>C:\Windows\Personal_Projects</span>
+                <button class="win98-close-btn" id="close-modal-btn">X</button>
+            </div>
+            
+            <div style="padding: 20px; font-family: 'VT323', monospace; font-size: 1.5rem; background: #fff; flex-grow: 1; border: 1px solid #808080; border-bottom: 1px solid #fff; border-right: 1px solid #fff; margin: 4px;">
+                <p>> Directory loading...</p>
+                <p>> 0 files found.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL WIN98 2: BADGE IMMAGINE -->
+    <div id="badge-modal" class="custom-modal">
+        <div class="win98-window modal-content-win98">
+            <div class="win98-titlebar">
+                <span>badge.png</span>
+                <button class="win98-close-btn" id="close-badge-btn">X</button>
+            </div>
+            
+            <div style="padding: 4px; background: #c0c0c0; flex-grow: 1; border: 1px solid #808080; border-bottom: 1px solid #fff; border-right: 1px solid #fff; margin: 4px; display: flex; justify-content: center; align-items: center; min-height: 350px;">
+                <img src="badge.png" alt="B2 Receptive Skills Badge" style="max-width: 100%; max-height: 340px; object-fit: contain;">
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL WIN98 3: EXERPLAZA PROJECT -->
+    <div id="exerplaza-modal" class="custom-modal">
+        <div class="win98-window modal-content-win98">
+            <div class="win98-titlebar">
+                <span>Exerplaza_Project.exe</span>
+                <button class="win98-close-btn" id="close-exerplaza-btn">X</button>
+            </div>
+            
+            <div style="padding: 20px; font-family: 'VT323', monospace; font-size: 1.5rem; background: #fff; flex-grow: 1; border: 1px solid #808080; border-bottom: 1px solid #fff; border-right: 1px solid #fff; margin: 4px;">
+                <p>> Loading Exerplaza module...</p>
+                <p>> Custom content coming soon.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL WIN98 4: D&D PROJECT -->
+    <div id="dnd-modal" class="custom-modal">
+        <div class="win98-window modal-content-win98">
+            <div class="win98-titlebar">
+                <span>DnD_Campaign.exe</span>
+                <button class="win98-close-btn" id="close-dnd-btn">X</button>
+            </div>
+            
+            <div style="padding: 20px; font-family: 'VT323', monospace; font-size: 1.5rem; background: #fff; flex-grow: 1; border: 1px solid #808080; border-bottom: 1px solid #fff; border-right: 1px solid #fff; margin: 4px;">
+                <p>> Loading D&D Campaign data...</p>
+                <p>> Custom content coming soon.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT GESTIONE INTERATTIVITÀ -->
+    <script>
+        // 1. GESTIONE MODALS WIN98
+        
+        // A) Modal Personal Projects
+        const folderBtn = document.getElementById('folder-trigger');
+        const ppModal = document.getElementById('personal-projects-modal');
+        const closePpBtn = document.getElementById('close-modal-btn');
+
+        folderBtn.addEventListener('click', () => { ppModal.classList.add('active'); });
+        closePpBtn.addEventListener('click', () => { ppModal.classList.remove('active'); });
+
+        // B) Modal Badge
+        const badgeBtn = document.getElementById('badge-trigger');
+        const badgeModal = document.getElementById('badge-modal');
+        const closeBadgeBtn = document.getElementById('close-badge-btn');
+
+        badgeBtn.addEventListener('click', () => { badgeModal.classList.add('active'); });
+        closeBadgeBtn.addEventListener('click', () => { badgeModal.classList.remove('active'); });
+
+        // C) Modal Exerplaza
+        const exerBtn = document.getElementById('exerplaza-trigger');
+        const exerModal = document.getElementById('exerplaza-modal');
+        const closeExerBtn = document.getElementById('close-exerplaza-btn');
+
+        exerBtn.addEventListener('click', () => { exerModal.classList.add('active'); });
+        closeExerBtn.addEventListener('click', () => { exerModal.classList.remove('active'); });
+
+        // D) Modal D&D
+        const dndBtn = document.getElementById('dnd-trigger');
+        const dndModal = document.getElementById('dnd-modal');
+        const closeDndBtn = document.getElementById('close-dnd-btn');
+
+        dndBtn.addEventListener('click', () => { dndModal.classList.add('active'); });
+        closeDndBtn.addEventListener('click', () => { dndModal.classList.remove('active'); });
+
+        // Chiusura di tutte le modali cliccando lo sfondo scuro
+        window.addEventListener('click', (e) => {
+            if (e.target === ppModal) { ppModal.classList.remove('active'); }
+            if (e.target === badgeModal) { badgeModal.classList.remove('active'); }
+            if (e.target === exerModal) { exerModal.classList.remove('active'); }
+            if (e.target === dndModal) { dndModal.classList.remove('active'); }
+        });
+
+        // 2. SIMULATORE WEBCAM LOW-FPS
+        const video = document.getElementById('source-video');
+        const canvas = document.getElementById('webcam-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        const TARGET_FPS = 6; 
+        const FRAME_INTERVAL = 1000 / TARGET_FPS;
+        let lastDrawTime = 0;
+
+        function renderWebcamFrame(timestamp) {
+            requestAnimationFrame(renderWebcamFrame);
+            
+            const elapsed = timestamp - lastDrawTime;
+            if (elapsed >= FRAME_INTERVAL) {
+                lastDrawTime = timestamp - (elapsed % FRAME_INTERVAL);
+                
+                if (video.videoWidth > 0 && (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight)) {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                }
+                
+                if (video.readyState >= 2) {
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                }
+            }
+        }
+        
+        video.play().catch(e => console.log("Autoplay prevent block:", e));
+        requestAnimationFrame(renderWebcamFrame);
+
+
+        // 3. MOTORE D3.JS LAVA LAMP
+        const svgLava = d3.select("#lava-container")
+            .append("svg")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .style("filter", "url(#gooey)");
+
+        const defsLava = svgLava.append("defs");
+        const filterLava = defsLava.append("filter").attr("id", "gooey");
+        
+        filterLava.append("feGaussianBlur")
+            .attr("in", "SourceGraphic")
+            .attr("stdDeviation", "15") 
+            .attr("result", "blur");
+            
+        filterLava.append("feColorMatrix")
+            .attr("in", "blur")
+            .attr("mode", "matrix")
+            .attr("values", "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10");
+
+        const numBlobs = 14; 
+        const blobs = svgLava.selectAll("circle")
+            .data(d3.range(numBlobs))
+            .enter()
+            .append("circle")
+            .attr("r", () => Math.random() * 35 + 20)
+            .attr("fill", "#ff0000")
+            .attr("cx", () => Math.random() * 100 + "%") 
+            .attr("cy", () => (Math.random() * 20 + 100) + "%"); 
+
+        function lavaPhysics() {
+            let element = d3.select(this);
+            let currentY = parseFloat(element.attr("cy"));
+            let isAtBottom = currentY > 50; 
+            
+            let targetY = isAtBottom ? (Math.random() * 40 + 10) : (Math.random() * 20 + 100);
+
+            let currentX = parseFloat(element.attr("cx"));
+            let targetX = currentX + (Math.random() * 30 - 15); 
+            targetX = Math.max(5, Math.min(95, targetX));
+
+            element.transition()
+                .duration(Math.random() * 8000 + 12000) 
+                .ease(d3.easeSinInOut)
+                .attr("cx", targetX + "%")
+                .attr("cy", targetY + "%")
+                .on("end", lavaPhysics); 
+        }
+
+        blobs.each(function(d, i) {
+            setTimeout(() => {
+                lavaPhysics.call(this);
+            }, i * 1500); 
+        });
+    </script>
+</body>
+</html>
