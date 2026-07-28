@@ -149,8 +149,12 @@
         .folder-body .line-2 { transform: translateX(12px) rotate(2deg); margin-top: 8px; }
 
         .win98-window { background-color: var(--win98-bg); border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #000000; border-bottom: 2px solid #000000; box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf; padding: 2px; font-family: 'Arial', sans-serif; color: var(--black); display: flex; flex-direction: column; transform: none !important; }
-        .win98-titlebar { background: linear-gradient(90deg, var(--win98-blue), var(--win98-blue-grad)); color: white; padding: 2px 4px; font-size: 14px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-        .win98-close-btn { background-color: var(--win98-bg); border-top: 1px solid #ffffff; border-left: 1px solid #ffffff; border-right: 1px solid #000000; border-bottom: 1px solid #000000; box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf; padding: 0 4px; font-weight: bold; font-size: 12px; color: #ff0000; cursor: pointer; }
+        
+        /* FIX: Troncamento testo nella barra del titolo */
+        .win98-titlebar { background: linear-gradient(90deg, var(--win98-blue), var(--win98-blue-grad)); color: white; padding: 2px 4px; font-size: 14px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; overflow: hidden; }
+        .win98-titlebar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px; }
+        
+        .win98-close-btn { flex-shrink: 0; background-color: var(--win98-bg); border-top: 1px solid #ffffff; border-left: 1px solid #ffffff; border-right: 1px solid #000000; border-bottom: 1px solid #000000; box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf; padding: 0 4px; font-weight: bold; font-size: 12px; color: #ff0000; cursor: pointer; }
         .win98-close-btn:active { border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #ffffff; border-bottom: 1px solid #ffffff; box-shadow: inset 1px 1px #808080; }
 
         .window-square { aspect-ratio: 1 / 1; width: 100%; }
@@ -206,7 +210,7 @@
         .artwork-disclaimer { font-family: 'Arial', sans-serif; font-size: 1rem; color: #555; background: #fff; border-left: 4px solid var(--brc-pink); padding: 10px; margin: 15px 0; line-height: 1.4; }
 
         /* ==================================================
-           STILI RACCOLTA (MISCELLANEOUS - TESTO IN BASSO)
+           STILI RACCOLTA (MISCELLANEOUS)
            ================================================== */
         .misc-container {
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; margin-top: 15px; padding: 20px;
@@ -217,21 +221,18 @@
             position: relative; width: 150px; height: 150px; flex-shrink: 0; cursor: pointer; transition: all 0.3s ease;
         }
         
-        /* Le immagini statiche dello stack */
         .stacked-img {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
             border: 2px solid #000; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             background-color: #fff;
         }
         
-        /* Chiuso: Impilati */
         .artwork-stack:not(.expanded) .stacked-img:nth-child(1) { transform: rotate(-6deg); z-index: 3; }
         .artwork-stack:not(.expanded) .stacked-img:nth-child(2) { transform: rotate(4deg) translate(8px, 8px); z-index: 2; }
         .artwork-stack:not(.expanded) .stacked-img:nth-child(3) { transform: rotate(12deg) translate(16px, 16px); z-index: 1; }
         .artwork-stack:not(.expanded):hover .stacked-img:nth-child(1) { transform: rotate(-8deg) scale(1.05); }
         .artwork-stack:not(.expanded):hover .stacked-img:nth-child(2) { transform: rotate(6deg) translate(10px, 10px) scale(1.05); }
 
-        /* Aperto: Griglia */
         .artwork-stack.expanded { 
             width: 100%; height: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; 
             justify-content: center;
@@ -297,10 +298,8 @@
             #data-expansion details > summary { font-size: 1.2rem; padding: 10px; }
             #data-expansion details .accordion-content { font-size: 1rem; padding: 12px; }
             
-            /* Griglia PS1 più compatta su mobile */
             .artwork-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 15px; }
             
-            /* Stack più piccolo su mobile */
             .artwork-stack:not(.expanded) { width: 120px; height: 120px; }
             .misc-text { max-width: 100%; }
         }
