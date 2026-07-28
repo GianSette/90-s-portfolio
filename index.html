@@ -170,73 +170,36 @@
         /* ==================================================
            STILE CARTELLE RETRO TERMINALE
            ================================================== */
-        .retro-folder {
-            color: var(--win98-blue);
-            cursor: pointer;
-            transition: color 0.2s;
-            margin-top: 10px;
-        }
-        .retro-folder:hover {
-            color: var(--brc-pink);
-        }
-        .retro-folder.open {
-            color: var(--brc-orange);
-        }
-        .retro-folder-content {
-            border-left: 2px dashed #aaa;
-            padding-left: 15px;
-            margin-left: 10px;
-            margin-top: 10px;
-            margin-bottom: 20px;
-        }
+        .retro-folder { color: var(--win98-blue); cursor: pointer; transition: color 0.2s; margin-top: 10px; }
+        .retro-folder:hover { color: var(--brc-pink); }
+        .retro-folder.open { color: var(--brc-orange); }
+        .retro-folder-content { border-left: 2px dashed #aaa; padding-left: 15px; margin-left: 10px; margin-top: 10px; margin-bottom: 20px; }
 
         /* ==================================================
            STILI ARTWORKS 3D (MUSIC RELATED)
            ================================================== */
         .artwork-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 25px; margin-top: 15px; perspective: 800px; padding-bottom: 20px; }
-        
         .artwork-item { width: 100%; aspect-ratio: 1 / 1; position: relative; cursor: pointer; }
         .artwork-face { position: absolute; width: 100%; height: 100%; backface-visibility: visible; border: 1px solid #333; box-shadow: inset 0 0 8px rgba(0,0,0,0.5); background-size: cover; background-position: center; background-color: #fff; }
-        
-        /* Solo i music-related ruotano */
-        .ps1-artwork {
-            transform-style: preserve-3d; 
-            animation: ps1-spin 8s linear infinite; 
-        }
+        .ps1-artwork { transform-style: preserve-3d; animation: ps1-spin 8s linear infinite; }
         .ps1-artwork:hover { animation-play-state: paused; filter: drop-shadow(0 0 10px var(--brc-cyan)); }
-        
         @keyframes ps1-spin { 0% { transform: rotateX(-15deg) rotateY(0deg); } 100% { transform: rotateX(-15deg) rotateY(360deg); } }
         
         .artwork-disclaimer { font-family: 'Arial', sans-serif; font-size: 1rem; color: #555; background: #fff; border-left: 4px solid var(--brc-pink); padding: 10px; margin: 15px 0; line-height: 1.4; }
 
         /* ==================================================
-           STILI RACCOLTA (MISCELLANEOUS)
+           STILI RACCOLTA (MISCELLANEOUS - TESTO IN BASSO)
            ================================================== */
-        .misc-container {
-            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; margin-top: 15px; padding: 20px;
-            background-color: transparent;
-        }
-        
-        .artwork-stack {
-            position: relative; width: 150px; height: 150px; flex-shrink: 0; cursor: pointer; transition: all 0.3s ease;
-        }
-        
-        .stacked-img {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
-            border: 2px solid #000; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            background-color: #fff;
-        }
-        
+        .misc-container { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; margin-top: 15px; padding: 20px; background-color: transparent; }
+        .artwork-stack { position: relative; width: 150px; height: 150px; flex-shrink: 0; cursor: pointer; transition: all 0.3s ease; }
+        .stacked-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border: 2px solid #000; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); background-color: #fff; }
         .artwork-stack:not(.expanded) .stacked-img:nth-child(1) { transform: rotate(-6deg); z-index: 3; }
         .artwork-stack:not(.expanded) .stacked-img:nth-child(2) { transform: rotate(4deg) translate(8px, 8px); z-index: 2; }
         .artwork-stack:not(.expanded) .stacked-img:nth-child(3) { transform: rotate(12deg) translate(16px, 16px); z-index: 1; }
         .artwork-stack:not(.expanded):hover .stacked-img:nth-child(1) { transform: rotate(-8deg) scale(1.05); }
         .artwork-stack:not(.expanded):hover .stacked-img:nth-child(2) { transform: rotate(6deg) translate(10px, 10px) scale(1.05); }
 
-        .artwork-stack.expanded { 
-            width: 100%; height: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; 
-            justify-content: center;
-        }
+        .artwork-stack.expanded { width: 100%; height: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; justify-content: center; }
         .artwork-stack.expanded .stacked-img { position: relative; transform: none !important; z-index: 1; }
         .artwork-stack.expanded .stacked-img:hover { transform: scale(1.05) !important; filter: drop-shadow(0 0 8px var(--brc-orange)); z-index: 10; cursor: pointer; }
 
@@ -276,6 +239,155 @@
         #data-expansion details .accordion-content a:hover { color: var(--brc-orange); border-bottom-color: var(--brc-orange); }
 
         /* ==================================================
+           EXERPLAZA OVERLAY FULLSCREEN (ELEGANTE / GOOGLE SANS)
+           ================================================== */
+        #exerplaza-overlay {
+            position: fixed;
+            top: -100%; 
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 2000; 
+            transition: top 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        #exerplaza-overlay.active {
+            top: 0; 
+        }
+
+        .exerplaza-content {
+            display: flex;
+            width: 90%;
+            max-width: 1000px;
+            gap: 50px;
+            color: #fff;
+            /* FONT: Google Sans con fallback sicuri per un look moderno e pulito */
+            font-family: 'Google Sans', 'Product Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .exer-left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .exer-logo {
+            max-width: 250px;
+            height: auto;
+            margin-bottom: 30px;
+        }
+
+        .exer-desc {
+            font-size: 1.15rem;
+            line-height: 1.8; 
+            color: #f0f0f0;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .exer-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Il Carosello / Galleria */
+        .exer-carousel {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .exer-carousel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, padding 0.3s ease;
+        }
+
+        .exer-carousel img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Testo Descrizione Screenshot (Caption) */
+        .exer-caption {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 1.05rem;
+            color: #b0b0b0;
+            font-style: italic;
+            min-height: 50px;
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        /* Frecce Carosello */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+        .carousel-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: #fff; }
+        .btn-prev { left: 15px; }
+        .btn-next { right: 15px; }
+
+        /* Linguetta di chiusura (Testo Semitrasparente Google Sans) */
+        .exer-tab-close {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.4);
+            padding: 10px 40px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Google Sans', 'Product Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            transition: color 0.3s;
+            text-transform: uppercase;
+        }
+        .exer-tab-close:hover { color: rgba(255, 255, 255, 0.9); }
+
+        /* Assicura che l'artwork viewer stia sopra anche ad Exerplaza */
+        #artwork-viewer-modal {
+            z-index: 3000;
+        }
+
+        /* ==================================================
            OTTIMIZZAZIONE MOBILE RESPONSIVE
            ================================================== */
         @media (max-width: 768px) {
@@ -302,6 +414,14 @@
             
             .artwork-stack:not(.expanded) { width: 120px; height: 120px; }
             .misc-text { max-width: 100%; }
+
+            /* Mobile Exerplaza */
+            .exerplaza-content { flex-direction: column; overflow-y: auto; max-height: 85vh; padding-bottom: 50px; gap: 25px;}
+            .exer-carousel { aspect-ratio: 4/3; }
+            .exer-logo { max-width: 200px; margin: 0 auto 20px auto; }
+            .exer-left { text-align: center; }
+            .exer-desc { font-size: 1rem; text-align: left; }
+            .exer-tab-close { bottom: 10px; width: 100%; padding: 10px 0; }
         }
     </style>
 </head>
@@ -332,7 +452,7 @@
                 <!-- Wrapper Swipe -->
                 <div class="swipe-wrapper" id="swipeWrapper">
                     
-                    <!-- SLIDE 1: Cartella Progetti -->
+                    <!-- SLIDE 1: Cartella Progetti (Impostata come default) -->
                     <div class="swipe-slide">
                         <div class="folder-container">
                             <div class="folder-wrapper" id="folder-trigger">
@@ -356,7 +476,7 @@
                         </div>
                     </div>
 
-                    <!-- SLIDE 2: Finestra Win98 Webcam con Overlay CRT -->
+                    <!-- SLIDE 2: Finestra Win98 Webcam -->
                     <div class="swipe-slide">
                         <div class="win98-window window-square">
                             <div class="win98-titlebar">
@@ -372,13 +492,13 @@
 
                 </div>
 
-                <!-- Indicatori Trattini per lo Swipe Mobile -->
+                <!-- Indicatori Trattini -->
                 <div class="swipe-dots" id="swipeDots">
                     <span class="dot active">-</span>
                     <span class="dot">-</span>
                 </div>
 
-                <!-- C. Lava Lamp Trasparente -->
+                <!-- C. Lava Lamp -->
                 <div id="lava-container" class="lava-window"></div>
 
             </div>
@@ -392,6 +512,7 @@
                 <div class="year-block">
                     <h3 class="year-title">2026</h3>
                     <div class="dashed-line"></div>
+                    <!-- Trigger Overlay Exerplaza -->
                     <img src="blinkies/Exerplaza.gif" alt="Exerplaza Project Blinkie" class="blinkie-img" id="exerplaza-trigger">
                 </div>
                 <div class="year-block">
@@ -453,8 +574,45 @@
     </div>
 
     <!-- ======================================================================
-         MODALS (FINESTRE POPUP)
+         MODALS E OVERLAYS
          ====================================================================== -->
+
+    <!-- NUOVO OVERLAY EXERPLAZA -->
+    <div id="exerplaza-overlay">
+        
+        <div class="exerplaza-content">
+            
+            <!-- Colonna Sinistra: Logo Statico e Descrizione -->
+            <div class="exer-left">
+                <!-- LOGO DARK IN ALTO A SINISTRA (INVERTITO) -->
+                <img src="Exerplaza/ExerPlaza_logo_final_DARK.png" alt="Exerplaza Logo" class="exer-logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'250\' height=\'80\'><rect width=\'250\' height=\'80\' fill=\'transparent\'/><text x=\'125\' y=\'45\' fill=\'white\' font-family=\'Arial\' font-size=\'20\' text-anchor=\'middle\'>ExerPlaza Logo</text></svg>'">
+                
+                <div class="exer-desc">
+                    <p>I redesigned and programmed the user interface for the Exerplaza website, meticulously managing the overall user experience and site navigability.</p>
+                    <p>The frontend structure was built primarily using D3.js and HTML, with portions of Jinja and CSS handling page routing and styling within the Exerplaza ecosystem.</p>
+                    <p>Additionally, I was responsible for selecting typography that seamlessly aligned with the client's vision, and I redesigned the logo to make it more cohesive with the new stylistic direction.</p>
+                </div>
+            </div>
+
+            <!-- Colonna Destra: Carosello Screenshot e Caption -->
+            <div class="exer-right">
+                <div class="exer-carousel">
+                    <button class="carousel-btn btn-prev" id="exer-prev">&#10094;</button>
+                    
+                    <img id="exer-carousel-img" src="" alt="Exerplaza Showcase">
+                    
+                    <button class="carousel-btn btn-next" id="exer-next">&#10095;</button>
+                </div>
+                <!-- Spazio dedicato per la descrizione univoca di ogni foto -->
+                <div class="exer-caption" id="exer-carousel-caption"></div>
+            </div>
+
+        </div>
+
+        <!-- Linguetta Trasparente Testuale -->
+        <button class="exer-tab-close" id="close-exer-tab">PRESS HERE TO CLOSE</button>
+
+    </div>
 
     <!-- MODAL WIN98 1: PERSONAL PROJECTS (FILE SYSTEM ORIGINALE) -->
     <div id="personal-projects-modal" class="custom-modal">
@@ -479,7 +637,6 @@
                     <p style="color: var(--win98-blue); margin-bottom: 5px; font-size: 1.5rem;">> Found 10 renderable 3D graphic objects.</p>
                     <p style="color: #888; font-size: 1.2rem; margin-bottom: 15px;">(Click on a spinning artwork to execute full-screen viewer)</p>
 
-                    <!-- Griglia Artworks PS1 Style (RUOTANO) -->
                     <div class="artwork-grid">
                         <div class="artwork-item ps1-artwork" data-src="PP/SnapInsta.to_663136914_18545988163069902_188920072651001235_n.jpg" style="animation-delay: 0s;">
                             <div class="artwork-face" style="background-image: url('PP/SnapInsta.to_663136914_18545988163069902_188920072651001235_n.jpg');"></div>
@@ -520,15 +677,12 @@
                 <div id="misc-content" class="retro-folder-content" style="display: none;">
                     <div class="misc-container">
                         
-                        <!-- Raccolta (Stack Statico) -->
                         <div class="artwork-stack" id="misc-stack">
-                            <!-- NON ruotano in 3d, si limitano ad allargarsi a griglia -->
                             <img src="Misc/WhatsApp Image 2026-07-28 at 14.38.28.jpeg" class="stacked-img artwork-item" data-src="Misc/WhatsApp Image 2026-07-28 at 14.38.28.jpeg" alt="Misc Artwork 1">
                             <img src="Misc/WhatsApp Image 2026-07-28 at 14.38.28 (1).jpeg" class="stacked-img artwork-item" data-src="Misc/WhatsApp Image 2026-07-28 at 14.38.28 (1).jpeg" alt="Misc Artwork 2">
                             <img src="Misc/WhatsApp Image 2026-07-28 at 14.38.28 (2).jpeg" class="stacked-img artwork-item" data-src="Misc/WhatsApp Image 2026-07-28 at 14.38.28 (2).jpeg" alt="Misc Artwork 3">
                         </div>
                         
-                        <!-- Testo posizionato rigidamente in basso -->
                         <div class="misc-text">
                             Participation in the <b>VelenoZine</b> by @ragnoeremita, subsequently published in the homonymous Fanzine.
                             <span class="subtext">(Click the stack to expand, then select an image to view)</span>
@@ -565,21 +719,6 @@
             
             <div style="padding: 4px; background: #c0c0c0; flex-grow: 1; border: 1px solid #808080; border-bottom: 1px solid #fff; border-right: 1px solid #fff; margin: 4px; display: flex; justify-content: center; align-items: center; min-height: 350px;">
                 <img src="badge.png" alt="B2 Receptive Skills Badge" style="max-width: 100%; max-height: 340px; object-fit: contain;">
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL WIN98 3: EXERPLAZA PROJECT -->
-    <div id="exerplaza-modal" class="custom-modal">
-        <div class="win98-window modal-content-win98">
-            <div class="win98-titlebar">
-                <span>Exerplaza_Project.exe</span>
-                <button class="win98-close-btn" id="close-exerplaza-btn">X</button>
-            </div>
-            
-            <div style="padding: 20px; font-family: 'VT323', monospace; font-size: 1.5rem; background: #fff; flex-grow: 1; border: 1px solid #808080; border-bottom: 1px solid #fff; border-right: 1px solid #fff; margin: 4px;">
-                <p>> Loading Exerplaza module...</p>
-                <p>> Custom content coming soon.</p>
             </div>
         </div>
     </div>
@@ -628,13 +767,6 @@
         badgeBtn.addEventListener('click', () => { badgeModal.classList.add('active'); });
         closeBadgeBtn.addEventListener('click', () => { badgeModal.classList.remove('active'); });
 
-        const exerBtn = document.getElementById('exerplaza-trigger');
-        const exerModal = document.getElementById('exerplaza-modal');
-        const closeExerBtn = document.getElementById('close-exerplaza-btn');
-
-        exerBtn.addEventListener('click', () => { exerModal.classList.add('active'); });
-        closeExerBtn.addEventListener('click', () => { exerModal.classList.remove('active'); });
-
         const dndBtn = document.getElementById('dnd-trigger');
         const dndModal = document.getElementById('dnd-modal');
         const closeDndBtn = document.getElementById('close-dnd-btn');
@@ -652,15 +784,12 @@
         artworkItems.forEach(item => {
             item.addEventListener('click', (e) => {
                 
-                // Controlla se fa parte di uno stack chiuso
                 const parentStack = item.closest('.artwork-stack');
                 if (parentStack && !parentStack.classList.contains('expanded')) {
-                    // Se lo stack è chiuso, espandi in griglia
                     parentStack.classList.add('expanded');
                     return; 
                 }
                 
-                // Se è libero o fa parte di uno stack già aperto, apri l'immagine in grande
                 e.stopPropagation(); 
                 const src = item.getAttribute('data-src');
                 const filename = src.split('/').pop();
@@ -676,7 +805,6 @@
         window.addEventListener('click', (e) => {
             if (e.target === ppModal) { ppModal.classList.remove('active'); }
             if (e.target === badgeModal) { badgeModal.classList.remove('active'); }
-            if (e.target === exerModal) { exerModal.classList.remove('active'); }
             if (e.target === dndModal) { dndModal.classList.remove('active'); }
             if (e.target === artworkViewerModal) { artworkViewerModal.classList.remove('active'); }
         });
@@ -788,6 +916,96 @@
                 lavaPhysics.call(this);
             }, i * 1500); 
         });
+
+        // 5. GESTIONE OVERLAY EXERPLAZA E CAROSELLO
+        const exerOverlay = document.getElementById("exerplaza-overlay");
+        const exerBtn = document.getElementById('exerplaza-trigger');
+        const closeExerTab = document.getElementById("close-exer-tab");
+
+        // Dati degli screenshot presi direttamente dall'immagine fornita
+        const exerData = [
+            { 
+                src: "Exerplaza/ExerPlaza_logo_final.png", // LOGO NORMALE NEL CAROSELLO
+                desc: "Standard variant of the logo, designed to ensure stylistic coherence and brand identity.",
+                isLogo: true // Flag per applicare lo sfondo bianco e object-fit
+            },
+            { 
+                src: "Exerplaza/Immagine 2026-07-20 151748.png", 
+                desc: "User dashboard overview showcasing data visualization powered by D3.js.",
+                isLogo: false
+            },
+            { 
+                src: "Exerplaza/Immagine 2026-07-20 151821.png", 
+                desc: "Detailed view of the learning analytics relational visualizer.",
+                isLogo: false
+            }
+        ];
+        
+        let exerIndex = 0;
+        const exerCarouselImg = document.getElementById("exer-carousel-img");
+        const exerCarouselCaption = document.getElementById("exer-carousel-caption");
+        
+        function updateExerCarousel() {
+            exerCarouselImg.src = exerData[exerIndex].src;
+            exerCarouselCaption.textContent = exerData[exerIndex].desc;
+            
+            // Se è il logo, mettilo su sfondo chiaro e fittalo intero
+            if (exerData[exerIndex].isLogo) {
+                exerCarouselImg.style.objectFit = 'contain';
+                exerCarouselImg.style.backgroundColor = '#f8f9fa';
+                exerCarouselImg.style.padding = '20px';
+            } else {
+                // Altrimenti, screenshot normale a tutto schermo nel carosello
+                exerCarouselImg.style.objectFit = 'cover';
+                exerCarouselImg.style.backgroundColor = 'transparent';
+                exerCarouselImg.style.padding = '0';
+            }
+        }
+        
+        // Apertura Overlay
+        exerBtn.addEventListener('click', () => { 
+            exerOverlay.classList.add('active'); 
+            updateExerCarousel(); 
+        });
+        
+        // Chiusura Overlay
+        closeExerTab.addEventListener("click", () => {
+            exerOverlay.classList.remove('active');
+        });
+
+        // Frecce Carosello
+        document.getElementById("exer-prev").addEventListener("click", (e) => {
+            e.stopPropagation();
+            exerIndex = (exerIndex > 0) ? exerIndex - 1 : exerData.length - 1;
+            updateExerCarousel();
+        });
+        
+        document.getElementById("exer-next").addEventListener("click", (e) => {
+            e.stopPropagation();
+            exerIndex = (exerIndex < exerData.length - 1) ? exerIndex + 1 : 0;
+            updateExerCarousel();
+        });
+
+        // Clicca sull'immagine nel carosello per aprirla nel visore
+        exerCarouselImg.addEventListener("click", () => {
+            const src = exerCarouselImg.src;
+            const filename = src.split('/').pop();
+            
+            artworkViewerImg.src = src;
+            artworkViewerTitle.textContent = filename;
+            
+            // Applica lo stesso stile (sfondo bianco se è il logo) anche nel visore full-screen
+            if (exerData[exerIndex].isLogo) {
+                artworkViewerImg.style.backgroundColor = '#f8f9fa';
+                artworkViewerImg.style.padding = '20px';
+            } else {
+                artworkViewerImg.style.backgroundColor = 'transparent';
+                artworkViewerImg.style.padding = '0';
+            }
+            
+            artworkViewerModal.classList.add('active');
+        });
+
     </script>
 </body>
 </html>
