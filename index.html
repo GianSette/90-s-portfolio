@@ -365,21 +365,26 @@
         .btn-3d:hover { background-color: var(--white); transform: skewX(-6deg) translate(-4px, -4px); box-shadow: 12px 12px 0px var(--black); }
 
         /* ==================================================
-           OTTIMIZZAZIONE MOBILE RESPONSIVE (LAVA LAMP MANTENUTA)
+           OTTIMIZZAZIONE MOBILE RESPONSIVE (AFFIANCATI E BLINKIES DIMEZZATI)
            ================================================== */
         @media (max-width: 768px) {
             .blog-container {
-                gap: 30px;
-                padding: 0 15px;
+                gap: 25px;
+                padding: 0 10px;
             }
 
             .sketch-grid {
-                grid-template-columns: 1fr; /* Griglia a colonna singola */
-                gap: 20px;
+                grid-template-columns: 1fr 1fr; /* Mantiene la griglia affiancata anche su mobile */
+                gap: 10px;
             }
 
-            .folder-wrapper {
-                max-width: 100%;
+            /* Rimpiccioliamo i testi interni della cartella per farla stare a fianco del video */
+            .folder-body .line {
+                font-size: 1.5rem !important;
+            }
+
+            .folder-body {
+                padding: 10px;
             }
 
             .section-title {
@@ -404,8 +409,9 @@
                 margin: 5px 0 15px 10px;
             }
 
+            /* Blinkies dimezzati rispetto alla versione desktop (~180px) */
             .blinkie-img {
-                max-width: 100%;
+                max-width: 180px; 
                 margin-left: 15px;
             }
 
