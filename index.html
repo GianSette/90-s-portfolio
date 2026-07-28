@@ -50,7 +50,7 @@
         }
 
         /* ==================================================
-           1. INTESTAZIONE: LA VIA DI MEZZO PERFETTA
+           1. INTESTAZIONE: LA VIA DI MEZZO PERFETTA (INVARIATA)
            ================================================== */
         header { 
             text-align: center; 
@@ -286,42 +286,37 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            /* Indentazione laterale globale per simulare il codice */
             padding-left: 20px;
         }
 
         .year-title {
             font-size: 2.2rem;
-            color: var(--white); /* Anno bianco */
-            font-weight: normal; /* Meno bold per farlo sembrare più testo terminale */
+            color: var(--white);
+            font-weight: normal;
             margin: 0;
-            text-shadow: 1px 1px 0 var(--black); /* Ombra alleggerita */
+            text-shadow: 1px 1px 0 var(--black);
         }
         
         .year-title::before {
-            content: "> "; /* Terminal style */
+            content: "> ";
             color: var(--brc-cyan);
         }
 
         .dashed-line {
             width: calc(100% - 20px);
             border-bottom: 2px dashed rgba(255, 255, 255, 0.5);
-            margin: 5px 0 20px 20px; /* Allineato all'indentazione */
+            margin: 5px 0 20px 20px;
         }
 
         .blinkie-img {
-            image-rendering: pixelated; /* Scalabilità perfetta per la pixel art */
+            image-rendering: pixelated;
             box-shadow: 4px 4px 0px var(--black);
             border: 2px solid var(--black);
             transition: transform 0.2s, box-shadow 0.2s;
             cursor: pointer;
-            
-            /* Ridimensionati leggermente in piccolo */
             width: 100%;
             max-width: 380px; 
             height: auto;
-            
-            /* Indentazione "annidata" per il contenuto */
             margin-left: 40px; 
         }
 
@@ -362,13 +357,73 @@
         
         details .accordion-content { background-color: var(--white); color: var(--black); border: 4px solid var(--black); border-top: none; padding: 20px; font-size: 1.3rem; box-shadow: 6px 6px 0px var(--black); transform: skewX(0deg); }
         
-        /* Stile per i link nella sezione data expansion */
         details .accordion-content a { color: var(--brc-pink); font-weight: bold; text-decoration: none; border-bottom: 2px dashed var(--brc-pink); transition: all 0.2s; cursor: pointer;}
         details .accordion-content a:hover { color: var(--brc-orange); border-bottom-color: var(--brc-orange); }
 
         .btn-3d { display: block; background-color: var(--brc-orange); color: var(--black); text-align: center; padding: 20px; font-size: 1.8rem; font-weight: bold; text-decoration: none; border: 4px solid var(--black); box-shadow: 8px 8px 0px var(--black); transform: skewX(-6deg); transition: all 0.2s; }
         .btn-3d span { display: inline-block; transform: skewX(6deg); }
         .btn-3d:hover { background-color: var(--white); transform: skewX(-6deg) translate(-4px, -4px); box-shadow: 12px 12px 0px var(--black); }
+
+        /* ==================================================
+           OTTIMIZZAZIONE MOBILE RESPONSIVE (LAVA LAMP MANTENUTA)
+           ================================================== */
+        @media (max-width: 768px) {
+            .blog-container {
+                gap: 30px;
+                padding: 0 15px;
+            }
+
+            .sketch-grid {
+                grid-template-columns: 1fr; /* Griglia a colonna singola */
+                gap: 20px;
+            }
+
+            .folder-wrapper {
+                max-width: 100%;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+
+            .works-timeline {
+                gap: 25px;
+            }
+
+            .year-block {
+                padding-left: 10px;
+            }
+
+            .year-title {
+                font-size: 1.8rem;
+            }
+
+            .dashed-line {
+                width: calc(100% - 10px);
+                margin: 5px 0 15px 10px;
+            }
+
+            .blinkie-img {
+                max-width: 100%;
+                margin-left: 15px;
+            }
+
+            details > summary {
+                font-size: 1.4rem;
+                padding: 12px;
+            }
+
+            details .accordion-content {
+                font-size: 1.1rem;
+                padding: 15px;
+            }
+
+            .btn-3d {
+                font-size: 1.4rem;
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -376,7 +431,7 @@
     <div class="blog-container">
         
         <!-- ==========================================
-             HEADER
+             HEADER (LASCIATO INVARIATO)
              ========================================== -->
         <header>
             <div class="logo-container">
@@ -429,7 +484,7 @@
                     </div>
                 </div>
 
-                <!-- C. Lava Lamp Trasparente -->
+                <!-- C. Lava Lamp Trasparente (Mantenuta attiva) -->
                 <div id="lava-container" class="lava-window"></div>
 
             </div>
@@ -444,7 +499,6 @@
                 <div class="year-block">
                     <h3 class="year-title">2026</h3>
                     <div class="dashed-line"></div>
-                    <!-- Aggiunto ID per il trigger della modale -->
                     <img src="blinkies/Exerplaza.gif" alt="Exerplaza Project Blinkie" class="blinkie-img" id="exerplaza-trigger">
                 </div>
 
@@ -452,7 +506,6 @@
                 <div class="year-block">
                     <h3 class="year-title">2025</h3>
                     <div class="dashed-line"></div>
-                    <!-- Aggiunto ID per il trigger della modale -->
                     <img src="blinkies/D&D.gif" alt="D&D Project Blinkie" class="blinkie-img" id="dnd-trigger">
                 </div>
             </div>
