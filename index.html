@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gianluca Frassoni | BRC Blog Portfolio</title>
     
-    <!-- Font Pixelato, Font Script e Google Sans (fallback) -->
+    <!-- Font Pixelato e Font Script (per la cartella) -->
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
     
@@ -67,6 +67,7 @@
             align-items: center;
             padding-top: 100px; 
             gap: 15px; 
+            margin-bottom: 20px; /* Aumentato lo spazio tra header e about me */
         }
 
         .logo-container {
@@ -253,6 +254,7 @@
             overflow: hidden; 
             position: relative; 
             margin-top: 10px;
+            margin-bottom: 50px; /* Più spazio prima dei widget personali */
             pointer-events: none; 
         }
 
@@ -394,6 +396,7 @@
             justify-content: center;
         }
 
+        /* Il Carosello / Galleria */
         .exer-carousel {
             position: relative;
             width: 100%;
@@ -485,13 +488,35 @@
            ================================================== */
         @media (max-width: 768px) {
             .blog-container { gap: 25px; padding: 0 10px; }
+            
+            /* Titolo About Me più piccolo su mobile */
+            .wiggly-text.title { font-size: 2.5rem; }
+            .about-desc { font-size: 1rem; }
+            
             .sketch-grid { display: flex; flex-direction: column; gap: 15px; margin-top: 0; }
             
-            .swipe-wrapper { display: flex; flex-direction: column; gap: 40px; }
-            .swipe-slide { width: 100%; display: flex; justify-content: center; }
+            /* RIPRISTINO SWIPE ORIZZONTALE SUI WIDGET (MOBILE) */
+            .swipe-wrapper { 
+                display: flex; 
+                flex-direction: row; 
+                overflow-x: auto; 
+                scroll-snap-type: x mandatory; 
+                scrollbar-width: none; 
+                -ms-overflow-style: none; 
+                gap: 0; 
+                width: 100%; 
+                padding-bottom: 5px; 
+                align-items: center; 
+            }
+            .swipe-wrapper::-webkit-scrollbar { display: none; }
+            .swipe-slide { flex: 0 0 100%; width: 100%; scroll-snap-align: center; display: flex; justify-content: center; align-items: center; box-sizing: border-box; padding: 0; }
+            
             .folder-wrapper { max-width: 260px !important; width: 100%; margin: 0 auto; }
             .win98-window.window-square { max-width: 260px !important; width: 100%; margin: 0 auto; }
-            .swipe-dots { display: none !important; } 
+            
+            /* RIPRISTINO TRATTINI WIDGET SU MOBILE */
+            .swipe-dots { display: flex !important; justify-content: center; gap: 12px; font-size: 2.2rem; font-weight: bold; color: #555; line-height: 0.5; margin-top: 10px; }
+            .swipe-dots .dot.active { color: var(--white); }
 
             .section-title { font-size: 1.8rem; margin-bottom: 20px; }
             .works-timeline { gap: 25px; margin-bottom: 0;}
@@ -506,6 +531,7 @@
             .artwork-stack:not(.expanded) { width: 120px; height: 120px; }
             .misc-text { max-width: 100%; }
 
+            /* Mobile Exerplaza */
             .exerplaza-content { 
                 flex-direction: column; 
                 padding: 40px 0; 
@@ -641,6 +667,12 @@
                     </div>
 
                 </div>
+
+                <!-- Indicatori Trattini per i Widget su Mobile -->
+                <div class="swipe-dots" id="swipeDots">
+                    <span class="dot active">-</span>
+                    <span class="dot">-</span>
+                </div>
             </div>
         </section>
 
@@ -667,7 +699,7 @@
                     <div style="font-style: italic; border-left: 4px solid var(--brc-pink); padding-left: 15px;">
                         <p>"I had the pleasure of supervising Gianluca during his internship, where he contributed to the development of Exerplaza, a learning analytics oriented educational platform. His work has been aimed at making relationships between concepts, topics, and learning outcomes more intuitive and accessible by means of a dedicated relations visualizer.</p>
                         <p>Throughout the internship, he consistently demonstrated creativity, initiative, and a remarkable ability to work independently. Rather than simply implementing assigned tasks, he actively proposed new ideas, designed alternative user experience solutions, and validated them through thoughtful testing and iteration. His contributions significantly improved the way complex educational structures could be visualized and understood.</p>
-                        <p>Beyond his technical skills, what impressed me most was his positive attitude and collaborative mindset. naturally approached the project with a community-oriented perspective, always seeking solutions that would benefit future users and the broader educational ecosystem. He was proactive, receptive to feedback, and a pleasure to work with throughout the project.</p>
+                        <p>Beyond his technical skills, what impressed me most was his positive attitude and collaborative mindset. He naturally approached the project with a community-oriented perspective, always seeking solutions that would benefit future users and the broader educational ecosystem. He was proactive, receptive to feedback, and a pleasure to work with throughout the project.</p>
                         <p>I am confident that he will bring the same creativity, independence, and team spirit to any future endeavor, and I would gladly recommend him to anyone looking for a thoughtful and motivated young professional."</p>
                     </div>
                 </div>
@@ -725,7 +757,7 @@
                 <!-- Spazio dedicato per la descrizione univoca di ogni foto -->
                 <div class="exer-caption" id="exer-carousel-caption"></div>
                 
-                <!-- Linguetta Trasparente Testuale -->
+                <!-- Linguetta Trasparente Testuale (Sotto la caption, stessa distanza testo-galleria) -->
                 <button class="exer-tab-close" id="close-exer-tab">PRESS HERE TO CLOSE</button>
             </div>
 
@@ -959,6 +991,25 @@
             if (e.target === artworkViewerModal) { artworkViewerModal.classList.remove('active'); }
         });
 
+        // 2. GESTIONE SWIPE INDICATORI MOBILE
+        const swipeWrapper = document.getElementById('swipeWrapper');
+        const dots = document.querySelectorAll('.swipe-dots .dot');
+
+        if (swipeWrapper && dots.length > 0) {
+            swipeWrapper.addEventListener('scroll', () => {
+                const scrollLeft = swipeWrapper.scrollLeft;
+                const width = swipeWrapper.clientWidth;
+                const activeIndex = Math.round(scrollLeft / width);
+                
+                dots.forEach((dot, index) => {
+                    if (index === activeIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            });
+        }
 
         // 3. SIMULATORE WEBCAM LOW-FPS
         const video = document.getElementById('source-video');
@@ -1055,7 +1106,7 @@
 
         const exerData = [
             { 
-                src: "Exerplaza/ExerPlaza_logo_final.png", // LOGO CHIARO NEL CAROSELLO
+                src: "Exerplaza/ExerPlaza_logo_final.png", 
                 desc: "Standard variant of the logo, designed to ensure stylistic coherence and brand identity.",
                 isLogo: true 
             },
