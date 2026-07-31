@@ -199,7 +199,16 @@
         /* D&D Project Specifics */
         .dnd-modal-window { height: 80vh; max-height: none; }
         .dnd-pages-container { position: relative; flex-grow: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; background: #fff; }
-        .dnd-page { display: none; flex-direction: column; width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; transform-origin: center center; padding: 20px; box-sizing: border-box; }
+        
+        /* SCROLLBAR FORZATA D&D MOBILE */
+        .dnd-page { display: none; flex-direction: column; width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; transform-origin: center center; padding: 20px; box-sizing: border-box; }
+        .dnd-page::-webkit-scrollbar { -webkit-appearance: none; width: 18px; display: block; }
+        .dnd-page::-webkit-scrollbar-track { background: #dfdfdf; border-left: 1px solid #808080; }
+        .dnd-page::-webkit-scrollbar-thumb { background-color: #c0c0c0; border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #000000; border-bottom: 2px solid #000000; }
+        .dnd-page::-webkit-scrollbar-button:single-button { background-color: #c0c0c0; display: block; height: 18px; width: 18px; border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #000000; border-bottom: 2px solid #000000; }
+        .dnd-page::-webkit-scrollbar-button:single-button:vertical:decrement { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16'><polygon points='4,10 12,10 8,4' fill='black'/></svg>"); background-position: center; background-repeat: no-repeat; }
+        .dnd-page::-webkit-scrollbar-button:single-button:vertical:increment { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16'><polygon points='4,6 12,6 8,12' fill='black'/></svg>"); background-position: center; background-repeat: no-repeat; }
+
         .dnd-page.active { display: flex; }
         #dnd-page-0 { padding: 0; }
         @keyframes pixelFlipOut { 0% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(0); opacity: 0.5; } }
@@ -217,36 +226,16 @@
         .dnd-glass-close { position: absolute; top: 20px; right: 20px; background: rgba(0, 0, 0, 0.3); color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer; z-index: 3510; }
         .dnd-glass-img { max-width: 90%; max-height: 70vh; object-fit: contain; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-radius: 8px; touch-action: pan-y; }
         .dnd-glass-caption { margin-top: 20px; font-family: 'Google Sans', sans-serif; font-size: 1.2rem; color: #222; text-shadow: 0 0 5px rgba(255,255,255,0.8); font-style: italic; text-align: center; max-width: 80%; }
-        .dnd-glass-nav { display: none; }
-        .dnd-glass-dots { display: flex; justify-content: center; gap: 12px; font-size: 2.2rem; font-weight: bold; color: #555; line-height: 0.5; margin-top: 15px; }
-        .dnd-glass-dots .dot.active { color: var(--white); }
 
-        /* ==================================================
-           EASTER EGG (KONAMI BOARD & TETRIS)
-           ================================================== */
-        #konami-dpad-container {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            margin: 20px auto 40px auto; gap: 10px;
-        }
+        /* KONAMI D-PAD */
+        #konami-dpad-container { display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto 40px auto; gap: 10px; }
         .dpad-row { display: flex; gap: 10px; }
-        .dpad-btn {
-            background: var(--win98-bg); border-top: 2px solid #fff; border-left: 2px solid #fff; border-right: 2px solid #000; border-bottom: 2px solid #000;
-            box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf;
-            width: 45px; height: 45px; font-size: 1.2rem; font-weight: bold; cursor: pointer; color: var(--black);
-            font-family: 'VT323', monospace; display: flex; align-items: center; justify-content: center;
-        }
-        .dpad-btn:active {
-            border-top: 2px solid #000; border-left: 2px solid #000; border-right: 2px solid #fff; border-bottom: 2px solid #fff;
-            box-shadow: inset 1px 1px #808080;
-        }
+        .dpad-btn { background: var(--win98-bg); border-top: 2px solid #fff; border-left: 2px solid #fff; border-right: 2px solid #000; border-bottom: 2px solid #000; box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf; width: 45px; height: 45px; font-size: 1.2rem; font-weight: bold; cursor: pointer; color: var(--black); font-family: 'VT323', monospace; display: flex; align-items: center; justify-content: center; }
+        .dpad-btn:active { border-top: 2px solid #000; border-left: 2px solid #000; border-right: 2px solid #fff; border-bottom: 2px solid #fff; box-shadow: inset 1px 1px #808080; }
 
-        #konami-modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            z-index: 9000; justify-content: center; align-items: center; flex-direction: column;
-        }
+        /* EASTER EGG (KONAMI BOARD & TETRIS) */
+        #konami-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 9000; justify-content: center; align-items: center; flex-direction: column; }
         #konami-modal.active { display: flex; }
-        
         .konami-win { border: 2px solid #fff; border-right-color: #555; border-bottom-color: #555; background: #000; width: 300px; font-family: 'VT323', monospace; }
         .konami-title { background: #fff; color: #000; padding: 2px 5px; font-weight: bold; display: flex; justify-content: space-between; }
         .konami-body { padding: 30px; display: flex; flex-direction: column; align-items: center; gap: 30px; }
@@ -259,11 +248,7 @@
         #tetris-loader { display: none; position: fixed; top: 0; left: 0; width: 100%; background: #000; z-index: 9998; }
         @keyframes dialup-load { 0% { height: 0; } 100% { height: 100%; } }
 
-        #tetris-container {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 9999; flex-direction: column; align-items: center; justify-content: center;
-            font-family: 'Gloria Hallelujah', cursive; color: #fff; touch-action: none;
-        }
+        #tetris-container { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; font-family: 'Gloria Hallelujah', cursive; color: #fff; touch-action: none; }
         .tetris-exit { position: absolute; top: 10px; right: 15px; color: #ff0000; font-size: 2rem; text-shadow: 0 0 10px #ff0000; cursor: pointer; z-index: 10000; font-family: 'VT323', monospace; }
         .tetris-layout { display: flex; gap: 20px; align-items: flex-start; margin-top: 20px; }
         .tetris-side-col { display: flex; flex-direction: column; gap: 20px; align-items: center; }
@@ -274,7 +259,6 @@
 
         #toasty-img { position: fixed; bottom: -200px; right: 0; width: 120px; z-index: 10005; transition: bottom 0.2s ease; }
         #toasty-img.show { bottom: 0; }
-
     </style>
 </head>
 <body>
@@ -457,7 +441,7 @@
             </div>
         </div>
 
-        <!-- VISORE ARTWORK (APRE LE IMMAGINI DI PERSONAL PROJECTS) -->
+        <!-- VISORE ARTWORK -->
         <div id="artwork-viewer-modal" class="custom-modal">
             <div class="win98-window modal-content-win98" style="max-width: 600px; width: 95%;">
                 <div class="win98-titlebar"><span id="artwork-viewer-title">Artwork_Viewer.exe</span><button class="win98-close-btn" id="close-artwork-btn">X</button></div>
@@ -513,7 +497,7 @@
         <div id="dnd-glass-overlay">
             <button class="dnd-glass-close" id="dnd-glass-close">X</button>
             <img id="dnd-glass-img" class="dnd-glass-img" src="">
-            <div id="dnd-glass-dots-container" class="dnd-glass-dots"></div>
+            <!-- TOLTI I PUNTINI DALLA GALLERIA D&D COME RICHIESTO -->
             <div id="dnd-glass-caption" class="dnd-glass-caption"></div>
         </div>
 
@@ -553,16 +537,16 @@
                 <div class="tetris-score tetris-ui-text">SCORE<br><span id="t-score">0</span></div>
                 <div class="tetris-box">
                     <div class="tetris-ui-text">NEXT</div>
-                    <canvas id="next-canvas" width="80" height="80"></canvas>
+                    <canvas id="next-canvas" width="100" height="100"></canvas>
                 </div>
                 <div class="tetris-box">
                     <div class="tetris-ui-text">HOLD</div>
-                    <canvas id="hold-canvas" width="80" height="80"></canvas>
+                    <canvas id="hold-canvas" width="100" height="100"></canvas>
                 </div>
             </div>
         </div>
         
-        <!-- Toasty Tetris Piece (T-Piece Viola) -->
+        <!-- Toasty Tetris Piece (T-Piece Viola) in SVG -->
         <img id="toasty-img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'><rect x='10' y='0' width='10' height='10' fill='%23aa00ff' stroke='black' stroke-width='1'/><rect x='0' y='10' width='10' height='10' fill='%23aa00ff' stroke='black' stroke-width='1'/><rect x='10' y='10' width='10' height='10' fill='%23aa00ff' stroke='black' stroke-width='1'/><rect x='20' y='10' width='10' height='10' fill='%23aa00ff' stroke='black' stroke-width='1'/></svg>">
     </div>
 
@@ -706,13 +690,18 @@
         dndPrevBtn.addEventListener('click', () => { if(dndCurrentPage > 0) changeDndPage(dndCurrentPage - 1); });
         dndNextBtn.addEventListener('click', () => { if(dndCurrentPage < dndTotalPages - 1) changeDndPage(dndCurrentPage + 1); });
 
-        // Dati Galleria D&D
+        // =================================================================================
+        // ⬇️⬇️⬇️ MODIFICA QUI LE IMMAGINI E DIDASCALIE DELLA GALLERIA DI D&D ⬇️⬇️⬇️
+        // =================================================================================
         const dndGalleryData = [
             { src: "ded/screen1.png", desc: "ASCII Dungeon Map Exploration" },
             { src: "ded/screen2.png", desc: "Pokemon-Style Combat Engagement" },
             { src: "ded/screen3.png", desc: "Character Stats and Inventory Menu" },
             { src: "ded/screen4.png", desc: "AI Generated Enemy Sprite" }
         ];
+        // =================================================================================
+        // ⬆️⬆️⬆️ FINE ZONA MODIFICA ⬆️⬆️⬆️
+        // =================================================================================
 
         const dndGalleryGrid = document.getElementById('dnd-gallery-grid');
         dndGalleryData.forEach((item, index) => {
@@ -727,21 +716,8 @@
         });
 
         const dndGlassOverlay = document.getElementById('dnd-glass-overlay');
-        const dndGlassDotsContainer = document.getElementById('dnd-glass-dots-container');
         let dndGlassIndex = 0;
         
-        function initDndGlassDots() {
-            dndGlassDotsContainer.innerHTML = '';
-            dndGalleryData.forEach((_, i) => {
-                const dot = document.createElement('span');
-                dot.classList.add('dot');
-                if (i === dndGlassIndex) dot.classList.add('active');
-                dot.innerText = '-';
-                dndGlassDotsContainer.appendChild(dot);
-            });
-        }
-        initDndGlassDots();
-
         document.getElementById('dnd-glass-close').addEventListener('click', () => { dndGlassOverlay.classList.remove('active'); });
 
         // Swipe Touch per D&D Gallery
@@ -751,11 +727,6 @@
         function updateDndGlass() {
             dndGlassImg.src = dndGalleryData[dndGlassIndex].src;
             document.getElementById('dnd-glass-caption').textContent = dndGalleryData[dndGlassIndex].desc;
-            
-            const dots = dndGlassDotsContainer.querySelectorAll('.dot');
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === dndGlassIndex);
-            });
         }
 
         dndGlassImg.addEventListener('touchstart', e => { dndTouchStartX = e.changedTouches[0].screenX; }, {passive: true});
@@ -829,7 +800,7 @@
 
 
         // =================================================================================
-        // WIGGLY TETRIS ENGINE
+        // WIGGLY TETRIS ENGINE (CON HOLD E GRIGLIE 5X5 per i canvas laterali scalati)
         // =================================================================================
         const tCanvas = document.getElementById('tetris-canvas'); const tCtx = tCanvas.getContext('2d'); tCtx.scale(20, 20); 
         const nCanvas = document.getElementById('next-canvas'); const nCtx = nCanvas.getContext('2d'); nCtx.scale(20, 20); 
@@ -839,7 +810,18 @@
         let nextPiece = null; let holdPiece = null; let canHold = true; 
 
         const colors = [null, '#ff0055', '#00f0ff', '#f2e300', '#ff5900', '#00ff00', '#aa00ff', '#ffffff'];
-        const pieces = [ [], [[0,0,0],[1,1,1],[0,1,0]], [[2,2],[2,2]], [[0,3,0],[0,3,0],[0,3,0],[0,3,0]], [[0,4,4],[4,4,0],[0,0,0]], [[5,5,0],[0,5,5],[0,0,0]], [[0,6,0],[0,6,0],[6,6,0]], [[0,7,0],[0,7,0],[0,7,7]] ];
+        
+        // MATRICI QUADRATE FIXATE! Niente più pezzi rotti.
+        const pieces = [
+            [],
+            [[0,1,0],[1,1,1],[0,0,0]], // T
+            [[2,2],[2,2]],             // O
+            [[0,0,0,0],[3,3,3,3],[0,0,0,0],[0,0,0,0]], // I
+            [[0,4,4],[4,4,0],[0,0,0]], // S
+            [[5,5,0],[0,5,5],[0,0,0]], // Z
+            [[6,0,0],[6,6,6],[0,0,0]], // J
+            [[0,0,7],[7,7,7],[0,0,0]]  // L
+        ];
 
         function createMatrix(w, h) { const matrix = []; while (h--) matrix.push(new Array(w).fill(0)); return matrix; }
 
@@ -868,9 +850,9 @@
         }
 
         function drawBox(ctx, matrix) {
-            ctx.fillStyle = '#111'; ctx.fillRect(0, 0, 4, 4); drawGrid(ctx, 4, 4); 
+            ctx.fillStyle = '#111'; ctx.fillRect(0, 0, 5, 5); drawGrid(ctx, 5, 5); 
             if (matrix) {
-                const offsetX = Math.floor((4 - matrix[0].length) / 2); const offsetY = Math.floor((4 - matrix.length) / 2);
+                const offsetX = Math.floor((5 - matrix[0].length) / 2); const offsetY = Math.floor((5 - matrix.length) / 2);
                 matrix.forEach((row, y) => {
                     row.forEach((value, x) => {
                         if (value !== 0) {
