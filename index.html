@@ -165,7 +165,6 @@
         .custom-modal.active { display: flex; }
         .modal-content-win98 { width: 90%; max-width: 600px; box-shadow: 4px 4px 10px rgba(0,0,0,0.5); opacity: 0; display: flex; flex-direction: column; max-height: 90vh; }
         
-        /* ANIMAZIONE WIREFRAME (GHOST ZOOM) */
         .custom-modal.active::before { content: ''; position: absolute; width: 90%; max-width: 600px; min-height: 400px; border: 2px dashed #fff; z-index: 1001; pointer-events: none; opacity: 0; animation: ghost-zoom 0.3s forwards steps(1); }
         @keyframes ghost-zoom { 0% { transform: scale(0.2); opacity: 1; } 25% { transform: scale(0.5); opacity: 1; } 50% { transform: scale(0.75); opacity: 1; } 75% { transform: scale(0.9); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
         .custom-modal.active .modal-content-win98 { animation: final-window-pop 0s 0.3s forwards; }
@@ -203,13 +202,10 @@
         .dnd-page { display: none; flex-direction: column; width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; transform-origin: center center; padding: 20px; box-sizing: border-box; }
         .dnd-page.active { display: flex; }
         #dnd-page-0 { padding: 0; }
-        
-        /* 8-BIT FLIP ANIMATIONS */
         @keyframes pixelFlipOut { 0% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(0); opacity: 0.5; } }
         @keyframes pixelFlipIn { 0% { transform: scaleX(0); opacity: 0.5; } 100% { transform: scaleX(1); opacity: 1; } }
         .page-flip-out { animation: pixelFlipOut 0.25s steps(4, end) forwards; }
         .page-flip-in { animation: pixelFlipIn 0.25s steps(4, start) forwards; }
-        
         .dnd-title { color: var(--black); font-size: 2.2rem; text-align: left; }
         .dnd-desc-text { font-family: 'Google Sans', 'Product Sans', system-ui, sans-serif; font-size: 1.1rem; line-height: 1.6; color: #333; margin-top: 15px; }
         .dnd-desc-text p { margin-bottom: 15px; }
@@ -222,10 +218,28 @@
         .dnd-glass-img { max-width: 90%; max-height: 70vh; object-fit: contain; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-radius: 8px; touch-action: pan-y; }
         .dnd-glass-caption { margin-top: 20px; font-family: 'Google Sans', sans-serif; font-size: 1.2rem; color: #222; text-shadow: 0 0 5px rgba(255,255,255,0.8); font-style: italic; text-align: center; max-width: 80%; }
         .dnd-glass-nav { display: none; }
+        .dnd-glass-dots { display: flex; justify-content: center; gap: 12px; font-size: 2.2rem; font-weight: bold; color: #555; line-height: 0.5; margin-top: 15px; }
+        .dnd-glass-dots .dot.active { color: var(--white); }
 
         /* ==================================================
            EASTER EGG (KONAMI BOARD & TETRIS)
            ================================================== */
+        #konami-dpad-container {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            margin: 20px auto 40px auto; gap: 10px;
+        }
+        .dpad-row { display: flex; gap: 10px; }
+        .dpad-btn {
+            background: var(--win98-bg); border-top: 2px solid #fff; border-left: 2px solid #fff; border-right: 2px solid #000; border-bottom: 2px solid #000;
+            box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf;
+            width: 45px; height: 45px; font-size: 1.2rem; font-weight: bold; cursor: pointer; color: var(--black);
+            font-family: 'VT323', monospace; display: flex; align-items: center; justify-content: center;
+        }
+        .dpad-btn:active {
+            border-top: 2px solid #000; border-left: 2px solid #000; border-right: 2px solid #fff; border-bottom: 2px solid #fff;
+            box-shadow: inset 1px 1px #808080;
+        }
+
         #konami-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -233,10 +247,7 @@
         }
         #konami-modal.active { display: flex; }
         
-        .konami-win {
-            border: 2px solid #fff; border-right-color: #555; border-bottom-color: #555;
-            background: #000; width: 300px; font-family: 'VT323', monospace;
-        }
+        .konami-win { border: 2px solid #fff; border-right-color: #555; border-bottom-color: #555; background: #000; width: 300px; font-family: 'VT323', monospace; }
         .konami-title { background: #fff; color: #000; padding: 2px 5px; font-weight: bold; display: flex; justify-content: space-between; }
         .konami-body { padding: 30px; display: flex; flex-direction: column; align-items: center; gap: 30px; }
         .konami-btn-row { display: flex; gap: 30px; }
@@ -289,7 +300,7 @@
     </div>
 
     <!-- ==========================================
-         VISTA MOBILE (IL PORTFOLIO VERO E PROPRIO)
+         VISTA MOBILE
          ========================================== -->
     <div id="mobile-view">
         <div class="blog-container">
@@ -375,10 +386,20 @@
                 <details><summary>+ SOCIAL LINKS</summary><div class="accordion-content"><p style="font-size: 1.5rem; display: flex; flex-direction: column; gap: 10px;"><a href="https://www.linkedin.com/in/gianluca-frassoni-585065423" target="_blank" style="align-self: flex-start;">/// LINKEDIN</a><a href="https://github.com/GianSette" target="_blank" style="align-self: flex-start;">/// GITHUB</a></p></div></details>
             </section>
 
+            <!-- CONTROLLER KONAMI D-PAD IN FONDO AL SITO -->
+            <div id="konami-dpad-container">
+                <button class="dpad-btn" data-key="U">▲</button>
+                <div class="dpad-row">
+                    <button class="dpad-btn" data-key="L">◀</button>
+                    <button class="dpad-btn" data-key="D">▼</button>
+                    <button class="dpad-btn" data-key="R">▶</button>
+                </div>
+            </div>
+
         </div> <!-- Fine contenitore blog -->
 
         <!-- ======================================================================
-             MODALS E OVERLAYS HTML (SOLO 1 COPIA)
+             MODALS E OVERLAYS HTML
              ====================================================================== -->
         
         <!-- EXERPLAZA -->
@@ -492,6 +513,7 @@
         <div id="dnd-glass-overlay">
             <button class="dnd-glass-close" id="dnd-glass-close">X</button>
             <img id="dnd-glass-img" class="dnd-glass-img" src="">
+            <div id="dnd-glass-dots-container" class="dnd-glass-dots"></div>
             <div id="dnd-glass-caption" class="dnd-glass-caption"></div>
         </div>
 
@@ -540,7 +562,8 @@
             </div>
         </div>
         
-        <img id="toasty-img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><rect width='10' height='10' fill='orange'/><rect x='2' y='3' width='2' height='2' fill='black'/><rect x='6' y='3' width='2' height='2' fill='black'/><rect x='3' y='7' width='4' height='1' fill='black'/></svg>">
+        <!-- Toasty Tetris Piece (T-Piece Viola) -->
+        <img id="toasty-img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'><rect x='10' y='0' width='10' height='10' fill='%23aa00ff' stroke='black' stroke-width='1'/><rect x='0' y='10' width='10' height='10' fill='%23aa00ff' stroke='black' stroke-width='1'/><rect x='10' y='10' width='10' height='10' fill='%23aa00ff' stroke='black' stroke-width='1'/><rect x='20' y='10' width='10' height='10' fill='%23aa00ff' stroke='black' stroke-width='1'/></svg>">
     </div>
 
 
@@ -697,15 +720,28 @@
             img.onerror = function() { this.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><rect width='150' height='150' fill='#ccc'/></svg>"; };
             img.addEventListener('click', () => { 
                 dndGlassIndex = index;
-                document.getElementById('dnd-glass-img').src = item.src; 
-                document.getElementById('dnd-glass-caption').textContent = item.desc;
+                updateDndGlass();
                 document.getElementById('dnd-glass-overlay').classList.add('active'); 
             });
             dndGalleryGrid.appendChild(img);
         });
 
         const dndGlassOverlay = document.getElementById('dnd-glass-overlay');
+        const dndGlassDotsContainer = document.getElementById('dnd-glass-dots-container');
         let dndGlassIndex = 0;
+        
+        function initDndGlassDots() {
+            dndGlassDotsContainer.innerHTML = '';
+            dndGalleryData.forEach((_, i) => {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                if (i === dndGlassIndex) dot.classList.add('active');
+                dot.innerText = '-';
+                dndGlassDotsContainer.appendChild(dot);
+            });
+        }
+        initDndGlassDots();
+
         document.getElementById('dnd-glass-close').addEventListener('click', () => { dndGlassOverlay.classList.remove('active'); });
 
         // Swipe Touch per D&D Gallery
@@ -715,6 +751,11 @@
         function updateDndGlass() {
             dndGlassImg.src = dndGalleryData[dndGlassIndex].src;
             document.getElementById('dnd-glass-caption').textContent = dndGalleryData[dndGlassIndex].desc;
+            
+            const dots = dndGlassDotsContainer.querySelectorAll('.dot');
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === dndGlassIndex);
+            });
         }
 
         dndGlassImg.addEventListener('touchstart', e => { dndTouchStartX = e.changedTouches[0].screenX; }, {passive: true});
@@ -734,37 +775,24 @@
 
 
         // =================================================================================
-        // EASTER EGG: KONAMI CODE SWIPE (FORZATO CON CAPTURE: TRUE)
+        // EASTER EGG: KONAMI D-PAD BUTTONS
         // =================================================================================
         let swipeHistory = [];
         const konamiTarget = ['U','U','D','D','L','R','L','R'];
-        let tStartX = 0, tStartY = 0;
 
-        document.addEventListener('touchstart', e => {
-            tStartX = e.touches[0].screenX; tStartY = e.touches[0].screenY;
-        }, {passive: true, capture: true});
-
-        document.addEventListener('touchend', e => {
-            let tEndX = e.changedTouches[0].screenX; let tEndY = e.changedTouches[0].screenY;
-            let diffX = tEndX - tStartX; let diffY = tEndY - tStartY;
-            let dir = '';
-
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
-                dir = diffX > 0 ? 'R' : 'L';
-            } else if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 30) {
-                dir = diffY > 0 ? 'D' : 'U';
-            }
-
-            if(dir) {
+        document.querySelectorAll('.dpad-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                let dir = e.target.getAttribute('data-key');
                 swipeHistory.push(dir);
                 if(swipeHistory.length > 8) swipeHistory.shift();
+                
                 if(swipeHistory.join('') === konamiTarget.join('')) {
                     document.getElementById('konami-modal').classList.add('active');
                     document.body.classList.add('modal-open');
                     swipeHistory = []; 
                 }
-            }
-        }, {passive: true, capture: true});
+            });
+        });
 
         // =================================================================================
         // MODALE KONAMI (B A START) E CARICAMENTO ANNI '90
@@ -801,7 +829,7 @@
 
 
         // =================================================================================
-        // WIGGLY TETRIS ENGINE (CON HOLD E GRIGLIE 4X4)
+        // WIGGLY TETRIS ENGINE
         // =================================================================================
         const tCanvas = document.getElementById('tetris-canvas'); const tCtx = tCanvas.getContext('2d'); tCtx.scale(20, 20); 
         const nCanvas = document.getElementById('next-canvas'); const nCtx = nCanvas.getContext('2d'); nCtx.scale(20, 20); 
