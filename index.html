@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Meta tag anti-zoom aggiunto per disabilitare il doppio tap fastidioso -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Gianluca Frassoni | BRC Blog Portfolio</title>
     
     <!-- Font Pixelato e Font Script -->
@@ -200,7 +201,6 @@
         .dnd-modal-window { height: 80vh; max-height: none; }
         .dnd-pages-container { position: relative; flex-grow: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; background: #fff; }
         
-        /* SCROLLBAR FORZATA D&D MOBILE */
         .dnd-page { display: none; flex-direction: column; width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; transform-origin: center center; padding: 20px; box-sizing: border-box; }
         .dnd-page::-webkit-scrollbar { -webkit-appearance: none; width: 18px; display: block; }
         .dnd-page::-webkit-scrollbar-track { background: #dfdfdf; border-left: 1px solid #808080; }
@@ -248,14 +248,14 @@
         #tetris-loader { display: none; position: fixed; top: 0; left: 0; width: 100%; background: #000; z-index: 9998; }
         @keyframes dialup-load { 0% { height: 0; } 100% { height: 100%; } }
 
-        #tetris-container { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; font-family: 'Gloria Hallelujah', cursive; color: #fff; touch-action: none; }
+        #tetris-container { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; font-family: 'Gloria Hallelujah', cursive; color: #fff; touch-action: none; user-select: none; -webkit-user-select: none; }
         .tetris-exit { position: absolute; top: 10px; right: 15px; color: #ff0000; font-size: 2rem; text-shadow: 0 0 10px #ff0000; cursor: pointer; z-index: 10000; font-family: 'VT323', monospace; }
-        .tetris-layout { display: flex; gap: 20px; align-items: flex-start; margin-top: 20px; }
-        .tetris-side-col { display: flex; flex-direction: column; gap: 20px; align-items: center; }
-        .tetris-box { text-align: center; }
+        .tetris-layout { display: flex; gap: 20px; align-items: flex-start; margin-top: 20px; touch-action: none; }
+        .tetris-side-col { display: flex; flex-direction: column; gap: 20px; align-items: center; touch-action: none; }
+        .tetris-box { text-align: center; touch-action: none; }
 
-        #tetris-canvas, #next-canvas, #hold-canvas { background: #111; border: 4px solid #fff; filter: url(#wiggly-filter); }
-        .tetris-ui-text { font-size: 1.5rem; text-align: center; filter: url(#wiggly-filter); }
+        #tetris-canvas, #next-canvas, #hold-canvas { background: #111; border: 4px solid #fff; filter: url(#wiggly-filter); touch-action: none; }
+        .tetris-ui-text { font-size: 1.5rem; text-align: center; filter: url(#wiggly-filter); touch-action: none; }
 
         #toasty-img { position: fixed; bottom: -200px; right: 0; width: 120px; z-index: 10005; transition: bottom 0.2s ease; }
         #toasty-img.show { bottom: 0; }
@@ -497,7 +497,6 @@
         <div id="dnd-glass-overlay">
             <button class="dnd-glass-close" id="dnd-glass-close">X</button>
             <img id="dnd-glass-img" class="dnd-glass-img" src="">
-            <!-- TOLTI I PUNTINI DALLA GALLERIA D&D COME RICHIESTO -->
             <div id="dnd-glass-caption" class="dnd-glass-caption"></div>
         </div>
 
@@ -537,11 +536,11 @@
                 <div class="tetris-score tetris-ui-text">SCORE<br><span id="t-score">0</span></div>
                 <div class="tetris-box">
                     <div class="tetris-ui-text">NEXT</div>
-                    <canvas id="next-canvas" width="100" height="100"></canvas>
+                    <canvas id="next-canvas" width="80" height="80"></canvas>
                 </div>
                 <div class="tetris-box">
                     <div class="tetris-ui-text">HOLD</div>
-                    <canvas id="hold-canvas" width="100" height="100"></canvas>
+                    <canvas id="hold-canvas" width="80" height="80"></canvas>
                 </div>
             </div>
         </div>
@@ -616,7 +615,6 @@
             if (e.target === artworkViewerModal) { artworkViewerModal.classList.remove('active'); }
         });
 
-
         // =================================================================================
         // GESTIONE ARTWORK STACK E APERTURA IMMAGINI PERSONAL PROJECTS
         // =================================================================================
@@ -637,7 +635,6 @@
             });
         });
 
-
         // =================================================================================
         // GESTIONE SWIPE INDICATORI MOBILE (WIDGETS PERSONALI)
         // =================================================================================
@@ -653,7 +650,6 @@
                 });
             });
         }
-
 
         // =================================================================================
         // D&D LOGIC (8-BIT PAGE TURN E GALLERIA)
@@ -736,7 +732,6 @@
             if (dndTouchEndX > dndTouchStartX + 50) { dndGlassIndex = (dndGlassIndex > 0) ? dndGlassIndex - 1 : dndGalleryData.length - 1; updateDndGlass(); }
         }, {passive: true});
 
-
         // =================================================================================
         // GESTIONE OVERLAY EXERPLAZA
         // =================================================================================
@@ -746,13 +741,52 @@
 
 
         // =================================================================================
-        // EASTER EGG: KONAMI D-PAD BUTTONS
+        // EASTER EGG: KONAMI D-PAD BUTTONS E MUSIC SETUP
         // =================================================================================
         let swipeHistory = [];
         const konamiTarget = ['U','U','D','D','L','R','L','R'];
 
+        // SETUP AUDIO ENGINE (TETRIS THEME & TOASTY)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let isMusicPlaying = false;
+        let noteIndex = 0;
+        let nextNoteTime = 0;
+        const beatLen = 0.2; // 200ms
+        
+        // 8-Bit Tetris Theme (Korobeiniki) [Frequenza, Durata]
+        const tetrisMelody = [
+            [659.25, 2], [493.88, 1], [523.25, 1], [587.33, 2], [523.25, 1], [493.88, 1],
+            [440.00, 2], [440.00, 1], [523.25, 1], [659.25, 2], [587.33, 1], [523.25, 1],
+            [493.88, 3], [523.25, 1], [587.33, 2], [659.25, 2],
+            [523.25, 2], [440.00, 2], [440.00, 2], [0, 2]
+        ];
+
+        function scheduleMusic() {
+            if (!isMusicPlaying) return;
+            while (nextNoteTime < audioCtx.currentTime + 0.1) {
+                const note = tetrisMelody[noteIndex];
+                if (note[0] !== 0) {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'square';
+                    osc.frequency.value = note[0];
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    gain.gain.setValueAtTime(0.02, nextNoteTime); // Volume basso per sottofondo
+                    gain.gain.setTargetAtTime(0.0001, nextNoteTime + (note[1] * beatLen) - 0.02, 0.015);
+                    osc.start(nextNoteTime);
+                    osc.stop(nextNoteTime + (note[1] * beatLen));
+                }
+                nextNoteTime += note[1] * beatLen;
+                noteIndex = (noteIndex + 1) % tetrisMelody.length;
+            }
+            requestAnimationFrame(scheduleMusic);
+        }
+
         document.querySelectorAll('.dpad-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
+                if(audioCtx.state === 'suspended') audioCtx.resume(); // Sblocca l'audio su mobile
+                
                 let dir = e.target.getAttribute('data-key');
                 swipeHistory.push(dir);
                 if(swipeHistory.length > 8) swipeHistory.shift();
@@ -777,8 +811,10 @@
 
         ['B', 'A', 'START'].forEach(btn => {
             document.getElementById(`btn-${btn}`).addEventListener('click', () => {
+                if(audioCtx.state === 'suspended') audioCtx.resume();
                 btnSequence.push(btn);
                 if(btnSequence.length > 3) btnSequence.shift();
+                
                 if(btnSequence.join('') === targetSequence.join('')) {
                     document.getElementById('konami-modal').classList.remove('active');
                     startTetrisLoad(); btnSequence = [];
@@ -795,23 +831,26 @@
         }
 
         document.getElementById('tetris-exit').addEventListener('click', () => {
-            document.getElementById('tetris-container').style.display = 'none'; document.body.classList.remove('modal-open'); cancelAnimationFrame(tetrisRAF);
+            document.getElementById('tetris-container').style.display = 'none'; 
+            document.body.classList.remove('modal-open'); 
+            cancelAnimationFrame(tetrisRAF);
+            isMusicPlaying = false; // Ferma la musica
         });
 
-
         // =================================================================================
-        // WIGGLY TETRIS ENGINE (CON HOLD E GRIGLIE 5X5 per i canvas laterali scalati)
+        // WIGGLY TETRIS ENGINE (CON HOLD E GRIGLIE 4X4)
         // =================================================================================
         const tCanvas = document.getElementById('tetris-canvas'); const tCtx = tCanvas.getContext('2d'); tCtx.scale(20, 20); 
         const nCanvas = document.getElementById('next-canvas'); const nCtx = nCanvas.getContext('2d'); nCtx.scale(20, 20); 
         const hCanvas = document.getElementById('hold-canvas'); const hCtx = hCanvas.getContext('2d'); hCtx.scale(20, 20); 
 
         let tetrisRAF; let tScore = 0; let dropCounter = 0; let dropInterval = 1000;
+        let totalLinesCleared = 0; // Traccia totale linee per incrementare difficoltà
         let nextPiece = null; let holdPiece = null; let canHold = true; 
 
         const colors = [null, '#ff0055', '#00f0ff', '#f2e300', '#ff5900', '#00ff00', '#aa00ff', '#ffffff'];
         
-        // MATRICI QUADRATE FIXATE! Niente più pezzi rotti.
+        // MATRICI QUADRATE FIXATE (Risolto il mostro)
         const pieces = [
             [],
             [[0,1,0],[1,1,1],[0,0,0]], // T
@@ -850,9 +889,9 @@
         }
 
         function drawBox(ctx, matrix) {
-            ctx.fillStyle = '#111'; ctx.fillRect(0, 0, 5, 5); drawGrid(ctx, 5, 5); 
+            ctx.fillStyle = '#111'; ctx.fillRect(0, 0, 4, 4); drawGrid(ctx, 4, 4); 
             if (matrix) {
-                const offsetX = Math.floor((5 - matrix[0].length) / 2); const offsetY = Math.floor((5 - matrix.length) / 2);
+                const offsetX = Math.floor((4 - matrix[0].length) / 2); const offsetY = Math.floor((4 - matrix.length) / 2);
                 matrix.forEach((row, y) => {
                     row.forEach((value, x) => {
                         if (value !== 0) {
@@ -897,7 +936,12 @@
             player.matrix = nextPiece; nextPiece = pieces[Math.floor(Math.random() * 7) + 1];
             player.pos.y = 0; player.pos.x = Math.floor(arena[0].length / 2) - Math.floor(player.matrix[0].length / 2);
             canHold = true; updateBoxes();
-            if (collide(arena, player)) { arena.forEach(row => row.fill(0)); tScore = 0; document.getElementById('t-score').innerText = tScore; holdPiece = null; updateBoxes(); }
+            if (collide(arena, player)) { 
+                // GAME OVER - RESETTA TUTTO
+                arena.forEach(row => row.fill(0)); 
+                tScore = 0; totalLinesCleared = 0; dropInterval = 1000;
+                document.getElementById('t-score').innerText = tScore; holdPiece = null; updateBoxes(); 
+            }
         }
 
         function arenaSweep() {
@@ -906,8 +950,16 @@
                 for (let x = 0; x < arena[y].length; ++x) { if (arena[y][x] === 0) continue outer; }
                 const row = arena.splice(y, 1)[0].fill(0); arena.unshift(row); ++y; tScore += rowCount * 10; rowCount *= 2; linesCleared++;
             }
-            document.getElementById('t-score').innerText = tScore;
-            if (linesCleared >= 4) { playToasty(); }
+            
+            if (linesCleared > 0) {
+                document.getElementById('t-score').innerText = tScore;
+                totalLinesCleared += linesCleared;
+                // SPEED UP: Aumenta la velocità (diminuisce l'intervallo) ogni 5 linee
+                let level = Math.floor(totalLinesCleared / 5);
+                dropInterval = Math.max(150, 1000 - (level * 150));
+                
+                if (linesCleared >= 4) { playToasty(); }
+            }
         }
 
         let lastTime = 0;
@@ -931,9 +983,20 @@
 
         document.getElementById('hold-canvas').addEventListener('touchstart', (e) => { e.preventDefault(); e.stopPropagation(); hold(); }, {passive: false});
 
-        function initTetris() { arena.forEach(row => row.fill(0)); tScore = 0; document.getElementById('t-score').innerText = tScore; holdPiece = null; playerReset(); updateBoxes(); update(); }
+        function initTetris() { 
+            arena.forEach(row => row.fill(0)); 
+            tScore = 0; totalLinesCleared = 0; dropInterval = 1000;
+            document.getElementById('t-score').innerText = tScore; holdPiece = null; playerReset(); updateBoxes(); 
+            
+            // Avvia Musica!
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            isMusicPlaying = true;
+            nextNoteTime = audioCtx.currentTime + 0.1;
+            scheduleMusic();
+            
+            update(); 
+        }
 
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playToasty() {
             const img = document.getElementById('toasty-img'); img.classList.add('show'); setTimeout(() => { img.classList.remove('show'); }, 1000);
             if(audioCtx.state === 'suspended') audioCtx.resume();
