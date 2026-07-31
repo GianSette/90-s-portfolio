@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gianluca Frassoni | BRC Blog Portfolio</title>
     
-    <!-- Font Pixelato e Font Script (per la cartella) -->
+    <!-- Font Pixelato e Font Script -->
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
     
@@ -39,137 +39,57 @@
             font-family: 'VT323', monospace;
             color: var(--white);
             overflow-x: hidden;
+            touch-action: pan-y; 
         }
         
-        /* Classe per bloccare lo scorrimento del corpo della pagina (applicata via JS) */
         body.modal-open {
             overflow: hidden;
             width: 100%;
             height: 100%;
         }
 
-        .blog-container {
-            max-width: 750px;
-            margin: 0 auto 40px auto; 
-            padding: 0 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 50px; 
-        }
-
         /* ==================================================
-           1. INTESTAZIONE
+           SEPARAZIONE DESKTOP / MOBILE
            ================================================== */
-        header { 
-            text-align: center; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 100px; 
-            gap: 15px; 
-            margin-bottom: 20px; /* Aumentato lo spazio tra header e about me */
+        #desktop-view { display: none; }
+        #mobile-view { display: none; }
+
+        @media (min-width: 769px) {
+            #desktop-view { 
+                display: flex; flex-direction: column; align-items: center; justify-content: center;
+                height: 100vh; color: var(--brc-cyan); font-size: 3rem; text-align: center;
+            }
         }
 
-        .logo-container {
-            width: 100%;
-            max-width: 500px;
-            position: relative;
-            z-index: 2;
+        @media (max-width: 768px) {
+            #mobile-view { display: block; }
         }
 
-        .logo-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-            filter: drop-shadow(4px 4px 0px var(--black));
-        }
+        /* --------------------------------------------------
+           CSS MOBILE 
+           -------------------------------------------------- */
+        .blog-container { max-width: 750px; margin: 0 auto 40px auto; padding: 0 10px; display: flex; flex-direction: column; gap: 25px; }
 
-        h2.subtitle {
-            font-family: 'VT323', monospace;
-            font-size: 1.6rem;
-            color: var(--white);
-            background-color: transparent;
-            padding: 0;
-            margin: 0; 
-            text-shadow: 2px 2px 0px var(--black);
-            letter-spacing: 2px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .marquee-wrapper {
-            background-color: var(--black); 
-            color: var(--brc-yellow); 
-            font-family: 'VT323', monospace;
-            font-size: 1.3rem; 
-            padding: 4px 0; 
-            margin: 10px -20px 0 -20px;
-            width: calc(100% + 40px);
-            transform: skewY(-2deg);
-            border-top: 2px solid var(--brc-yellow); 
-            border-bottom: 2px solid var(--brc-yellow);
-            box-shadow: 0px 5px 0px rgba(0,0,0,0.5);
-            text-shadow: 0 0 6px var(--brc-yellow);
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-            background-size: 3px 3px; 
-            letter-spacing: 3px;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            color: var(--white);
-            border-bottom: 4px dashed var(--brc-cyan);
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-        }
-
-        /* ==================================================
-           SEZIONE ABOUT ME
-           ================================================== */
-        .about-section {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+        header { text-align: center; display: flex; flex-direction: column; align-items: center; padding-top: 100px; gap: 15px; margin-bottom: 20px; }
+        .logo-container { width: 100%; max-width: 500px; position: relative; z-index: 2; }
+        .logo-container img { width: 100%; height: auto; display: block; filter: drop-shadow(4px 4px 0px var(--black)); }
         
-        .about-desc {
-            font-family: 'Google Sans', 'Product Sans', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-            font-size: 1.15rem;
-            line-height: 1.6;
-            color: #f0f0f0;
-            font-weight: 300;
-        }
+        .marquee-wrapper { background-color: var(--black); color: var(--brc-yellow); font-family: 'VT323', monospace; font-size: 1.3rem; padding: 4px 0; margin: 10px -20px 0 -20px; width: calc(100% + 40px); transform: skewY(-2deg); border-top: 2px solid var(--brc-yellow); border-bottom: 2px solid var(--brc-yellow); box-shadow: 0px 5px 0px rgba(0,0,0,0.5); text-shadow: 0 0 6px var(--brc-yellow); background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 3px 3px; letter-spacing: 3px; }
+
+        .section-title { font-size: 1.8rem; color: var(--white); border-bottom: 4px dashed var(--brc-cyan); padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; }
+
+        .about-section { display: flex; flex-direction: column; gap: 15px; }
+        .about-desc { font-family: 'Google Sans', 'Product Sans', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-size: 1rem; line-height: 1.6; color: #f0f0f0; font-weight: 300; }
+        .about-desc p { margin: 0 0 15px 0; }
+
+        .sketch-grid { display: flex; flex-direction: column; gap: 15px; margin-top: 0; }
+        .swipe-wrapper { display: flex; flex-direction: row; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; gap: 0; width: 100%; padding-bottom: 5px; align-items: center; }
+        .swipe-wrapper::-webkit-scrollbar { display: none; }
+        .swipe-slide { flex: 0 0 100%; width: 100%; scroll-snap-align: center; display: flex; justify-content: center; align-items: center; box-sizing: border-box; padding: 0; }
         
-        .about-desc p {
-            margin: 0 0 15px 0;
-        }
-
-        /* ==================================================
-           2. WIDGETS (Cartella dritta 8-bit & Webcam)
-           ================================================== */
-        .sketch-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .swipe-wrapper { display: contents; }
-
         .folder-container { display: flex; justify-content: center; align-items: center; width: 100%; }
-        
-        .folder-wrapper { 
-            position: relative; 
-            transition: transform 0.2s; 
-            cursor: pointer; 
-            width: 100%; 
-            max-width: 320px; 
-        }
-        .folder-wrapper:hover { 
-            transform: translate(-4px, -4px); /* Solo traslazione, niente skew */
-        }
+        .folder-wrapper { position: relative; transition: transform 0.2s; cursor: pointer; width: 100%; max-width: 260px; margin: 0 auto; }
+        .folder-wrapper:hover { transform: translate(-4px, -4px); }
 
         .sparkle-group { position: absolute; width: 40px; height: 40px; z-index: 10; }
         .sparkle-group.top-right { top: -15px; right: -15px; }
@@ -180,376 +100,190 @@
         .s-small { width: 10px; height: 10px; top: 25px; left: 25px; animation-delay: 0.2s; }
         @keyframes scatto-crt { 0%, 49.99% { transform: rotate(0deg); } 50%, 100% { transform: rotate(45deg); } }
 
-        /* CARTELLA STILE WIN98 BLU DRITTA */
-        .folder-tab { 
-            width: 45%; 
-            height: 25px; 
-            background-color: var(--win98-blue); 
-            border-top: 2px solid #ffffff; 
-            border-left: 2px solid #ffffff; 
-            border-right: 2px solid #000000; 
-            border-bottom: none; 
-            box-shadow: inset -2px 0 #808080, inset 2px 2px #1084d0;
-            margin-left: 10px; 
-        }
-        .folder-body { 
-            position: relative; 
-            background-color: var(--win98-blue); 
-            border-top: 2px solid #ffffff; 
-            border-left: 2px solid #ffffff; 
-            border-right: 2px solid #000000; 
-            border-bottom: 2px solid #000000; 
-            box-shadow: inset -2px -2px #808080, inset 2px 2px #1084d0, 6px 6px 0px var(--black);
-            aspect-ratio: 1.4 / 1; 
-            padding: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-        }
+        .folder-tab { width: 45%; height: 25px; background-color: var(--win98-blue); border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #000000; border-bottom: none; box-shadow: inset -2px 0 #808080, inset 2px 2px #1084d0; margin-left: 10px; }
+        .folder-body { position: relative; background-color: var(--win98-blue); border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #000000; border-bottom: 2px solid #000000; box-shadow: inset -2px -2px #808080, inset 2px 2px #1084d0, 6px 6px 0px var(--black); aspect-ratio: 1.4 / 1; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         
-        /* TESTO WIGGLY SCRIPT GLOBALE */
-        .wiggly-text {
-            font-family: 'Gloria Hallelujah', cursive;
-            font-size: 2.2rem;
-            color: #ffffff;
-            line-height: 1.2;
-            display: block;
-            text-align: center;
-            filter: url(#wiggly-filter);
-        }
-        .wiggly-text.title {
-            font-size: 3.5rem;
-            text-align: left;
-            margin: 0;
-            text-shadow: 2px 2px 0px var(--black);
-        }
-        .wiggly-text .line-1 { transform: rotate(-3deg); display: block;}
-        .wiggly-text .line-2 { transform: rotate(2deg); display: block; margin-top: 5px; margin-left: 15px;}
+        .wiggly-text { font-family: 'Gloria Hallelujah', cursive; color: #ffffff; display: block; text-align: center; filter: url(#wiggly-filter); }
+        .wiggly-text.title { font-size: 2.5rem; text-align: left; margin: 0; text-shadow: 2px 2px 0px var(--black); }
+        .wiggly-text .line-1 { font-size: 2.2rem; transform: rotate(-3deg); display: block;}
+        .wiggly-text .line-2 { font-size: 2.2rem; transform: rotate(2deg); display: block; margin-top: 5px; margin-left: 15px;}
 
         .win98-window { background-color: var(--win98-bg); border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #000000; border-bottom: 2px solid #000000; box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf; padding: 2px; font-family: 'Arial', sans-serif; color: var(--black); display: flex; flex-direction: column; transform: none !important; }
-        
         .win98-titlebar { background: linear-gradient(90deg, var(--win98-blue), var(--win98-blue-grad)); color: white; padding: 2px 4px; font-size: 14px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; overflow: hidden; }
         .win98-titlebar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px; }
-        
         .win98-close-btn { flex-shrink: 0; background-color: var(--win98-bg); border-top: 1px solid #ffffff; border-left: 1px solid #ffffff; border-right: 1px solid #000000; border-bottom: 1px solid #000000; box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf; padding: 0 4px; font-weight: bold; font-size: 12px; color: #ff0000; cursor: pointer; }
         .win98-close-btn:active { border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #ffffff; border-bottom: 1px solid #ffffff; box-shadow: inset 1px 1px #808080; }
+        .win98-btn { background-color: var(--win98-bg); border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #000000; border-bottom: 2px solid #000000; box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf; padding: 5px 15px; font-family: 'Arial', sans-serif; font-weight: bold; font-size: 14px; cursor: pointer; color: var(--black); }
+        .win98-btn:active { border-top: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #ffffff; border-bottom: 2px solid #ffffff; box-shadow: inset 1px 1px #808080; }
+        .win98-btn:disabled { color: #888; text-shadow: 1px 1px #fff; cursor: not-allowed; }
 
-        .window-square { aspect-ratio: 1 / 1; width: 100%; }
+        .win98-window *::-webkit-scrollbar { width: 18px; }
+        .win98-window *::-webkit-scrollbar-track { background: #dfdfdf; border-left: 1px solid #808080; }
+        .win98-window *::-webkit-scrollbar-thumb { background-color: #c0c0c0; border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #000000; border-bottom: 2px solid #000000; }
+        .win98-window *::-webkit-scrollbar-button:single-button { background-color: #c0c0c0; display: block; height: 18px; width: 18px; border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #000000; border-bottom: 2px solid #000000; }
+
+        .window-square { aspect-ratio: 1 / 1; width: 100%; max-width: 260px !important; margin: 0 auto; }
         .window-content { flex-grow: 1; display: flex; flex-direction: column; color: #333; margin: 2px; border: 1px solid #808080; border-right: 1px solid #fff; border-bottom: 1px solid #fff; background: #000; position: relative; overflow: hidden; }
-
         .crt-overlay::after { content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.10) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.04)); z-index: 2; background-size: 100% 4px, 3px 100%; pointer-events: none; }
         #source-video { display: none; }
         #webcam-canvas { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(10%) contrast(110%) brightness(1.05); } 
 
-        /* ==================================================
-           LAVA LAMP BANNER
-           ================================================== */
-        .lava-window { 
-            width: 100%; 
-            height: 120px; /* Ridotta per fare da banner orizzontale */
-            background: transparent; 
-            border: none; 
-            box-shadow: none; 
-            overflow: hidden; 
-            position: relative; 
-            margin-top: 10px;
-            margin-bottom: 50px; /* Più spazio prima dei widget personali */
-            pointer-events: none; 
-        }
+        .lava-window { width: 100%; height: 120px; background: transparent; border: none; box-shadow: none; overflow: hidden; position: relative; margin-top: 10px; margin-bottom: 50px; pointer-events: none; }
+        .swipe-dots { display: flex !important; justify-content: center; gap: 12px; font-size: 2.2rem; font-weight: bold; color: #555; line-height: 0.5; margin-top: 10px; }
+        .swipe-dots .dot.active { color: var(--white); }
 
-        .swipe-dots { display: none; }
-
-        /* ==================================================
-           STILE CARTELLE RETRO TERMINALE
-           ================================================== */
         .retro-folder { color: var(--win98-blue); cursor: pointer; transition: color 0.2s; margin-top: 10px; }
         .retro-folder:hover { color: var(--brc-pink); }
-        .retro-folder.open { color: var(--brc-orange); }
         .retro-folder-content { border-left: 2px dashed #aaa; padding-left: 15px; margin-left: 10px; margin-top: 10px; margin-bottom: 20px; }
-
-        /* ==================================================
-           STILI ARTWORKS E RACCOLTA
-           ================================================== */
-        .artwork-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 25px; margin-top: 15px; perspective: 800px; padding-bottom: 20px; }
+        .artwork-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 15px; margin-top: 15px; perspective: 800px; padding-bottom: 20px; }
         .artwork-item { width: 100%; aspect-ratio: 1 / 1; position: relative; cursor: pointer; }
         .artwork-face { position: absolute; width: 100%; height: 100%; backface-visibility: visible; border: 1px solid #333; box-shadow: inset 0 0 8px rgba(0,0,0,0.5); background-size: cover; background-position: center; background-color: #fff; }
         .ps1-artwork { transform-style: preserve-3d; animation: ps1-spin 8s linear infinite; }
-        .ps1-artwork:hover { animation-play-state: paused; filter: drop-shadow(0 0 10px var(--brc-cyan)); }
         @keyframes ps1-spin { 0% { transform: rotateX(-15deg) rotateY(0deg); } 100% { transform: rotateX(-15deg) rotateY(360deg); } }
         .artwork-disclaimer { font-family: 'Arial', sans-serif; font-size: 1rem; color: #555; background: #fff; border-left: 4px solid var(--brc-pink); padding: 10px; margin: 15px 0; line-height: 1.4; }
 
         .misc-container { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; margin-top: 15px; padding: 20px; background-color: transparent; }
-        .artwork-stack { position: relative; width: 150px; height: 150px; flex-shrink: 0; cursor: pointer; transition: all 0.3s ease; }
+        .artwork-stack { position: relative; width: 120px; height: 120px; flex-shrink: 0; cursor: pointer; transition: all 0.3s ease; }
         .stacked-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border: 2px solid #000; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); background-color: #fff; }
         .artwork-stack:not(.expanded) .stacked-img:nth-child(1) { transform: rotate(-6deg); z-index: 3; }
         .artwork-stack:not(.expanded) .stacked-img:nth-child(2) { transform: rotate(4deg) translate(8px, 8px); z-index: 2; }
         .artwork-stack:not(.expanded) .stacked-img:nth-child(3) { transform: rotate(12deg) translate(16px, 16px); z-index: 1; }
-        .artwork-stack:not(.expanded):hover .stacked-img:nth-child(1) { transform: rotate(-8deg) scale(1.05); }
-        .artwork-stack:not(.expanded):hover .stacked-img:nth-child(2) { transform: rotate(6deg) translate(10px, 10px) scale(1.05); }
         .artwork-stack.expanded { width: 100%; height: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; justify-content: center; }
         .artwork-stack.expanded .stacked-img { position: relative; transform: none !important; z-index: 1; }
-        .artwork-stack.expanded .stacked-img:hover { transform: scale(1.05) !important; filter: drop-shadow(0 0 8px var(--brc-orange)); z-index: 10; cursor: pointer; }
-        .misc-text { font-family: 'Arial', sans-serif; font-size: 1.1rem; color: #222; line-height: 1.4; text-align: center; max-width: 80%; }
+        .misc-text { font-family: 'Arial', sans-serif; font-size: 1.1rem; color: #222; line-height: 1.4; text-align: center; max-width: 100%; }
         .misc-text .subtext { font-size: 0.9rem; color: #888; font-style: italic; margin-top: 5px; display: block;}
 
-        /* ==================================================
-           TIMELINE & RECENT WORKS
-           ================================================== */
-        .works-timeline { display: flex; flex-direction: column; gap: 40px; margin-bottom: 20px;}
-        .year-block { display: flex; flex-direction: column; align-items: flex-start; padding-left: 20px; }
-        .year-title { font-size: 2.2rem; color: var(--white); font-weight: normal; margin: 0; text-shadow: 1px 1px 0 var(--black); }
+        .works-timeline { display: flex; flex-direction: column; gap: 25px; margin-bottom: 0;}
+        .year-block { display: flex; flex-direction: column; align-items: flex-start; padding-left: 10px; }
+        .year-title { font-size: 1.8rem; color: var(--white); font-weight: normal; margin: 0; text-shadow: 1px 1px 0 var(--black); }
         .year-title::before { content: "> "; color: var(--brc-cyan); }
-        .dashed-line { width: calc(100% - 20px); border-bottom: 2px dashed rgba(255, 255, 255, 0.5); margin: 5px 0 20px 20px; }
-        .blinkie-img { image-rendering: pixelated; box-shadow: 4px 4px 0px var(--black); border: 2px solid var(--black); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; width: 100%; max-width: 380px; height: auto; margin-left: 40px; }
-        .blinkie-img:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0px var(--black); }
+        .dashed-line { width: calc(100% - 10px); margin: 5px 0 15px 10px; }
+        .blinkie-img { image-rendering: pixelated; box-shadow: 4px 4px 0px var(--black); border: 2px solid var(--black); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; width: 100%; max-width: 180px; height: auto; margin-left: 15px; }
 
-        /* ==================================================
-           MODALS GLOBALI E DATA EXPANSION
-           ================================================== */
         .custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; }
         .custom-modal.active { display: flex; }
-        .custom-modal.active::before { content: ''; position: absolute; width: 90%; max-width: 600px; min-height: 400px; border: 2px dashed #fff; z-index: 1001; pointer-events: none; opacity: 0; animation: ghost-zoom 0.3s forwards steps(1); }
-        @keyframes ghost-zoom { 0% { transform: scale(0.2); opacity: 1; } 25% { transform: scale(0.5); opacity: 1; } 50% { transform: scale(0.75); opacity: 1; } 75% { transform: scale(0.9); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
-        .modal-content-win98 { width: 90%; max-width: 600px; min-height: 400px; box-shadow: 4px 4px 10px rgba(0,0,0,0.5); opacity: 0; display: flex; flex-direction: column; }
+        .modal-content-win98 { width: 90%; max-width: 600px; box-shadow: 4px 4px 10px rgba(0,0,0,0.5); opacity: 0; display: flex; flex-direction: column; max-height: 90vh; }
         .custom-modal.active .modal-content-win98 { animation: final-window-pop 0s 0.3s forwards; }
         @keyframes final-window-pop { to { opacity: 1; } }
 
         #data-expansion details { margin-bottom: 20px; transform: skewX(-3deg); }
-        #data-expansion details > summary { background-color: var(--brc-cyan); color: var(--black); border: 4px solid var(--black); padding: 15px; font-size: 1.8rem; font-weight: bold; text-transform: uppercase; cursor: pointer; box-shadow: 6px 6px 0px var(--black); list-style: none; transition: background-color 0.2s; }
+        #data-expansion details > summary { background-color: var(--brc-cyan); color: var(--black); border: 4px solid var(--black); padding: 10px; font-size: 1.2rem; font-weight: bold; text-transform: uppercase; cursor: pointer; box-shadow: 6px 6px 0px var(--black); list-style: none; transition: background-color 0.2s; }
         #data-expansion details > summary::-webkit-details-marker { display: none; }
-        #data-expansion details > summary:hover { background-color: var(--white); }
         #data-expansion details[open] > summary { background-color: var(--brc-orange); color: var(--white); box-shadow: 6px 0px 0px var(--black); }
-        #data-expansion details .accordion-content { background-color: var(--white); color: var(--black); border: 4px solid var(--black); border-top: none; padding: 20px; font-size: 1.3rem; box-shadow: 6px 6px 0px var(--black); transform: skewX(0deg); }
-        #data-expansion details .accordion-content a { color: var(--brc-pink); font-weight: bold; text-decoration: none; border-bottom: 2px dashed var(--brc-pink); transition: all 0.2s; cursor: pointer;}
-        #data-expansion details .accordion-content a:hover { color: var(--brc-orange); border-bottom-color: var(--brc-orange); }
+        #data-expansion details .accordion-content { background-color: var(--white); color: var(--black); border: 4px solid var(--black); border-top: none; padding: 12px; font-size: 1rem; box-shadow: 6px 6px 0px var(--black); transform: skewX(0deg); }
+        #data-expansion details .accordion-content a { color: var(--brc-pink); font-weight: bold; text-decoration: none; border-bottom: 2px dashed var(--brc-pink); cursor: pointer;}
 
-        /* ==================================================
-           EXERPLAZA OVERLAY FULLSCREEN
-           ================================================== */
-        #exerplaza-overlay {
-            position: fixed;
-            top: -100%; 
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 10, 15, 0.85);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            z-index: 2000; 
-            transition: top 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow-y: auto; 
-        }
-        
-        #exerplaza-overlay.active {
-            top: 0; 
-        }
-
-        .exerplaza-content {
-            display: flex;
-            align-items: center; 
-            width: 90%;
-            max-width: 1000px;
-            gap: 50px; 
-            color: #fff;
-            font-family: 'Google Sans', 'Product Sans', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-            margin: auto;
-        }
-
-        .exer-left {
-            flex: 1;
-            position: relative; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .exer-logo {
-            position: absolute;
-            bottom: 100%; 
-            left: 0;
-            max-width: 250px;
-            height: auto;
-            margin-bottom: 25px; 
-        }
-
-        .exer-desc {
-            font-size: 1.15rem;
-            line-height: 1.8; 
-            color: #f0f0f0;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-        }
-        
+        /* Exerplaza Overlay Mobile */
+        #exerplaza-overlay { position: fixed; top: -100%; left: 0; width: 100%; height: 100%; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 2000; transition: top 0.6s cubic-bezier(0.22, 1, 0.36, 1); display: flex; align-items: center; justify-content: center; overflow-y: auto; }
+        #exerplaza-overlay.active { top: 0; }
+        .exerplaza-content { display: flex; flex-direction: column; align-items: center; width: 90%; max-width: 1000px; padding: 40px 0; gap: 50px; color: #fff; font-family: 'Google Sans', 'Product Sans', system-ui, sans-serif; margin: auto; }
+        .exer-left { flex: 1; display: flex; flex-direction: column; text-align: center; justify-content: flex-start; }
+        .exer-logo { position: static; max-width: 250px; height: auto; margin: 0 auto 15px auto; }
+        .exer-desc { font-size: 1rem; line-height: 1.8; color: #f0f0f0; font-weight: 300; text-align: center; }
         .exer-desc p { margin-top: 5px; margin-bottom: 15px; }
-        .exer-desc p:first-child { margin-top: 0; }
-        .exer-desc p:last-child { margin-bottom: 0; }
-
-        .exer-right {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Il Carosello / Galleria */
-        .exer-carousel {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            touch-action: pan-y;
-        }
-
-        .exer-carousel img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: background-color 0.3s ease, padding 0.3s ease;
-        }
-
-        .exer-caption {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 1.05rem;
-            color: #b0b0b0;
-            font-style: italic;
-            min-height: 50px;
-            font-weight: 300;
-            line-height: 1.5;
-            width: 100%;
-        }
-
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            font-size: 1.5rem;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border-radius: 50%;
-            transition: all 0.3s;
-            z-index: 10;
-        }
-        .carousel-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: #fff; }
-        .btn-prev { left: 15px; }
-        .btn-next { right: 15px; }
-        
-        .exer-dots {
-            display: none;
-            justify-content: center;
-            gap: 12px;
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: #555;
-            line-height: 0.5;
-            margin-top: 5px;
-        }
+        .exer-right { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
+        .exer-carousel { position: relative; width: 100%; aspect-ratio: 4/3; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden; display: flex; align-items: center; justify-content: center; touch-action: pan-y; }
+        .exer-carousel img { width: 100%; height: 100%; object-fit: cover; transition: background-color 0.3s ease, padding 0.3s ease; }
+        .exer-caption { text-align: center; font-size: 1.05rem; color: #b0b0b0; font-style: italic; min-height: 40px; margin-top: 5px; font-weight: 300; line-height: 1.5; width: 100%; }
+        .exer-dots { display: flex; justify-content: center; gap: 12px; font-size: 2.2rem; font-weight: bold; color: #555; line-height: 0.5; margin-top: 5px; }
         .exer-dots .dot.active { color: var(--white); }
-
-        .exer-tab-close {
-            background: transparent;
-            color: rgba(255, 255, 255, 0.4);
-            padding: 10px 0;
-            border: none;
-            cursor: pointer;
-            font-family: inherit; 
-            font-size: 1.1rem;
-            letter-spacing: 4px;
-            transition: color 0.3s;
-            text-transform: uppercase;
-            text-align: center;
-            margin-top: 50px; 
-        }
-        .exer-tab-close:hover { color: rgba(255, 255, 255, 0.9); }
+        .exer-tab-close { background: transparent; color: rgba(255, 255, 255, 0.4); padding: 10px 0; border: none; cursor: pointer; font-family: inherit; font-size: 1.1rem; letter-spacing: 4px; transition: color 0.3s; text-transform: uppercase; text-align: center; margin-top: 50px; width: 100%; }
+        .carousel-btn { display: none; } 
 
         #artwork-viewer-modal { z-index: 3000; }
 
+        /* D&D Project Specifics */
+        .dnd-modal-window { height: 80vh; max-height: none; }
+        .dnd-pages-container { position: relative; flex-grow: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; background: #fff; }
+        .dnd-page { display: none; flex-direction: column; width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; transform-origin: center center; padding: 20px; box-sizing: border-box; }
+        .dnd-page.active { display: flex; }
+        #dnd-page-0 { padding: 0; }
+        @keyframes pixelFlipOut { 0% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(0); opacity: 0.5; } }
+        @keyframes pixelFlipIn { 0% { transform: scaleX(0); opacity: 0.5; } 100% { transform: scaleX(1); opacity: 1; } }
+        .page-flip-out { animation: pixelFlipOut 0.25s steps(4, end) forwards; }
+        .page-flip-in { animation: pixelFlipIn 0.25s steps(4, start) forwards; }
+        .dnd-title { color: var(--black); font-size: 2.2rem; text-align: left; }
+        .dnd-desc-text { font-family: 'Google Sans', 'Product Sans', system-ui, sans-serif; font-size: 1.1rem; line-height: 1.6; color: #333; margin-top: 15px; }
+        .dnd-desc-text p { margin-bottom: 15px; }
+        .dnd-gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; padding: 10px; }
+        .dnd-thumb { width: 100%; aspect-ratio: 1/1; object-fit: cover; border: 2px solid #808080; box-shadow: 2px 2px 0px #000; cursor: pointer; }
+        
+        #dnd-glass-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 3500; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        #dnd-glass-overlay.active { opacity: 1; pointer-events: auto; }
+        .dnd-glass-close { position: absolute; top: 20px; right: 20px; background: rgba(0, 0, 0, 0.3); color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer; z-index: 3510; }
+        .dnd-glass-img { max-width: 90%; max-height: 70vh; object-fit: contain; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-radius: 8px; touch-action: pan-y; }
+        .dnd-glass-caption { margin-top: 20px; font-family: 'Google Sans', sans-serif; font-size: 1.2rem; color: #222; text-shadow: 0 0 5px rgba(255,255,255,0.8); font-style: italic; text-align: center; max-width: 80%; }
+        .dnd-glass-nav { display: none; }
+
+
         /* ==================================================
-           OTTIMIZZAZIONE MOBILE RESPONSIVE
+           EASTER EGG (KONAMI BOARD & TETRIS)
            ================================================== */
-        @media (max-width: 768px) {
-            .blog-container { gap: 25px; padding: 0 10px; }
-            
-            /* Titolo About Me più piccolo su mobile */
-            .wiggly-text.title { font-size: 2.5rem; }
-            .about-desc { font-size: 1rem; }
-            
-            .sketch-grid { display: flex; flex-direction: column; gap: 15px; margin-top: 0; }
-            
-            /* RIPRISTINO SWIPE ORIZZONTALE SUI WIDGET (MOBILE) */
-            .swipe-wrapper { 
-                display: flex; 
-                flex-direction: row; 
-                overflow-x: auto; 
-                scroll-snap-type: x mandatory; 
-                scrollbar-width: none; 
-                -ms-overflow-style: none; 
-                gap: 0; 
-                width: 100%; 
-                padding-bottom: 5px; 
-                align-items: center; 
-            }
-            .swipe-wrapper::-webkit-scrollbar { display: none; }
-            .swipe-slide { flex: 0 0 100%; width: 100%; scroll-snap-align: center; display: flex; justify-content: center; align-items: center; box-sizing: border-box; padding: 0; }
-            
-            .folder-wrapper { max-width: 260px !important; width: 100%; margin: 0 auto; }
-            .win98-window.window-square { max-width: 260px !important; width: 100%; margin: 0 auto; }
-            
-            /* RIPRISTINO TRATTINI WIDGET SU MOBILE */
-            .swipe-dots { display: flex !important; justify-content: center; gap: 12px; font-size: 2.2rem; font-weight: bold; color: #555; line-height: 0.5; margin-top: 10px; }
-            .swipe-dots .dot.active { color: var(--white); }
-
-            .section-title { font-size: 1.8rem; margin-bottom: 20px; }
-            .works-timeline { gap: 25px; margin-bottom: 0;}
-            .year-block { padding-left: 10px; }
-            .year-title { font-size: 1.8rem; }
-            .dashed-line { width: calc(100% - 10px); margin: 5px 0 15px 10px; }
-            .blinkie-img { max-width: 180px; margin-left: 15px; }
-            #data-expansion details > summary { font-size: 1.2rem; padding: 10px; }
-            #data-expansion details .accordion-content { font-size: 1rem; padding: 12px; }
-            
-            .artwork-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 15px; }
-            .artwork-stack:not(.expanded) { width: 120px; height: 120px; }
-            .misc-text { max-width: 100%; }
-
-            /* Mobile Exerplaza */
-            .exerplaza-content { 
-                flex-direction: column; 
-                padding: 40px 0; 
-                gap: 50px; 
-            }
-            
-            .exer-logo { position: static; margin: 0 auto 15px auto; }
-            
-            .exer-carousel { aspect-ratio: 4/3; }
-            .exer-left { text-align: center; justify-content: flex-start; }
-            .exer-desc { font-size: 1rem; text-align: center; }
-            
-            .exer-tab-close { margin-top: 50px; width: 100%; padding: 10px 0; }
-
-            .carousel-btn { display: none; } 
-            .exer-dots { display: flex; }
-            .exer-caption { min-height: 40px; margin-top: 5px;}
+        #konami-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            z-index: 9000; justify-content: center; align-items: center; flex-direction: column;
         }
+        #konami-modal.active { display: flex; }
+        
+        .konami-win {
+            border: 2px solid #fff; border-right-color: #555; border-bottom-color: #555;
+            background: #000; width: 300px; font-family: 'VT323', monospace;
+        }
+        .konami-title {
+            background: #fff; color: #000; padding: 2px 5px; font-weight: bold; display: flex; justify-content: space-between;
+        }
+        .konami-body {
+            padding: 30px; display: flex; flex-direction: column; align-items: center; gap: 30px;
+        }
+        
+        .konami-btn-row { display: flex; gap: 30px; }
+        
+        .btn-wiggly {
+            background: #fff; color: #000; font-family: 'Gloria Hallelujah', cursive;
+            border: none; cursor: pointer; filter: url(#wiggly-filter);
+            font-weight: bold; text-align: center;
+        }
+        .btn-wiggly:active { transform: scale(0.9); }
+        .btn-round { width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; display: flex; align-items: center; justify-content: center;}
+        .btn-start { padding: 10px 30px; font-size: 1.5rem; border-radius: 15px; }
+
+        /* LOADING DIAL-UP 90S */
+        #tetris-loader { display: none; position: fixed; top: 0; left: 0; width: 100%; background: #000; z-index: 9998; }
+        @keyframes dialup-load { 0% { height: 0; } 100% { height: 100%; } }
+
+        /* TETRIS GAME LAYOUT */
+        #tetris-container {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999; flex-direction: column; align-items: center; justify-content: center;
+            font-family: 'Gloria Hallelujah', cursive; color: #fff; touch-action: none;
+        }
+        .tetris-exit {
+            position: absolute; top: 10px; right: 15px; color: #ff0000; font-size: 2rem;
+            text-shadow: 0 0 10px #ff0000; cursor: pointer; z-index: 10000; font-family: 'VT323', monospace;
+        }
+        
+        .tetris-layout {
+            display: flex; gap: 20px; align-items: flex-start; margin-top: 20px;
+        }
+        .tetris-side-col {
+            display: flex; flex-direction: column; gap: 20px; align-items: center;
+        }
+        .tetris-box { text-align: center; }
+
+        /* Applica il wiggly direttamente ai Canvas! */
+        #tetris-canvas, #next-canvas, #hold-canvas {
+            background: #111; border: 4px solid #fff; filter: url(#wiggly-filter);
+        }
+        
+        .tetris-ui-text { font-size: 1.5rem; text-align: center; filter: url(#wiggly-filter); }
+
+        /* TOASTY EASTER EGG */
+        #toasty-img {
+            position: fixed; bottom: -200px; right: 0; width: 120px; z-index: 10005; transition: bottom 0.2s ease;
+        }
+        #toasty-img.show { bottom: 0; }
+
     </style>
 </head>
 <body>
@@ -564,334 +298,276 @@
         </defs>
     </svg>
 
-    <div class="blog-container">
-        
-        <!-- ==========================================
-             HEADER
-             ========================================== -->
-        <header>
-            <div class="logo-container">
-                <img src="portfolio_Logo.png" alt="Portfolio Logo">
-            </div>
+    <!-- ==========================================
+         VISTA DESKTOP (W.I.P.)
+         ========================================== -->
+    <div id="desktop-view">
+        <div>
+            <h1>[ Desktop Version ]</h1>
+            <p style="font-family: 'VT323', monospace;">Work in progress... Please visit on Mobile.</p>
+        </div>
+    </div>
 
-            <h2 class="subtitle">Aspiring UI/UX & Frontend Developer</h2>
+    <!-- ==========================================
+         VISTA MOBILE (IL PORTFOLIO VERO E PROPRIO)
+         ========================================== -->
+    <div id="mobile-view">
+        <div class="blog-container">
             
-            <div class="marquee-wrapper">
-                <marquee scrollamount="12">
-                    /// UI/UX DESIGN ORIENTED /// OPEN TO ANY TECH CHALLENGE /// VANILLA JS SPECIALIST ///
-                </marquee>
-            </div>
-        </header>
-
-        <!-- SEZIONE ABOUT ME (SPOSTATA QUI E CON WIGGLY TITLE) -->
-        <section id="about-me" class="about-section">
-            <h2 class="wiggly-text title">About Me</h2>
-            <div class="about-desc">
-                <p>Hi, I'm Gianluca Frassoni, a budding Computer Engineer. I proudly identify as a nerd; my hobbies include developing and playing video games, as well as a strong passion for music. Throughout my life, I've played both the piano and the guitar, and I've always stayed active by practicing a wide variety of sports. I am currently in my final year of university and will be graduating soon.</p>
-                <p>While I am eager to explore various opportunities across the tech industry, my true predisposition lies in frontend development and UI/UX, driven by the challenge of crafting intuitive interfaces and dynamic interactive visualizations. I'm now seeking a stimulating role that will challenge me and allow me to grow.</p>
-            </div>
-        </section>
-
-        <!-- SEZIONE RECENT WORKS -->
-        <section id="lavori-recenti">
-            <h2 class="section-title">/// Recent Works</h2>
-            
-            <div class="works-timeline">
-                <div class="year-block">
-                    <h3 class="year-title">2026</h3>
-                    <div class="dashed-line"></div>
-                    <!-- Trigger Overlay Exerplaza -->
-                    <img src="blinkies/Exerplaza.gif" alt="Exerplaza Project Blinkie" class="blinkie-img" id="exerplaza-trigger">
+            <header>
+                <div class="logo-container">
+                    <img src="portfolio_Logo.png" alt="Portfolio Logo">
                 </div>
-                <div class="year-block">
-                    <h3 class="year-title">2025</h3>
-                    <div class="dashed-line"></div>
-                    <img src="blinkies/D&D.gif" alt="D&D Project Blinkie" class="blinkie-img" id="dnd-trigger">
+                <div class="marquee-wrapper">
+                    <marquee scrollamount="12" id="dynamic-marquee">
+                        /// Welcome to the Gianluca Frassoni's portfolio ///
+                    </marquee>
                 </div>
-            </div>
-            
-        </section>
+            </header>
 
-        <!-- SEZIONE LAVA LAMP COME BANNER SEPARATORE -->
-        <section id="separator">
-            <!-- C. Lava Lamp fissa sul rosso brillante -->
-            <div id="lava-container" class="lava-window"></div>
-        </section>
+            <section id="about-me" class="about-section">
+                <h2 class="wiggly-text title">About Me</h2>
+                <div class="about-desc">
+                    <p>Hi, I'm Gianluca Frassoni, a budding Computer Engineer. I proudly identify as a nerd; my hobbies include developing and playing video games, as well as a strong passion for music. Throughout my life, I've played both the piano and the guitar, and I've always stayed active by practicing a wide variety of sports. I am currently in my final year of university and will be graduating soon.</p>
+                    <p>While I am eager to explore various opportunities across the tech industry, my true predisposition lies in frontend development and UI/UX, driven by the challenge of crafting intuitive interfaces and dynamic interactive visualizations. I'm now seeking a stimulating role that will challenge me and allow me to grow.</p>
+                </div>
+            </section>
 
-        <!-- SEZIONE WIDGETS PERSONALI -->
-        <section id="personali">
-            <div class="sketch-grid">
-                
-                <!-- Wrapper Widget -->
-                <div class="swipe-wrapper" id="swipeWrapper">
-                    
-                    <!-- WIDGET 1: Cartella Progetti (8-bit Win98 dritta) -->
-                    <div class="swipe-slide">
-                        <div class="folder-container">
-                            <div class="folder-wrapper" id="folder-trigger">
-                                <div class="folder-tab"></div>
-                                <div class="folder-body">
-                                    <div class="sparkle-group top-right">
-                                        <div class="sparkle s-big"></div>
-                                        <div class="sparkle s-small"></div>
-                                        <div class="sparkle s-med"></div>
-                                    </div>
-                                    <div class="sparkle-group bottom-left">
-                                        <div class="sparkle s-med"></div>
-                                        <div class="sparkle s-big"></div>
-                                        <div class="sparkle s-small"></div>
-                                    </div>
-                                    
-                                    <!-- TESTO WIGGLY -->
-                                    <div class="wiggly-text">
-                                        <span class="line-1">Personal</span>
-                                        <span class="line-2">Projects</span>
+            <section id="lavori-recenti">
+                <h2 class="section-title">/// Recent Works</h2>
+                <div class="works-timeline">
+                    <div class="year-block">
+                        <h3 class="year-title">2026</h3>
+                        <div class="dashed-line"></div>
+                        <img src="blinkies/Exerplaza.gif" alt="Exerplaza Project Blinkie" class="blinkie-img" id="exerplaza-trigger">
+                    </div>
+                    <div class="year-block">
+                        <h3 class="year-title">2025</h3>
+                        <div class="dashed-line"></div>
+                        <img src="blinkies/D&D.gif" alt="D&D Project Blinkie" class="blinkie-img" id="dnd-trigger">
+                    </div>
+                </div>
+            </section>
+
+            <section id="separator">
+                <div id="lava-container" class="lava-window"></div>
+            </section>
+
+            <section id="personali">
+                <div class="sketch-grid">
+                    <div class="swipe-wrapper" id="swipeWrapper">
+                        <div class="swipe-slide">
+                            <div class="folder-container">
+                                <div class="folder-wrapper" id="folder-trigger">
+                                    <div class="folder-tab"></div>
+                                    <div class="folder-body">
+                                        <div class="sparkle-group top-right"><div class="sparkle s-big"></div><div class="sparkle s-small"></div><div class="sparkle s-med"></div></div>
+                                        <div class="sparkle-group bottom-left"><div class="sparkle s-med"></div><div class="sparkle s-big"></div><div class="sparkle s-small"></div></div>
+                                        <div class="wiggly-text">
+                                            <span class="line-1">Personal</span>
+                                            <span class="line-2">Projects</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- WIDGET 2: Finestra Win98 Webcam -->
-                    <div class="swipe-slide">
-                        <div class="win98-window window-square">
-                            <div class="win98-titlebar">
-                                <span>programmer_video.mp4</span>
-                                <button class="win98-close-btn" style="pointer-events: none;">X</button>
-                            </div>
-                            <div class="window-content crt-overlay">
-                                <video id="source-video" src="programmer_video.mp4" autoplay muted loop playsinline></video>
-                                <canvas id="webcam-canvas"></canvas>
+                        <div class="swipe-slide">
+                            <div class="win98-window window-square">
+                                <div class="win98-titlebar">
+                                    <span>programmer_video.mp4</span>
+                                    <button class="win98-close-btn" style="pointer-events: none;">X</button>
+                                </div>
+                                <div class="window-content crt-overlay">
+                                    <video id="source-video" src="programmer_video.mp4" autoplay muted loop playsinline></video>
+                                    <canvas id="webcam-canvas"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
-
+                    <div class="swipe-dots" id="swipeDots"><span class="dot active">-</span><span class="dot">-</span></div>
                 </div>
+            </section>
 
-                <!-- Indicatori Trattini per i Widget su Mobile -->
-                <div class="swipe-dots" id="swipeDots">
-                    <span class="dot active">-</span>
-                    <span class="dot">-</span>
-                </div>
-            </div>
-        </section>
+            <section id="data-expansion">
+                <h2 class="section-title">/// Data Expansion</h2>
+                <details><summary>+ SKILLS & BADGES</summary><div class="accordion-content"><p><b>Core Technologies:</b> Vanilla JavaScript, HTML5, CSS3/Grid/Flexbox.</p><p><b>Graphic Libraries:</b> Three.js (WebGL), D3.js (Data Visualization).</p><p><b>Design & Tools:</b> UI/UX Prototyping, Adobe Photoshop, Adobe Lightroom, dynamic & responsive interfaces.</p><p><b>Badges:</b> <a id="badge-trigger">B2 Receptive Skills (University Badge)</a>.</p></div></details>
+                <details><summary>+ REFERENCES</summary><div class="accordion-content"><p style="font-size: 1.4rem; margin-bottom: 15px;"><a href="https://www.linkedin.com/in/damianovaragnolo/" target="_blank">Damiano Varagnolo</a> - Mentor during internship at UNIPD</p><div style="font-style: italic; border-left: 4px solid var(--brc-pink); padding-left: 15px;"><p>"I had the pleasure of supervising Gianluca during his internship, where he contributed to the development of Exerplaza, a learning analytics oriented educational platform. His work has been aimed at making relationships between concepts, topics, and learning outcomes more intuitive and accessible by means of a dedicated relations visualizer.</p><p>Throughout the internship, he consistently demonstrated creativity, initiative, and a remarkable ability to work independently. Rather than simply implementing assigned tasks, he actively proposed new ideas, designed alternative user experience solutions, and validated them through thoughtful testing and iteration. His contributions significantly improved the way complex educational structures could be visualized and understood.</p><p>Beyond his technical skills, what impressed me most was his positive attitude and collaborative mindset. He naturally approached the project with a community-oriented perspective, always seeking solutions that would benefit future users and the broader educational ecosystem. He was proactive, receptive to feedback, and a pleasure to work with throughout the project.</p><p>I am confident that he will bring the same creativity, independence, and team spirit to any future endeavor, and I would gladly recommend him to anyone looking for a thoughtful and motivated young professional."</p></div></div></details>
+                <details><summary>+ SOCIAL LINKS</summary><div class="accordion-content"><p style="font-size: 1.5rem; display: flex; flex-direction: column; gap: 10px;"><a href="https://www.linkedin.com/in/gianluca-frassoni-585065423" target="_blank" style="align-self: flex-start;">/// LINKEDIN</a><a href="https://github.com/GianSette" target="_blank" style="align-self: flex-start;">/// GITHUB</a></p></div></details>
+            </section>
+        </div>
 
-        <!-- SEZIONE DATA EXPANSION -->
-        <section id="data-expansion">
-            <h2 class="section-title">/// Data Expansion</h2>
-
-            <details>
-                <summary>+ SKILLS & BADGES</summary>
-                <div class="accordion-content">
-                    <p><b>Core Technologies:</b> Vanilla JavaScript, HTML5, CSS3/Grid/Flexbox.</p>
-                    <p><b>Graphic Libraries:</b> Three.js (WebGL), D3.js (Data Visualization).</p>
-                    <p><b>Design & Tools:</b> UI/UX Prototyping, Adobe Photoshop, Adobe Lightroom, dynamic & responsive interfaces.</p>
-                    <p><b>Badges:</b> <a id="badge-trigger">B2 Receptive Skills (University Badge)</a>.</p>
-                </div>
-            </details>
-            
-            <details>
-                <summary>+ REFERENCES</summary>
-                <div class="accordion-content">
-                    <p style="font-size: 1.4rem; margin-bottom: 15px;">
-                        <a href="https://www.linkedin.com/in/damianovaragnolo/" target="_blank">Damiano Varagnolo</a> - Mentor during internship at UNIPD
-                    </p>
-                    <div style="font-style: italic; border-left: 4px solid var(--brc-pink); padding-left: 15px;">
-                        <p>"I had the pleasure of supervising Gianluca during his internship, where he contributed to the development of Exerplaza, a learning analytics oriented educational platform. His work has been aimed at making relationships between concepts, topics, and learning outcomes more intuitive and accessible by means of a dedicated relations visualizer.</p>
-                        <p>Throughout the internship, he consistently demonstrated creativity, initiative, and a remarkable ability to work independently. Rather than simply implementing assigned tasks, he actively proposed new ideas, designed alternative user experience solutions, and validated them through thoughtful testing and iteration. His contributions significantly improved the way complex educational structures could be visualized and understood.</p>
-                        <p>Beyond his technical skills, what impressed me most was his positive attitude and collaborative mindset. He naturally approached the project with a community-oriented perspective, always seeking solutions that would benefit future users and the broader educational ecosystem. He was proactive, receptive to feedback, and a pleasure to work with throughout the project.</p>
-                        <p>I am confident that he will bring the same creativity, independence, and team spirit to any future endeavor, and I would gladly recommend him to anyone looking for a thoughtful and motivated young professional."</p>
+        <!-- ======================================================================
+             MODALS E OVERLAYS
+             ====================================================================== -->
+        
+        <!-- EXERPLAZA -->
+        <div id="exerplaza-overlay">
+            <div class="exerplaza-content">
+                <div class="exer-left">
+                    <img src="Exerplaza/ExerPlaza_logo_final_DARK.png" alt="Exerplaza Logo" class="exer-logo">
+                    <div class="exer-desc">
+                        <p>I redesigned and programmed the user interface for the Exerplaza website, meticulously managing the overall user experience and site navigability.</p>
+                        <p>The frontend structure was built primarily using D3.js and HTML, with portions of Jinja and CSS handling page routing and styling within the Exerplaza ecosystem.</p>
+                        <p>Additionally, I was responsible for selecting typography that seamlessly aligned with the client's vision, and I redesigned the logo to make it more cohesive with the new stylistic direction.</p>
                     </div>
                 </div>
-            </details>
-
-            <details>
-                <summary>+ SOCIAL LINKS</summary>
-                <div class="accordion-content">
-                    <p style="font-size: 1.5rem; display: flex; flex-direction: column; gap: 10px;">
-                        <a href="https://www.linkedin.com/in/gianluca-frassoni-585065423" target="_blank" style="align-self: flex-start;">/// LINKEDIN</a>
-                        <a href="https://github.com/GianSette" target="_blank" style="align-self: flex-start;">/// GITHUB</a>
-                    </p>
+                <div class="exer-right">
+                    <div class="exer-carousel" id="exer-carousel-wrapper">
+                        <img id="exer-carousel-img" src="" alt="Exerplaza Showcase">
+                    </div>
+                    <div class="exer-dots" id="exer-dots-container"></div>
+                    <div class="exer-caption" id="exer-carousel-caption"></div>
+                    <button class="exer-tab-close" id="close-exer-tab">PRESS HERE TO CLOSE</button>
                 </div>
-            </details>
-        </section>
+            </div>
+        </div>
 
-    </div>
+        <!-- PERSONAL PROJECTS -->
+        <div id="personal-projects-modal" class="custom-modal">
+            <div class="win98-window modal-content-win98">
+                <div class="win98-titlebar"><span>C:\Windows\Personal_Projects</span><button class="win98-close-btn" id="close-modal-btn">X</button></div>
+                <div style="padding: 20px; font-family: 'VT323', monospace; font-size: 1.5rem; background: #fff; flex-grow: 1; border: 1px solid #808080; border-bottom: 1px solid #fff; border-right: 1px solid #fff; margin: 4px; overflow-y: auto; max-height: 75vh;">
+                    <p>> Directory loading... OK.</p><p>> 2 directories found in volume C:</p>
+                    <div class="retro-folder" onclick="toggleFolder('music-content', this)">> [DIR] Music_Related</div>
+                    <div id="music-content" class="retro-folder-content" style="display: none;">
+                        <div class="artwork-disclaimer">"Everything contained within this folder is the result of my practice using Photoshop..."</div>
+                        <p style="color: var(--win98-blue); margin-bottom: 5px; font-size: 1.5rem;">> Found 10 renderable 3D graphic objects.</p>
+                        <div class="artwork-grid">
+                            <div class="artwork-item ps1-artwork" data-src="PP/SnapInsta.to_663136914_18545988163069902_188920072651001235_n.jpg" style="animation-delay: 0s;"><div class="artwork-face" style="background-image: url('PP/SnapInsta.to_663136914_18545988163069902_188920072651001235_n.jpg');"></div></div>
+                            <div class="artwork-item ps1-artwork" data-src="PP/SnapInsta.to_656363433_18340465294300621_4972202563476261472_n.jpg" style="animation-delay: -1s;"><div class="artwork-face" style="background-image: url('PP/SnapInsta.to_656363433_18340465294300621_4972202563476261472_n.jpg');"></div></div>
+                        </div>
+                    </div>
+                    <div class="retro-folder" onclick="toggleFolder('misc-content', this)">> [DIR] Miscellaneous</div>
+                    <div id="misc-content" class="retro-folder-content" style="display: none;">
+                        <div class="misc-container">
+                            <div class="artwork-stack" id="misc-stack">
+                                <img src="Misc/WhatsApp Image 2026-07-28 at 14.38.28.jpeg" class="stacked-img artwork-item" data-src="Misc/WhatsApp Image 2026-07-28 at 14.38.28.jpeg">
+                                <img src="Misc/WhatsApp Image 2026-07-28 at 14.38.28 (1).jpeg" class="stacked-img artwork-item" data-src="Misc/WhatsApp Image 2026-07-28 at 14.38.28 (1).jpeg">
+                                <img src="Misc/WhatsApp Image 2026-07-28 at 14.38.28 (2).jpeg" class="stacked-img artwork-item" data-src="Misc/WhatsApp Image 2026-07-28 at 14.38.28 (2).jpeg">
+                            </div>
+                            <div class="misc-text">Participation in the <b>VelenoZine</b> by @ragnoeremita.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="artwork-viewer-modal" class="custom-modal">
+            <div class="win98-window modal-content-win98" style="max-width: 600px; width: 95%;">
+                <div class="win98-titlebar"><span id="artwork-viewer-title">Artwork_Viewer.exe</span><button class="win98-close-btn" id="close-artwork-btn">X</button></div>
+                <div style="padding: 4px; background: #c0c0c0; flex-grow: 1; border: 1px solid #808080; border-bottom: 1px solid #fff; border-right: 1px solid #fff; margin: 4px; display: flex; justify-content: center; align-items: center; min-height: 350px;">
+                    <img id="artwork-viewer-img" src="" alt="Artwork Render" style="max-width: 100%; max-height: 60vh; object-fit: contain;">
+                </div>
+            </div>
+        </div>
+
+        <div id="badge-modal" class="custom-modal">
+            <div class="win98-window modal-content-win98">
+                <div class="win98-titlebar"><span>badge.png</span><button class="win98-close-btn" id="close-badge-btn">X</button></div>
+                <div style="padding: 4px; background: #c0c0c0; flex-grow: 1; border: 1px solid #808080; border-bottom: 1px solid #fff; border-right: 1px solid #fff; margin: 4px; display: flex; justify-content: center; align-items: center; min-height: 350px;">
+                    <img src="badge.png" alt="B2 Badge" style="max-width: 100%; max-height: 340px; object-fit: contain;">
+                </div>
+            </div>
+        </div>
+
+        <!-- D&D -->
+        <div id="dnd-modal" class="custom-modal">
+            <div class="win98-window modal-content-win98 dnd-modal-window">
+                <div class="win98-titlebar"><span>DnD_Campaign.exe</span><button class="win98-close-btn" id="close-dnd-btn">X</button></div>
+                <div style="padding: 10px; background: #fff; flex-grow: 1; display: flex; flex-direction: column; border: 1px solid #808080; border-bottom: 1px solid #fff; border-right: 1px solid #fff; margin: 4px; overflow: hidden;">
+                    <div id="dnd-pages-container" class="dnd-pages-container">
+                        <div class="dnd-page active" id="dnd-page-0">
+                            <img src="ded/primapagina.png" alt="D&D Cover" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'300\'><rect width=\'400\' height=\'300\' fill=\'#ccc\'/></svg>'">
+                        </div>
+                        <div class="dnd-page" id="dnd-page-1">
+                            <h2 class="wiggly-text dnd-title"><span class="line-1">Software</span><span class="line-2">Engineering Exam</span></h2>
+                            <div class="dnd-desc-text">
+                                <p>Together with a team, I programmed a video game for a project as part of the Software Engineering exam.</p>
+                                <p>The game is a "simple" dungeon crawler, where the map is made entirely of ASCII characters, while encounters transition into a Pokémon-style combat screen.</p>
+                                <p>The project lasted 6 months, during which I worked closely with Java and learned to generate images using artificial intelligence—a necessary choice given the short development timeframe.</p>
+                                <p>The game is not for sale, but the source code and documentation can still be fully viewed at the attached repository.</p>
+                                <p style="font-size: 0.9rem; color: #666; font-style: italic;">*Only backgrounds and character sprites were generated using AI software.</p>
+                            </div>
+                        </div>
+                        <div class="dnd-page" id="dnd-page-2">
+                            <p style="font-family: 'VT323', monospace; font-size: 1.5rem; margin-bottom: 10px; color: var(--black);">> Gallery Data loaded.</p>
+                            <div class="dnd-gallery-grid" id="dnd-gallery-grid"></div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 2px dashed #ccc; padding-top: 10px;">
+                        <button id="dnd-prev-btn" class="win98-btn" disabled>&lt; PREV</button>
+                        <span id="dnd-page-indicator" style="font-family: 'VT323', monospace; font-size: 1.4rem; color: var(--black);">PAGE 1 / 3</span>
+                        <button id="dnd-next-btn" class="win98-btn">NEXT &gt;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dnd-glass-overlay">
+            <button class="dnd-glass-close" id="dnd-glass-close">X</button>
+            <img id="dnd-glass-img" class="dnd-glass-img" src="">
+            <div id="dnd-glass-caption" class="dnd-glass-caption"></div>
+        </div>
+
+    </div> <!-- Fine mobile-view -->
+
 
     <!-- ======================================================================
-         MODALS E OVERLAYS
+         EASTER EGG (KONAMI COMMAND BOARD & TETRIS)
          ====================================================================== -->
+    
+    <!-- Modale "Command Board" -->
+    <div id="konami-modal">
+        <div class="konami-win">
+            <div class="konami-title">
+                <span>remember THE code</span>
+                <span id="konami-close" style="cursor:pointer; color:red;">X</span>
+            </div>
+            <div class="konami-body">
+                <div class="konami-btn-row">
+                    <button class="btn-wiggly btn-round" id="btn-B">B</button>
+                    <button class="btn-wiggly btn-round" id="btn-A">A</button>
+                </div>
+                <button class="btn-wiggly btn-start" id="btn-START">START</button>
+            </div>
+        </div>
+    </div>
 
-    <!-- NUOVO OVERLAY EXERPLAZA -->
-    <div id="exerplaza-overlay">
+    <!-- Animazione di caricamento (Dial-up nero) -->
+    <div id="tetris-loader"></div>
+
+    <!-- Contenitore Tetris -->
+    <div id="tetris-container">
+        <div class="tetris-exit" id="tetris-exit">EXIT</div>
         
-        <div class="exerplaza-content">
-            
-            <!-- Colonna Sinistra: Logo Statico e Descrizione -->
-            <div class="exer-left">
-                <!-- LOGO DARK IN ALTO A SINISTRA (PER SFONDO SCURO) -->
-                <img src="Exerplaza/ExerPlaza_logo_final_DARK.png" alt="Exerplaza Logo" class="exer-logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'250\' height=\'80\'><rect width=\'250\' height=\'80\' fill=\'transparent\'/><text x=\'125\' y=\'45\' fill=\'white\' font-family=\'Arial\' font-size=\'20\' text-anchor=\'middle\'>ExerPlaza Logo</text></svg>'">
-                
-                <div class="exer-desc">
-                    <p>I redesigned and programmed the user interface for the Exerplaza website, meticulously managing the overall user experience and site navigability.</p>
-                    <p>The frontend structure was built primarily using D3.js and HTML, with portions of Jinja and CSS handling page routing and styling within the Exerplaza ecosystem.</p>
-                    <p>Additionally, I was responsible for selecting typography that seamlessly aligned with the client's vision, and I redesigned the logo to make it more cohesive with the new stylistic direction.</p>
-                </div>
+        <!-- Nuovo Layout Tetris con Griglie laterali -->
+        <div class="tetris-layout">
+            <div class="tetris-main-col">
+                <canvas id="tetris-canvas" width="200" height="400"></canvas>
             </div>
-
-            <!-- Colonna Destra: Carosello Screenshot e Caption -->
-            <div class="exer-right">
-                <div class="exer-carousel" id="exer-carousel-wrapper">
-                    <button class="carousel-btn btn-prev" id="exer-prev">&#10094;</button>
-                    
-                    <img id="exer-carousel-img" src="" alt="Exerplaza Showcase">
-                    
-                    <button class="carousel-btn btn-next" id="exer-next">&#10095;</button>
+            <div class="tetris-side-col">
+                <div class="tetris-score tetris-ui-text">SCORE<br><span id="t-score">0</span></div>
+                
+                <div class="tetris-box">
+                    <div class="tetris-ui-text">NEXT</div>
+                    <canvas id="next-canvas" width="100" height="100"></canvas>
                 </div>
                 
-                <!-- Barrette Pagination (Solo Mobile) -->
-                <div class="exer-dots" id="exer-dots-container">
-                    <!-- Generati in JS -->
+                <div class="tetris-box">
+                    <div class="tetris-ui-text">HOLD</div>
+                    <!-- Il tocco su questo canvas farà mettere in pausa il pezzo -->
+                    <canvas id="hold-canvas" width="100" height="100"></canvas>
                 </div>
-                
-                <!-- Spazio dedicato per la descrizione univoca di ogni foto -->
-                <div class="exer-caption" id="exer-carousel-caption"></div>
-                
-                <!-- Linguetta Trasparente Testuale (Sotto la caption, stessa distanza testo-galleria) -->
-                <button class="exer-tab-close" id="close-exer-tab">PRESS HERE TO CLOSE</button>
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- MODAL WIN98 1: PERSONAL PROJECTS (FILE SYSTEM ORIGINALE) -->
-    <div id="personal-projects-modal" class="custom-modal">
-        <div class="win98-window modal-content-win98">
-            <div class="win98-titlebar">
-                <span>C:\Windows\Personal_Projects</span>
-                <button class="win98-close-btn" id="close-modal-btn">X</button>
-            </div>
-            
-            <div style="padding: 20px; font-family: 'VT323', monospace; font-size: 1.5rem; background: #fff; flex-grow: 1; border: 1px solid #808080; border-bottom: 1px solid #fff; border-right: 1px solid #fff; margin: 4px; overflow-y: auto; max-height: 75vh;">
-                <p>> Directory loading... OK.</p>
-                <p>> 2 directories found in volume C:</p>
-                
-                <!-- CARTELLA 1: Music_Related -->
-                <div class="retro-folder" onclick="toggleFolder('music-content', this)">> [DIR] Music_Related</div>
-                
-                <div id="music-content" class="retro-folder-content" style="display: none;">
-                    <div class="artwork-disclaimer">
-                        "Everything contained within this folder is the result of my practice using Photoshop. Each artwork was created by me and is a Fan-Made project; the artists are in no way affiliated with me."
-                    </div>
-
-                    <p style="color: var(--win98-blue); margin-bottom: 5px; font-size: 1.5rem;">> Found 10 renderable 3D graphic objects.</p>
-                    <p style="color: #888; font-size: 1.2rem; margin-bottom: 15px;">(Click on a spinning artwork to execute full-screen viewer)</p>
-
-                    <div class="artwork-grid">
-                        <div class="artwork-item ps1-artwork" data-src="PP/SnapInsta.to_663136914_18545988163069902_188920072651001235_n.jpg" style="animation-delay: 0s;">
-                            <div class="artwork-face" style="background-image: url('PP/SnapInsta.to_663136914_18545988163069902_188920072651001235_n.jpg');"></div>
-                        </div>
-                        <div class="artwork-item ps1-artwork" data-src="PP/SnapInsta.to_656363433_18340465294300621_4972202563476261472_n.jpg" style="animation-delay: -1s;">
-                            <div class="artwork-face" style="background-image: url('PP/SnapInsta.to_656363433_18340465294300621_4972202563476261472_n.jpg');"></div>
-                        </div>
-                        <div class="artwork-item ps1-artwork" data-src="PP/SnapInsta.to_655742898_18093192395038201_5855629830539122886_n.jpg" style="animation-delay: -2.5s;">
-                            <div class="artwork-face" style="background-image: url('PP/SnapInsta.to_655742898_18093192395038201_5855629830539122886_n.jpg');"></div>
-                        </div>
-                        <div class="artwork-item ps1-artwork" data-src="PP/SnapInsta.to_655171340_18136339237455158_5136612510085376006_n.jpg" style="animation-delay: -0.5s;">
-                            <div class="artwork-face" style="background-image: url('PP/SnapInsta.to_655171340_18136339237455158_5136612510085376006_n.jpg');"></div>
-                        </div>
-                        <div class="artwork-item ps1-artwork" data-src="PP/SnapInsta.to_654415001_18225182182311895_9080226907752621107_n.jpg" style="animation-delay: -3s;">
-                            <div class="artwork-face" style="background-image: url('PP/SnapInsta.to_654415001_18225182182311895_9080226907752621107_n.jpg');"></div>
-                        </div>
-                        <div class="artwork-item ps1-artwork" data-src="PP/SnapInsta.to_652025607_18112661722678688_7003745746581686760_n.jpg" style="animation-delay: -1.5s;">
-                            <div class="artwork-face" style="background-image: url('PP/SnapInsta.to_652025607_18112661722678688_7003745746581686760_n.jpg');"></div>
-                        </div>
-                        <div class="artwork-item ps1-artwork" data-src="PP/SnapInsta.to_651873936_18092208469887674_822224542085790007_n.jpg" style="animation-delay: -0.8s;">
-                            <div class="artwork-face" style="background-image: url('PP/SnapInsta.to_651873936_18092208469887674_822224542085790007_n.jpg');"></div>
-                        </div>
-                        <div class="artwork-item ps1-artwork" data-src="PP/SnapInsta.to_649214327_18099917609314068_697962324490374991_n.jpg" style="animation-delay: -4s;">
-                            <div class="artwork-face" style="background-image: url('PP/SnapInsta.to_649214327_18099917609314068_697962324490374991_n.jpg');"></div>
-                        </div>
-                        <div class="artwork-item ps1-artwork" data-src="PP/SnapInsta.to_622680386_18165220276393364_7519004779028876009_n.jpg" style="animation-delay: -2.2s;">
-                            <div class="artwork-face" style="background-image: url('PP/SnapInsta.to_622680386_18165220276393364_7519004779028876009_n.jpg');"></div>
-                        </div>
-                        <div class="artwork-item ps1-artwork" data-src="PP/SnapInsta.to_619953755_18091775017994252_8403350088065876228_n.jpg" style="animation-delay: -3.5s;">
-                            <div class="artwork-face" style="background-image: url('PP/SnapInsta.to_619953755_18091775017994252_8403350088065876228_n.jpg');"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CARTELLA 2: Miscellaneous -->
-                <div class="retro-folder" onclick="toggleFolder('misc-content', this)">> [DIR] Miscellaneous</div>
-                
-                <div id="misc-content" class="retro-folder-content" style="display: none;">
-                    <div class="misc-container">
-                        
-                        <div class="artwork-stack" id="misc-stack">
-                            <img src="Misc/WhatsApp Image 2026-07-28 at 14.38.28.jpeg" class="stacked-img artwork-item" data-src="Misc/WhatsApp Image 2026-07-28 at 14.38.28.jpeg" alt="Misc Artwork 1">
-                            <img src="Misc/WhatsApp Image 2026-07-28 at 14.38.28 (1).jpeg" class="stacked-img artwork-item" data-src="Misc/WhatsApp Image 2026-07-28 at 14.38.28 (1).jpeg" alt="Misc Artwork 2">
-                            <img src="Misc/WhatsApp Image 2026-07-28 at 14.38.28 (2).jpeg" class="stacked-img artwork-item" data-src="Misc/WhatsApp Image 2026-07-28 at 14.38.28 (2).jpeg" alt="Misc Artwork 3">
-                        </div>
-                        
-                        <div class="misc-text">
-                            Participation in the <b>VelenoZine</b> by @ragnoeremita, subsequently published in the homonymous Fanzine.
-                            <span class="subtext">(Click the stack to expand, then select an image to view)</span>
-                        </div>
-                        
-                    </div>
-                </div>
-
             </div>
         </div>
+        
+        <!-- L'omino Toasty -->
+        <img id="toasty-img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><rect width='10' height='10' fill='orange'/><rect x='2' y='3' width='2' height='2' fill='black'/><rect x='6' y='3' width='2' height='2' fill='black'/><rect x='3' y='7' width='4' height='1' fill='black'/></svg>">
     </div>
 
-    <!-- MODAL WIN98 X: ARTWORK VIEWER FULLSCREEN -->
-    <div id="artwork-viewer-modal" class="custom-modal">
-        <div class="win98-window modal-content-win98" style="max-width: 600px; width: 95%;">
-            <div class="win98-titlebar">
-                <span id="artwork-viewer-title">Artwork_Viewer.exe</span>
-                <button class="win98-close-btn" id="close-artwork-btn">X</button>
-            </div>
-            
-            <div style="padding: 4px; background: #c0c0c0; flex-grow: 1; border: 1px solid #808080; border-bottom: 1px solid #fff; border-right: 1px solid #fff; margin: 4px; display: flex; justify-content: center; align-items: center; min-height: 350px;">
-                <img id="artwork-viewer-img" src="" alt="Artwork Render" style="max-width: 100%; max-height: 60vh; object-fit: contain; box-shadow: 2px 2px 5px rgba(0,0,0,0.5);">
-            </div>
-        </div>
-    </div>
 
-    <!-- MODAL WIN98 2: BADGE IMMAGINE -->
-    <div id="badge-modal" class="custom-modal">
-        <div class="win98-window modal-content-win98">
-            <div class="win98-titlebar">
-                <span>badge.png</span>
-                <button class="win98-close-btn" id="close-badge-btn">X</button>
-            </div>
-            
-            <div style="padding: 4px; background: #c0c0c0; flex-grow: 1; border: 1px solid #808080; border-bottom: 1px solid #fff; border-right: 1px solid #fff; margin: 4px; display: flex; justify-content: center; align-items: center; min-height: 350px;">
-                <img src="badge.png" alt="B2 Receptive Skills Badge" style="max-width: 100%; max-height: 340px; object-fit: contain;">
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL WIN98 4: D&D PROJECT -->
-    <div id="dnd-modal" class="custom-modal">
-        <div class="win98-window modal-content-win98">
-            <div class="win98-titlebar">
-                <span>DnD_Campaign.exe</span>
-                <button class="win98-close-btn" id="close-dnd-btn">X</button>
-            </div>
-            
-            <div style="padding: 20px; font-family: 'VT323', monospace; font-size: 1.5rem; background: #fff; flex-grow: 1; border: 1px solid #808080; border-bottom: 1px solid #fff; border-right: 1px solid #fff; margin: 4px;">
-                <p>> Loading D&D Campaign data...</p>
-                <p>> Custom content coming soon.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- SCRIPT GESTIONE INTERATTIVITÀ -->
     <script>
-        // 0. SCRIPT PER EFFETTO WIGGLY TEXT (BOILING LINES)
+        // 0. WIGGLY TEXT
         const turb = document.getElementById('wiggle-turb');
         let frames = 0;
         setInterval(() => {
@@ -899,324 +575,459 @@
             if (turb) { turb.setAttribute('seed', frames); }
         }, 120);
 
-        // Funzione per espandere le cartelle in stile terminale
         function toggleFolder(contentId, element) {
             const content = document.getElementById(contentId);
-            if (content.style.display === "none") {
-                content.style.display = "block";
-                element.classList.add("open");
-            } else {
-                content.style.display = "none";
-                element.classList.remove("open");
+            content.style.display = (content.style.display === "none") ? "block" : "none";
+            element.classList.toggle("open");
+        }
+
+        // MARQUEE
+        const marqueeElement = document.getElementById('dynamic-marquee');
+        const nerdQuotes = ["Hey, Listen!!", "Salta il crepaccio, SALTA IL CREPACCIO!", "Quanto a te, quanto a quel che non puoi fare che tu...", "The cake is a lie!", "Praise the Sun! \\o/"];
+        marqueeElement.textContent = "/// Welcome to the Gianluca Frassoni's portfolio /// " + nerdQuotes[Math.floor(Math.random() * nerdQuotes.length)] + " ///";
+
+        // WEBCAM & LAVA LAMP (Ripulite per spazio, restano uguali a prima)
+        const video = document.getElementById('source-video'); const canvas = document.getElementById('webcam-canvas'); const ctx = canvas.getContext('2d');
+        let lastDrawTime = 0;
+        function renderWebcamFrame(timestamp) { requestAnimationFrame(renderWebcamFrame); const elapsed = timestamp - lastDrawTime; if (elapsed >= 1000/6) { lastDrawTime = timestamp - (elapsed % (1000/6)); if (video.videoWidth > 0) { canvas.width = video.videoWidth; canvas.height = video.videoHeight; } if (video.readyState >= 2) { ctx.drawImage(video, 0, 0, canvas.width, canvas.height); } } }
+        video.play().catch(e=>e); requestAnimationFrame(renderWebcamFrame);
+
+        const isMobile = window.innerWidth <= 768;
+        const svgLava = d3.select("#lava-container").append("svg").attr("width", "100%").attr("height", "100%").style("filter", "url(#gooey)");
+        const defsLava = svgLava.append("defs"); const filterLava = defsLava.append("filter").attr("id", "gooey");
+        filterLava.append("feGaussianBlur").attr("in", "SourceGraphic").attr("stdDeviation", isMobile ? 8 : 15).attr("result", "blur"); filterLava.append("feColorMatrix").attr("in", "blur").attr("mode", "matrix").attr("values", "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10");
+        const blobs = svgLava.selectAll("circle").data(d3.range(isMobile ? 8 : 14)).enter().append("circle").attr("fill", "#ff0000").attr("r", () => isMobile ? (Math.random() * 20 + 15) : (Math.random() * 35 + 20)).attr("cx", () => Math.random() * 100 + "%").attr("cy", () => (Math.random() * 20 + 100) + "%"); 
+        function lavaPhysics() { let el = d3.select(this); let isAtBottom = parseFloat(el.attr("cy")) > 50; let ty = isAtBottom ? (Math.random() * 40 + 10) : (Math.random() * 20 + 100); let tx = Math.max(5, Math.min(95, parseFloat(el.attr("cx")) + (Math.random() * 30 - 15))); el.transition().duration(Math.random() * 8000 + 12000).ease(d3.easeSinInOut).attr("cx", tx + "%").attr("cy", ty + "%").on("end", lavaPhysics); }
+        blobs.each(function(d, i) { setTimeout(() => { lavaPhysics.call(this); }, i * 1500); });
+
+
+        // =================================================================================
+        // D&D E GALLERIE
+        // =================================================================================
+        const exerOverlay = document.getElementById("exerplaza-overlay");
+        document.getElementById('exerplaza-trigger').addEventListener('click', () => { exerOverlay.classList.add('active'); document.body.classList.add('modal-open'); });
+        document.getElementById("close-exer-tab").addEventListener("click", () => { exerOverlay.classList.remove('active'); document.body.classList.remove('modal-open'); });
+
+        const dndGalleryData = [
+            { src: "ded/screen1.png", desc: "ASCII Dungeon Map Exploration" },
+            { src: "ded/screen2.png", desc: "Pokemon-Style Combat Engagement" },
+            { src: "ded/screen3.png", desc: "Character Stats and Inventory Menu" },
+            { src: "ded/screen4.png", desc: "AI Generated Enemy Sprite" }
+        ];
+        const dndGalleryGrid = document.getElementById('dnd-gallery-grid');
+        dndGalleryData.forEach((item, index) => {
+            const img = document.createElement('img'); img.src = item.src; img.classList.add('dnd-thumb');
+            img.onerror = function() { this.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><rect width='150' height='150' fill='#ccc'/></svg>"; };
+            img.addEventListener('click', () => { 
+                document.getElementById('dnd-glass-img').src = item.src; 
+                document.getElementById('dnd-glass-caption').textContent = item.desc;
+                document.getElementById('dnd-glass-overlay').classList.add('active'); 
+            });
+            dndGalleryGrid.appendChild(img);
+        });
+        
+        document.getElementById('dnd-trigger').addEventListener('click', () => { document.getElementById('dnd-modal').classList.add('active'); document.body.classList.add('modal-open'); });
+        document.getElementById('close-dnd-btn').addEventListener('click', () => { document.getElementById('dnd-modal').classList.remove('active'); document.body.classList.remove('modal-open'); });
+        document.getElementById('dnd-glass-close').addEventListener('click', () => { document.getElementById('dnd-glass-overlay').classList.remove('active'); });
+
+        let dndPg=0;
+        document.getElementById('dnd-next-btn').addEventListener('click', () => { if(dndPg<2){ document.getElementById(`dnd-page-${dndPg}`).classList.remove('active'); dndPg++; document.getElementById(`dnd-page-${dndPg}`).classList.add('active'); document.getElementById('dnd-page-indicator').textContent=`PAGE ${dndPg+1} / 3`; document.getElementById('dnd-prev-btn').disabled=false; if(dndPg==2) document.getElementById('dnd-next-btn').disabled=true;} });
+        document.getElementById('dnd-prev-btn').addEventListener('click', () => { if(dndPg>0){ document.getElementById(`dnd-page-${dndPg}`).classList.remove('active'); dndPg--; document.getElementById(`dnd-page-${dndPg}`).classList.add('active'); document.getElementById('dnd-page-indicator').textContent=`PAGE ${dndPg+1} / 3`; document.getElementById('dnd-next-btn').disabled=false; if(dndPg==0) document.getElementById('dnd-prev-btn').disabled=true;} });
+
+
+        // =================================================================================
+        // EASTER EGG: KONAMI CODE SWIPE
+        // =================================================================================
+        let swipeHistory = [];
+        const konamiTarget = ['U','U','D','D','L','R','L','R'];
+        let tStartX = 0, tStartY = 0;
+
+        document.addEventListener('touchstart', e => {
+            tStartX = e.changedTouches[0].screenX;
+            tStartY = e.changedTouches[0].screenY;
+        }, {passive: true});
+
+        document.addEventListener('touchend', e => {
+            let tEndX = e.changedTouches[0].screenX;
+            let tEndY = e.changedTouches[0].screenY;
+            handleGlobalSwipe(tStartX, tStartY, tEndX, tEndY);
+        }, {passive: true});
+
+        function handleGlobalSwipe(startX, startY, endX, endY) {
+            let diffX = endX - startX;
+            let diffY = endY - startY;
+            let dir = '';
+
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+                dir = diffX > 0 ? 'R' : 'L';
+            } else if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 40) {
+                dir = diffY > 0 ? 'D' : 'U';
+            }
+
+            if(dir) {
+                swipeHistory.push(dir);
+                if(swipeHistory.length > 8) swipeHistory.shift();
+                
+                if(swipeHistory.join('') === konamiTarget.join('')) {
+                    document.getElementById('konami-modal').classList.add('active');
+                    document.body.classList.add('modal-open');
+                    swipeHistory = []; 
+                }
             }
         }
 
-        // 1. GESTIONE MODALS WIN98 E BLOCCO SCORRIMENTO
-        const folderBtn = document.getElementById('folder-trigger');
-        const ppModal = document.getElementById('personal-projects-modal');
-        const closePpBtn = document.getElementById('close-modal-btn');
+        // =================================================================================
+        // MODALE KONAMI (B A START) E CARICAMENTO ANNI '90
+        // =================================================================================
+        let btnSequence = [];
+        const targetSequence = ['B', 'A', 'START'];
 
-        folderBtn.addEventListener('click', () => { 
-            ppModal.classList.add('active'); 
-            document.body.classList.add('modal-open');
-        });
-        closePpBtn.addEventListener('click', () => { 
-            ppModal.classList.remove('active'); 
+        document.getElementById('konami-close').addEventListener('click', () => {
+            document.getElementById('konami-modal').classList.remove('active');
             document.body.classList.remove('modal-open');
+            btnSequence = [];
         });
 
-        const badgeBtn = document.getElementById('badge-trigger');
-        const badgeModal = document.getElementById('badge-modal');
-        const closeBadgeBtn = document.getElementById('close-badge-btn');
-
-        badgeBtn.addEventListener('click', () => { 
-            badgeModal.classList.add('active'); 
-            document.body.classList.add('modal-open');
-        });
-        closeBadgeBtn.addEventListener('click', () => { 
-            badgeModal.classList.remove('active'); 
-            document.body.classList.remove('modal-open');
-        });
-
-        const dndBtn = document.getElementById('dnd-trigger');
-        const dndModal = document.getElementById('dnd-modal');
-        const closeDndBtn = document.getElementById('close-dnd-btn');
-
-        dndBtn.addEventListener('click', () => { 
-            dndModal.classList.add('active'); 
-            document.body.classList.add('modal-open');
-        });
-        closeDndBtn.addEventListener('click', () => { 
-            dndModal.classList.remove('active'); 
-            document.body.classList.remove('modal-open');
-        });
-
-        // SISTEMA ARTWORK VIEWER E LOGICA STACK (RACCOLTA)
-        const artworkViewerModal = document.getElementById('artwork-viewer-modal');
-        const closeArtworkBtn = document.getElementById('close-artwork-btn');
-        const artworkViewerImg = document.getElementById('artwork-viewer-img');
-        const artworkViewerTitle = document.getElementById('artwork-viewer-title');
-        
-        const artworkItems = document.querySelectorAll('.artwork-item');
-        artworkItems.forEach(item => {
-            item.addEventListener('click', (e) => {
+        ['B', 'A', 'START'].forEach(btn => {
+            document.getElementById(`btn-${btn}`).addEventListener('click', () => {
+                btnSequence.push(btn);
+                if(btnSequence.length > 3) btnSequence.shift();
                 
-                const parentStack = item.closest('.artwork-stack');
-                if (parentStack && !parentStack.classList.contains('expanded')) {
-                    parentStack.classList.add('expanded');
-                    return; 
+                if(btnSequence.join('') === targetSequence.join('')) {
+                    document.getElementById('konami-modal').classList.remove('active');
+                    startTetrisLoad();
+                    btnSequence = [];
                 }
-                
-                e.stopPropagation(); 
-                const src = item.getAttribute('data-src');
-                const filename = src.split('/').pop();
-                artworkViewerImg.src = src;
-                artworkViewerTitle.textContent = filename;
-                
-                // Resetta sfondi per sicurezza se si apre da artwork viewer
-                artworkViewerImg.style.backgroundColor = 'transparent';
-                artworkViewerImg.style.padding = '0';
-                
-                artworkViewerModal.classList.add('active');
             });
         });
-        
-        closeArtworkBtn.addEventListener('click', () => { artworkViewerModal.classList.remove('active'); });
 
-        // Chiusura Globale cliccando fuori
-        window.addEventListener('click', (e) => {
-            if (e.target === ppModal) { ppModal.classList.remove('active'); document.body.classList.remove('modal-open'); }
-            if (e.target === badgeModal) { badgeModal.classList.remove('active'); document.body.classList.remove('modal-open'); }
-            if (e.target === dndModal) { dndModal.classList.remove('active'); document.body.classList.remove('modal-open'); }
-            if (e.target === artworkViewerModal) { artworkViewerModal.classList.remove('active'); }
+        function startTetrisLoad() {
+            const loader = document.getElementById('tetris-loader');
+            loader.style.display = 'block';
+            loader.style.animation = 'dialup-load 2s steps(8) forwards';
+            
+            setTimeout(() => {
+                loader.style.display = 'none';
+                document.getElementById('tetris-container').style.display = 'flex';
+                initTetris();
+            }, 2100);
+        }
+
+        document.getElementById('tetris-exit').addEventListener('click', () => {
+            document.getElementById('tetris-container').style.display = 'none';
+            document.body.classList.remove('modal-open');
+            cancelAnimationFrame(tetrisRAF);
         });
 
-        // 2. GESTIONE SWIPE INDICATORI MOBILE
-        const swipeWrapper = document.getElementById('swipeWrapper');
-        const dots = document.querySelectorAll('.swipe-dots .dot');
 
-        if (swipeWrapper && dots.length > 0) {
-            swipeWrapper.addEventListener('scroll', () => {
-                const scrollLeft = swipeWrapper.scrollLeft;
-                const width = swipeWrapper.clientWidth;
-                const activeIndex = Math.round(scrollLeft / width);
-                
-                dots.forEach((dot, index) => {
-                    if (index === activeIndex) {
-                        dot.classList.add('active');
-                    } else {
-                        dot.classList.remove('active');
+        // =================================================================================
+        // WIGGLY TETRIS ENGINE (CON HOLD E 5X5 GRID)
+        // =================================================================================
+        const tCanvas = document.getElementById('tetris-canvas');
+        const tCtx = tCanvas.getContext('2d');
+        tCtx.scale(20, 20); // Griglia 10x20
+
+        const nCanvas = document.getElementById('next-canvas');
+        const nCtx = nCanvas.getContext('2d');
+        nCtx.scale(20, 20); // Griglia 5x5
+
+        const hCanvas = document.getElementById('hold-canvas');
+        const hCtx = hCanvas.getContext('2d');
+        hCtx.scale(20, 20); // Griglia 5x5
+
+        let tetrisRAF;
+        let tScore = 0;
+        let dropCounter = 0;
+        let dropInterval = 1000;
+
+        let nextPiece = null;
+        let holdPiece = null;
+        let canHold = true; // Permette un solo hold per turno
+
+        const colors = [null, '#ff0055', '#00f0ff', '#f2e300', '#ff5900', '#00ff00', '#aa00ff', '#ffffff'];
+
+        const pieces = [
+            [],
+            [[0,0,0],[1,1,1],[0,1,0]], // T
+            [[2,2],[2,2]],             // O
+            [[0,3,0],[0,3,0],[0,3,0],[0,3,0]], // I
+            [[0,4,4],[4,4,0],[0,0,0]], // S
+            [[5,5,0],[0,5,5],[0,0,0]], // Z
+            [[0,6,0],[0,6,0],[6,6,0]], // J
+            [[0,7,0],[0,7,0],[0,7,7]]  // L
+        ];
+
+        function createMatrix(w, h) {
+            const matrix = [];
+            while (h--) matrix.push(new Array(w).fill(0));
+            return matrix;
+        }
+
+        let arena = createMatrix(10, 20);
+        let player = { pos: {x: 0, y: 0}, matrix: null };
+
+        // Disegna la griglia di background per capire bene le dimensioni
+        function drawGrid(ctx, cols, rows) {
+            ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+            ctx.lineWidth = 0.05;
+            for(let i=0; i<=cols; i++) {
+                ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, rows); ctx.stroke();
+            }
+            for(let j=0; j<=rows; j++) {
+                ctx.beginPath(); ctx.moveTo(0, j); ctx.lineTo(cols, j); ctx.stroke();
+            }
+        }
+
+        function drawMatrix(matrix, offset) {
+            matrix.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value !== 0) {
+                        tCtx.fillStyle = colors[value];
+                        tCtx.fillRect(x + offset.x, y + offset.y, 1, 1);
+                        tCtx.strokeStyle = '#000';
+                        tCtx.lineWidth = 0.1;
+                        tCtx.strokeRect(x + offset.x, y + offset.y, 1, 1);
                     }
                 });
             });
         }
 
-        // 3. SIMULATORE WEBCAM LOW-FPS
-        const video = document.getElementById('source-video');
-        const canvas = document.getElementById('webcam-canvas');
-        const ctx = canvas.getContext('2d');
-        
-        const TARGET_FPS = 6; 
-        const FRAME_INTERVAL = 1000 / TARGET_FPS;
-        let lastDrawTime = 0;
+        function drawTetris() {
+            tCtx.fillStyle = '#111';
+            tCtx.fillRect(0, 0, tCanvas.width, tCanvas.height);
+            drawGrid(tCtx, 10, 20);
+            drawMatrix(arena, {x: 0, y: 0});
+            drawMatrix(player.matrix, player.pos);
+        }
 
-        function renderWebcamFrame(timestamp) {
-            requestAnimationFrame(renderWebcamFrame);
+        // Funzione per disegnare i riquadri NEXT e HOLD in una griglia 5x5 fissa
+        function drawBox(ctx, matrix) {
+            ctx.fillStyle = '#111';
+            ctx.fillRect(0, 0, 5, 5);
+            drawGrid(ctx, 5, 5); // La griglia a 5 richiesta
             
-            const elapsed = timestamp - lastDrawTime;
-            if (elapsed >= FRAME_INTERVAL) {
-                lastDrawTime = timestamp - (elapsed % FRAME_INTERVAL);
-                
-                if (video.videoWidth > 0 && (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight)) {
-                    canvas.width = video.videoWidth;
-                    canvas.height = video.videoHeight;
-                }
-                
-                if (video.readyState >= 2) {
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                }
+            if (matrix) {
+                // Centra la matrice del tetramino dentro la griglia 5x5
+                const offsetX = Math.floor((5 - matrix[0].length) / 2);
+                const offsetY = Math.floor((5 - matrix.length) / 2);
+                matrix.forEach((row, y) => {
+                    row.forEach((value, x) => {
+                        if (value !== 0) {
+                            ctx.fillStyle = colors[value];
+                            if(!canHold && ctx === hCtx) ctx.fillStyle = '#555'; // Se non puoi holdare, diventa grigio
+                            ctx.fillRect(x + offsetX, y + offsetY, 1, 1);
+                            ctx.strokeStyle = '#000';
+                            ctx.lineWidth = 0.1;
+                            ctx.strokeRect(x + offsetX, y + offsetY, 1, 1);
+                        }
+                    });
+                });
             }
         }
-        
-        video.play().catch(e => console.log("Autoplay prevent block:", e));
-        requestAnimationFrame(renderWebcamFrame);
 
-        // 4. MOTORE D3.JS LAVA LAMP CON ANIMAZIONE COLORE CSS
-        const isMobile = window.innerWidth <= 768;
-        const stdDev = isMobile ? 8 : 15;
-        const numBlobs = isMobile ? 8 : 14;
-
-        const svgLava = d3.select("#lava-container")
-            .append("svg")
-            .attr("width", "100%")
-            .attr("height", "100%")
-            .style("filter", "url(#gooey)");
-
-        const defsLava = svgLava.append("defs");
-        const filterLava = defsLava.append("filter").attr("id", "gooey");
-        
-        filterLava.append("feGaussianBlur")
-            .attr("in", "SourceGraphic")
-            .attr("stdDeviation", stdDev) 
-            .attr("result", "blur");
-            
-        filterLava.append("feColorMatrix")
-            .attr("in", "blur")
-            .attr("mode", "matrix")
-            .attr("values", "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10");
-
-        const blobs = svgLava.selectAll("circle")
-            .data(d3.range(numBlobs))
-            .enter()
-            .append("circle")
-            .attr("fill", "#ff0000") /* COLORE ROSSO BRILLANTE FISSO */
-            .attr("r", () => isMobile ? (Math.random() * 20 + 15) : (Math.random() * 35 + 20))
-            .attr("cx", () => Math.random() * 100 + "%") 
-            .attr("cy", () => (Math.random() * 20 + 100) + "%"); 
-
-        function lavaPhysics() {
-            let element = d3.select(this);
-            let currentY = parseFloat(element.attr("cy"));
-            let isAtBottom = currentY > 50; 
-            
-            let targetY = isAtBottom ? (Math.random() * 40 + 10) : (Math.random() * 20 + 100);
-
-            let currentX = parseFloat(element.attr("cx"));
-            let targetX = currentX + (Math.random() * 30 - 15); 
-            targetX = Math.max(5, Math.min(95, targetX));
-
-            element.transition()
-                .duration(Math.random() * 8000 + 12000) 
-                .ease(d3.easeSinInOut)
-                .attr("cx", targetX + "%")
-                .attr("cy", targetY + "%")
-                .on("end", lavaPhysics); 
+        function updateBoxes() {
+            drawBox(hCtx, holdPiece);
+            drawBox(nCtx, nextPiece);
         }
 
-        blobs.each(function(d, i) {
-            setTimeout(() => {
-                lavaPhysics.call(this);
-            }, i * 1500); 
-        });
-
-        // 5. GESTIONE OVERLAY EXERPLAZA E CAROSELLO
-        const exerOverlay = document.getElementById("exerplaza-overlay");
-        const exerBtn = document.getElementById('exerplaza-trigger');
-        const closeExerTab = document.getElementById("close-exer-tab");
-
-        const exerData = [
-            { 
-                src: "Exerplaza/ExerPlaza_logo_final.png", 
-                desc: "Standard variant of the logo, designed to ensure stylistic coherence and brand identity.",
-                isLogo: true 
-            },
-            { 
-                src: "Exerplaza/Immagine 2026-07-20 151748.png", 
-                desc: "User dashboard overview showcasing data visualization powered by D3.js.",
-                isLogo: false
-            },
-            { 
-                src: "Exerplaza/Immagine 2026-07-20 151821.png", 
-                desc: "Detailed view of the learning analytics relational visualizer.",
-                isLogo: false
-            }
-        ];
-        
-        let exerIndex = 0;
-        const exerCarouselImg = document.getElementById("exer-carousel-img");
-        const exerCarouselCaption = document.getElementById("exer-carousel-caption");
-        const exerDotsContainer = document.getElementById("exer-dots-container");
-
-        // Crea le barrette in base al numero di immagini
-        function initExerDots() {
-            exerDotsContainer.innerHTML = '';
-            exerData.forEach((_, i) => {
-                const dot = document.createElement('span');
-                dot.classList.add('dot');
-                if (i === exerIndex) dot.classList.add('active');
-                dot.innerText = '-';
-                exerDotsContainer.appendChild(dot);
-            });
-        }
-        
-        function updateExerCarousel() {
-            exerCarouselImg.src = exerData[exerIndex].src;
-            exerCarouselCaption.textContent = exerData[exerIndex].desc;
-            
-            // Aggiorna colore sfondo logo
-            if (exerData[exerIndex].isLogo) {
-                exerCarouselImg.style.objectFit = 'contain';
-                exerCarouselImg.style.backgroundColor = '#f8f9fa';
-                exerCarouselImg.style.padding = '20px';
+        function hold() {
+            if (!canHold) return;
+            if (holdPiece === null) {
+                holdPiece = player.matrix;
+                playerReset();
             } else {
-                exerCarouselImg.style.objectFit = 'cover';
-                exerCarouselImg.style.backgroundColor = 'transparent';
-                exerCarouselImg.style.padding = '0';
+                let temp = player.matrix;
+                player.matrix = holdPiece;
+                holdPiece = temp;
+                player.pos.y = 0;
+                player.pos.x = Math.floor(arena[0].length / 2) - Math.floor(player.matrix[0].length / 2);
             }
+            canHold = false;
+            updateBoxes();
+        }
 
-            // Aggiorna barrette
-            const dots = exerDotsContainer.querySelectorAll('.dot');
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === exerIndex);
+        function merge(arena, player) {
+            player.matrix.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value !== 0) { arena[y + player.pos.y][x + player.pos.x] = value; }
+                });
             });
         }
-        
-        // Inizializza i puntini al caricamento
-        initExerDots();
 
-        // Apertura Overlay
-        exerBtn.addEventListener('click', () => { 
-            exerOverlay.classList.add('active'); 
-            // Blocca scorrimento body
-            document.body.classList.add('modal-open');
-            updateExerCarousel(); 
-        });
-        
-        // Chiusura Overlay
-        closeExerTab.addEventListener("click", () => {
-            exerOverlay.classList.remove('active');
-            // Riattiva scorrimento body
-            document.body.classList.remove('modal-open');
-        });
-
-        // Frecce Carosello (Desktop)
-        document.getElementById("exer-prev").addEventListener("click", (e) => {
-            e.stopPropagation();
-            exerIndex = (exerIndex > 0) ? exerIndex - 1 : exerData.length - 1;
-            updateExerCarousel();
-        });
-        
-        document.getElementById("exer-next").addEventListener("click", (e) => {
-            e.stopPropagation();
-            exerIndex = (exerIndex < exerData.length - 1) ? exerIndex + 1 : 0;
-            updateExerCarousel();
-        });
-
-        // LOGICA TOUCH SWIPE (MOBILE) PER IL CAROSELLO EXERPLAZA
-        const exerCarouselWrapper = document.getElementById("exer-carousel-wrapper");
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        exerCarouselWrapper.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, {passive: true});
-
-        exerCarouselWrapper.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleExerSwipe();
-        }, {passive: true});
-
-        function handleExerSwipe() {
-            // Swipe a sinistra (Next)
-            if (touchEndX < touchStartX - 50) {
-                exerIndex = (exerIndex < exerData.length - 1) ? exerIndex + 1 : 0;
-                updateExerCarousel();
+        function collide(arena, player) {
+            const m = player.matrix; const o = player.pos;
+            for (let y = 0; y < m.length; ++y) {
+                for (let x = 0; x < m[y].length; ++x) {
+                    if (m[y][x] !== 0 && (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) { return true; }
+                }
             }
-            // Swipe a destra (Prev)
-            if (touchEndX > touchStartX + 50) {
-                exerIndex = (exerIndex > 0) ? exerIndex - 1 : exerData.length - 1;
-                updateExerCarousel();
+            return false;
+        }
+
+        function playerDrop() {
+            player.pos.y++;
+            if (collide(arena, player)) {
+                player.pos.y--;
+                merge(arena, player);
+                playerReset();
+                arenaSweep();
             }
+            dropCounter = 0;
+        }
+
+        function playerMove(offset) {
+            player.pos.x += offset;
+            if (collide(arena, player)) player.pos.x -= offset;
+        }
+
+        function playerRotate() {
+            const pos = player.pos.x;
+            let offset = 1;
+            for (let y = 0; y < player.matrix.length; ++y) {
+                for (let x = 0; x < y; ++x) {
+                    [player.matrix[x][y], player.matrix[y][x]] = [player.matrix[y][x], player.matrix[x][y]];
+                }
+            }
+            player.matrix.forEach(row => row.reverse());
+            
+            while (collide(arena, player)) {
+                player.pos.x += offset;
+                offset = -(offset + (offset > 0 ? 1 : -1));
+                if (offset > player.matrix[0].length) {
+                    player.matrix.forEach(row => row.reverse());
+                    for (let y = 0; y < player.matrix.length; ++y) {
+                        for (let x = 0; x < y; ++x) {
+                            [player.matrix[x][y], player.matrix[y][x]] = [player.matrix[y][x], player.matrix[x][y]];
+                        }
+                    }
+                    player.pos.x = pos;
+                    return;
+                }
+            }
+        }
+
+        function playerReset() {
+            if (nextPiece === null) nextPiece = pieces[Math.floor(Math.random() * 7) + 1];
+            player.matrix = nextPiece;
+            nextPiece = pieces[Math.floor(Math.random() * 7) + 1];
+            player.pos.y = 0;
+            player.pos.x = Math.floor(arena[0].length / 2) - Math.floor(player.matrix[0].length / 2);
+            
+            canHold = true; // Sblocca la funzione Hold
+            updateBoxes();
+
+            if (collide(arena, player)) {
+                arena.forEach(row => row.fill(0));
+                tScore = 0; document.getElementById('t-score').innerText = tScore;
+                holdPiece = null;
+                updateBoxes();
+            }
+        }
+
+        function arenaSweep() {
+            let rowCount = 1; let linesCleared = 0;
+            outer: for (let y = arena.length - 1; y > 0; --y) {
+                for (let x = 0; x < arena[y].length; ++x) { if (arena[y][x] === 0) continue outer; }
+                const row = arena.splice(y, 1)[0].fill(0);
+                arena.unshift(row);
+                ++y; tScore += rowCount * 10; rowCount *= 2; linesCleared++;
+            }
+            document.getElementById('t-score').innerText = tScore;
+            if (linesCleared >= 4) { playToasty(); }
+        }
+
+        let lastTime = 0;
+        function update(time = 0) {
+            const deltaTime = time - lastTime;
+            lastTime = time; dropCounter += deltaTime;
+            if (dropCounter > dropInterval) playerDrop();
+            drawTetris();
+            tetrisRAF = requestAnimationFrame(update);
+        }
+
+        // GESTIONE CONTROLLI TOUCH AVANZATI TETRIS
+        let tetrisTouchX = 0, tetrisTouchY = 0;
+        let tetrisTouchStart = 0;
+        const swipeStep = 25; // Sensibilità swipe per movimento
+
+        const tContainer = document.getElementById('tetris-container');
+        
+        tContainer.addEventListener('touchstart', e => {
+            tetrisTouchX = e.touches[0].clientX;
+            tetrisTouchY = e.touches[0].clientY;
+            tetrisTouchStart = Date.now();
+        }, {passive: false});
+
+        tContainer.addEventListener('touchmove', e => {
+            // Ignora se sto toccando l'exit o l'hold box
+            if (e.target.id === 'tetris-exit' || e.target.id === 'hold-canvas') return;
+            e.preventDefault(); 
+            
+            let cx = e.touches[0].clientX;
+            let cy = e.touches[0].clientY;
+            
+            let diffX = cx - tetrisTouchX;
+            let diffY = cy - tetrisTouchY;
+
+            // Swipe laterale continuo
+            if (Math.abs(diffX) > swipeStep) {
+                playerMove(diffX > 0 ? 1 : -1);
+                tetrisTouchX = cx; // Resetta per il prossimo gradino di swipe
+            }
+
+            // Swipe basso continuo per scendere veloce
+            if (diffY > swipeStep * 1.5) {
+                playerDrop();
+                tetrisTouchY = cy;
+            }
+        }, {passive: false});
+
+        tContainer.addEventListener('touchend', e => {
+            if (e.target.id === 'tetris-exit' || e.target.id === 'hold-canvas') return;
+            let cx = e.changedTouches[0].clientX;
+            let cy = e.changedTouches[0].clientY;
+            
+            // Se ho mosso il dito di poco ed è stato un tap rapido -> ROTAZIONE
+            if(Date.now() - tetrisTouchStart < 250 && Math.abs(cx - tetrisTouchX) < 15 && Math.abs(cy - tetrisTouchY) < 15) {
+                playerRotate();
+            }
+        }, {passive: false});
+
+        // Trigger Hold toccando il canvas HOLD
+        document.getElementById('hold-canvas').addEventListener('touchstart', (e) => {
+            e.preventDefault(); e.stopPropagation();
+            hold();
+        }, {passive: false});
+
+        function initTetris() {
+            arena.forEach(row => row.fill(0));
+            tScore = 0; document.getElementById('t-score').innerText = tScore;
+            holdPiece = null;
+            playerReset();
+            updateBoxes();
+            update();
+        }
+
+        // SOUND SYNTHESIS & TOASTY ANIMATION
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playToasty() {
+            const img = document.getElementById('toasty-img');
+            img.classList.add('show');
+            setTimeout(() => { img.classList.remove('show'); }, 1000);
+
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(1100, audioCtx.currentTime + 0.1); 
+            
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.3);
+            
+            osc.start(); osc.stop(audioCtx.currentTime + 0.3);
         }
 
     </script>
