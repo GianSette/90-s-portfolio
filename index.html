@@ -40,6 +40,7 @@
             color: var(--white);
             overflow-x: hidden;
             touch-action: pan-y; 
+            overscroll-behavior: none;
         }
         
         body.modal-open {
@@ -163,6 +164,10 @@
         .custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; }
         .custom-modal.active { display: flex; }
         .modal-content-win98 { width: 90%; max-width: 600px; box-shadow: 4px 4px 10px rgba(0,0,0,0.5); opacity: 0; display: flex; flex-direction: column; max-height: 90vh; }
+        
+        /* ANIMAZIONE WIREFRAME (GHOST ZOOM) */
+        .custom-modal.active::before { content: ''; position: absolute; width: 90%; max-width: 600px; min-height: 400px; border: 2px dashed #fff; z-index: 1001; pointer-events: none; opacity: 0; animation: ghost-zoom 0.3s forwards steps(1); }
+        @keyframes ghost-zoom { 0% { transform: scale(0.2); opacity: 1; } 25% { transform: scale(0.5); opacity: 1; } 50% { transform: scale(0.75); opacity: 1; } 75% { transform: scale(0.9); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
         .custom-modal.active .modal-content-win98 { animation: final-window-pop 0s 0.3s forwards; }
         @keyframes final-window-pop { to { opacity: 1; } }
 
@@ -198,10 +203,13 @@
         .dnd-page { display: none; flex-direction: column; width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; transform-origin: center center; padding: 20px; box-sizing: border-box; }
         .dnd-page.active { display: flex; }
         #dnd-page-0 { padding: 0; }
+        
+        /* 8-BIT FLIP ANIMATIONS */
         @keyframes pixelFlipOut { 0% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(0); opacity: 0.5; } }
         @keyframes pixelFlipIn { 0% { transform: scaleX(0); opacity: 0.5; } 100% { transform: scaleX(1); opacity: 1; } }
         .page-flip-out { animation: pixelFlipOut 0.25s steps(4, end) forwards; }
         .page-flip-in { animation: pixelFlipIn 0.25s steps(4, start) forwards; }
+        
         .dnd-title { color: var(--black); font-size: 2.2rem; text-align: left; }
         .dnd-desc-text { font-family: 'Google Sans', 'Product Sans', system-ui, sans-serif; font-size: 1.1rem; line-height: 1.6; color: #333; margin-top: 15px; }
         .dnd-desc-text p { margin-bottom: 15px; }
@@ -214,7 +222,6 @@
         .dnd-glass-img { max-width: 90%; max-height: 70vh; object-fit: contain; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-radius: 8px; touch-action: pan-y; }
         .dnd-glass-caption { margin-top: 20px; font-family: 'Google Sans', sans-serif; font-size: 1.2rem; color: #222; text-shadow: 0 0 5px rgba(255,255,255,0.8); font-style: italic; text-align: center; max-width: 80%; }
         .dnd-glass-nav { display: none; }
-
 
         /* ==================================================
            EASTER EGG (KONAMI BOARD & TETRIS)
@@ -230,58 +237,31 @@
             border: 2px solid #fff; border-right-color: #555; border-bottom-color: #555;
             background: #000; width: 300px; font-family: 'VT323', monospace;
         }
-        .konami-title {
-            background: #fff; color: #000; padding: 2px 5px; font-weight: bold; display: flex; justify-content: space-between;
-        }
-        .konami-body {
-            padding: 30px; display: flex; flex-direction: column; align-items: center; gap: 30px;
-        }
-        
+        .konami-title { background: #fff; color: #000; padding: 2px 5px; font-weight: bold; display: flex; justify-content: space-between; }
+        .konami-body { padding: 30px; display: flex; flex-direction: column; align-items: center; gap: 30px; }
         .konami-btn-row { display: flex; gap: 30px; }
-        
-        .btn-wiggly {
-            background: #fff; color: #000; font-family: 'Gloria Hallelujah', cursive;
-            border: none; cursor: pointer; filter: url(#wiggly-filter);
-            font-weight: bold; text-align: center;
-        }
+        .btn-wiggly { background: #fff; color: #000; font-family: 'Gloria Hallelujah', cursive; border: none; cursor: pointer; filter: url(#wiggly-filter); font-weight: bold; text-align: center; }
         .btn-wiggly:active { transform: scale(0.9); }
         .btn-round { width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; display: flex; align-items: center; justify-content: center;}
         .btn-start { padding: 10px 30px; font-size: 1.5rem; border-radius: 15px; }
 
-        /* LOADING DIAL-UP 90S */
         #tetris-loader { display: none; position: fixed; top: 0; left: 0; width: 100%; background: #000; z-index: 9998; }
         @keyframes dialup-load { 0% { height: 0; } 100% { height: 100%; } }
 
-        /* TETRIS GAME LAYOUT */
         #tetris-container {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 9999; flex-direction: column; align-items: center; justify-content: center;
             font-family: 'Gloria Hallelujah', cursive; color: #fff; touch-action: none;
         }
-        .tetris-exit {
-            position: absolute; top: 10px; right: 15px; color: #ff0000; font-size: 2rem;
-            text-shadow: 0 0 10px #ff0000; cursor: pointer; z-index: 10000; font-family: 'VT323', monospace;
-        }
-        
-        .tetris-layout {
-            display: flex; gap: 20px; align-items: flex-start; margin-top: 20px;
-        }
-        .tetris-side-col {
-            display: flex; flex-direction: column; gap: 20px; align-items: center;
-        }
+        .tetris-exit { position: absolute; top: 10px; right: 15px; color: #ff0000; font-size: 2rem; text-shadow: 0 0 10px #ff0000; cursor: pointer; z-index: 10000; font-family: 'VT323', monospace; }
+        .tetris-layout { display: flex; gap: 20px; align-items: flex-start; margin-top: 20px; }
+        .tetris-side-col { display: flex; flex-direction: column; gap: 20px; align-items: center; }
         .tetris-box { text-align: center; }
 
-        /* Applica il wiggly direttamente ai Canvas! */
-        #tetris-canvas, #next-canvas, #hold-canvas {
-            background: #111; border: 4px solid #fff; filter: url(#wiggly-filter);
-        }
-        
+        #tetris-canvas, #next-canvas, #hold-canvas { background: #111; border: 4px solid #fff; filter: url(#wiggly-filter); }
         .tetris-ui-text { font-size: 1.5rem; text-align: center; filter: url(#wiggly-filter); }
 
-        /* TOASTY EASTER EGG */
-        #toasty-img {
-            position: fixed; bottom: -200px; right: 0; width: 120px; z-index: 10005; transition: bottom 0.2s ease;
-        }
+        #toasty-img { position: fixed; bottom: -200px; right: 0; width: 120px; z-index: 10005; transition: bottom 0.2s ease; }
         #toasty-img.show { bottom: 0; }
 
     </style>
@@ -394,10 +374,11 @@
                 <details><summary>+ REFERENCES</summary><div class="accordion-content"><p style="font-size: 1.4rem; margin-bottom: 15px;"><a href="https://www.linkedin.com/in/damianovaragnolo/" target="_blank">Damiano Varagnolo</a> - Mentor during internship at UNIPD</p><div style="font-style: italic; border-left: 4px solid var(--brc-pink); padding-left: 15px;"><p>"I had the pleasure of supervising Gianluca during his internship, where he contributed to the development of Exerplaza, a learning analytics oriented educational platform. His work has been aimed at making relationships between concepts, topics, and learning outcomes more intuitive and accessible by means of a dedicated relations visualizer.</p><p>Throughout the internship, he consistently demonstrated creativity, initiative, and a remarkable ability to work independently. Rather than simply implementing assigned tasks, he actively proposed new ideas, designed alternative user experience solutions, and validated them through thoughtful testing and iteration. His contributions significantly improved the way complex educational structures could be visualized and understood.</p><p>Beyond his technical skills, what impressed me most was his positive attitude and collaborative mindset. He naturally approached the project with a community-oriented perspective, always seeking solutions that would benefit future users and the broader educational ecosystem. He was proactive, receptive to feedback, and a pleasure to work with throughout the project.</p><p>I am confident that he will bring the same creativity, independence, and team spirit to any future endeavor, and I would gladly recommend him to anyone looking for a thoughtful and motivated young professional."</p></div></div></details>
                 <details><summary>+ SOCIAL LINKS</summary><div class="accordion-content"><p style="font-size: 1.5rem; display: flex; flex-direction: column; gap: 10px;"><a href="https://www.linkedin.com/in/gianluca-frassoni-585065423" target="_blank" style="align-self: flex-start;">/// LINKEDIN</a><a href="https://github.com/GianSette" target="_blank" style="align-self: flex-start;">/// GITHUB</a></p></div></details>
             </section>
-        </div>
+
+        </div> <!-- Fine contenitore blog -->
 
         <!-- ======================================================================
-             MODALS E OVERLAYS
+             MODALS E OVERLAYS HTML (SOLO 1 COPIA)
              ====================================================================== -->
         
         <!-- EXERPLAZA -->
@@ -428,15 +409,18 @@
                 <div class="win98-titlebar"><span>C:\Windows\Personal_Projects</span><button class="win98-close-btn" id="close-modal-btn">X</button></div>
                 <div style="padding: 20px; font-family: 'VT323', monospace; font-size: 1.5rem; background: #fff; flex-grow: 1; border: 1px solid #808080; border-bottom: 1px solid #fff; border-right: 1px solid #fff; margin: 4px; overflow-y: auto; max-height: 75vh;">
                     <p>> Directory loading... OK.</p><p>> 2 directories found in volume C:</p>
+                    
                     <div class="retro-folder" onclick="toggleFolder('music-content', this)">> [DIR] Music_Related</div>
                     <div id="music-content" class="retro-folder-content" style="display: none;">
-                        <div class="artwork-disclaimer">"Everything contained within this folder is the result of my practice using Photoshop..."</div>
+                        <div class="artwork-disclaimer">"Everything contained within this folder is the result of my practice using Photoshop. Each artwork was created by me and is a Fan-Made project; the artists are in no way affiliated with me."</div>
                         <p style="color: var(--win98-blue); margin-bottom: 5px; font-size: 1.5rem;">> Found 10 renderable 3D graphic objects.</p>
                         <div class="artwork-grid">
                             <div class="artwork-item ps1-artwork" data-src="PP/SnapInsta.to_663136914_18545988163069902_188920072651001235_n.jpg" style="animation-delay: 0s;"><div class="artwork-face" style="background-image: url('PP/SnapInsta.to_663136914_18545988163069902_188920072651001235_n.jpg');"></div></div>
                             <div class="artwork-item ps1-artwork" data-src="PP/SnapInsta.to_656363433_18340465294300621_4972202563476261472_n.jpg" style="animation-delay: -1s;"><div class="artwork-face" style="background-image: url('PP/SnapInsta.to_656363433_18340465294300621_4972202563476261472_n.jpg');"></div></div>
+                            <div class="artwork-item ps1-artwork" data-src="PP/SnapInsta.to_655742898_18093192395038201_5855629830539122886_n.jpg" style="animation-delay: -2.5s;"><div class="artwork-face" style="background-image: url('PP/SnapInsta.to_655742898_18093192395038201_5855629830539122886_n.jpg');"></div></div>
                         </div>
                     </div>
+                    
                     <div class="retro-folder" onclick="toggleFolder('misc-content', this)">> [DIR] Miscellaneous</div>
                     <div id="misc-content" class="retro-folder-content" style="display: none;">
                         <div class="misc-container">
@@ -452,15 +436,17 @@
             </div>
         </div>
 
+        <!-- VISORE ARTWORK (APRE LE IMMAGINI DI PERSONAL PROJECTS) -->
         <div id="artwork-viewer-modal" class="custom-modal">
             <div class="win98-window modal-content-win98" style="max-width: 600px; width: 95%;">
                 <div class="win98-titlebar"><span id="artwork-viewer-title">Artwork_Viewer.exe</span><button class="win98-close-btn" id="close-artwork-btn">X</button></div>
                 <div style="padding: 4px; background: #c0c0c0; flex-grow: 1; border: 1px solid #808080; border-bottom: 1px solid #fff; border-right: 1px solid #fff; margin: 4px; display: flex; justify-content: center; align-items: center; min-height: 350px;">
-                    <img id="artwork-viewer-img" src="" alt="Artwork Render" style="max-width: 100%; max-height: 60vh; object-fit: contain;">
+                    <img id="artwork-viewer-img" src="" alt="Artwork Render" style="max-width: 100%; max-height: 60vh; object-fit: contain; box-shadow: 2px 2px 5px rgba(0,0,0,0.5);">
                 </div>
             </div>
         </div>
 
+        <!-- BADGE -->
         <div id="badge-modal" class="custom-modal">
             <div class="win98-window modal-content-win98">
                 <div class="win98-titlebar"><span>badge.png</span><button class="win98-close-btn" id="close-badge-btn">X</button></div>
@@ -516,7 +502,6 @@
          EASTER EGG (KONAMI COMMAND BOARD & TETRIS)
          ====================================================================== -->
     
-    <!-- Modale "Command Board" -->
     <div id="konami-modal">
         <div class="konami-win">
             <div class="konami-title">
@@ -533,35 +518,28 @@
         </div>
     </div>
 
-    <!-- Animazione di caricamento (Dial-up nero) -->
     <div id="tetris-loader"></div>
 
-    <!-- Contenitore Tetris -->
     <div id="tetris-container">
         <div class="tetris-exit" id="tetris-exit">EXIT</div>
         
-        <!-- Nuovo Layout Tetris con Griglie laterali -->
         <div class="tetris-layout">
             <div class="tetris-main-col">
                 <canvas id="tetris-canvas" width="200" height="400"></canvas>
             </div>
             <div class="tetris-side-col">
                 <div class="tetris-score tetris-ui-text">SCORE<br><span id="t-score">0</span></div>
-                
                 <div class="tetris-box">
                     <div class="tetris-ui-text">NEXT</div>
-                    <canvas id="next-canvas" width="100" height="100"></canvas>
+                    <canvas id="next-canvas" width="80" height="80"></canvas>
                 </div>
-                
                 <div class="tetris-box">
                     <div class="tetris-ui-text">HOLD</div>
-                    <!-- Il tocco su questo canvas farà mettere in pausa il pezzo -->
-                    <canvas id="hold-canvas" width="100" height="100"></canvas>
+                    <canvas id="hold-canvas" width="80" height="80"></canvas>
                 </div>
             </div>
         </div>
         
-        <!-- L'omino Toasty -->
         <img id="toasty-img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><rect width='10' height='10' fill='orange'/><rect x='2' y='3' width='2' height='2' fill='black'/><rect x='6' y='3' width='2' height='2' fill='black'/><rect x='3' y='7' width='4' height='1' fill='black'/></svg>">
     </div>
 
@@ -586,7 +564,7 @@
         const nerdQuotes = ["Hey, Listen!!", "Salta il crepaccio, SALTA IL CREPACCIO!", "Quanto a te, quanto a quel che non puoi fare che tu...", "The cake is a lie!", "Praise the Sun! \\o/"];
         marqueeElement.textContent = "/// Welcome to the Gianluca Frassoni's portfolio /// " + nerdQuotes[Math.floor(Math.random() * nerdQuotes.length)] + " ///";
 
-        // WEBCAM & LAVA LAMP (Ripulite per spazio, restano uguali a prima)
+        // WEBCAM & LAVA LAMP
         const video = document.getElementById('source-video'); const canvas = document.getElementById('webcam-canvas'); const ctx = canvas.getContext('2d');
         let lastDrawTime = 0;
         function renderWebcamFrame(timestamp) { requestAnimationFrame(renderWebcamFrame); const elapsed = timestamp - lastDrawTime; if (elapsed >= 1000/6) { lastDrawTime = timestamp - (elapsed % (1000/6)); if (video.videoWidth > 0) { canvas.width = video.videoWidth; canvas.height = video.videoHeight; } if (video.readyState >= 2) { ctx.drawImage(video, 0, 0, canvas.width, canvas.height); } } }
@@ -602,79 +580,191 @@
 
 
         // =================================================================================
-        // D&D E GALLERIE
+        // GESTIONE MODALS WIN98 GLOBALI E CLICK FUORI DALLA FINESTRA
         // =================================================================================
-        const exerOverlay = document.getElementById("exerplaza-overlay");
-        document.getElementById('exerplaza-trigger').addEventListener('click', () => { exerOverlay.classList.add('active'); document.body.classList.add('modal-open'); });
-        document.getElementById("close-exer-tab").addEventListener("click", () => { exerOverlay.classList.remove('active'); document.body.classList.remove('modal-open'); });
+        const folderBtn = document.getElementById('folder-trigger');
+        const ppModal = document.getElementById('personal-projects-modal');
+        folderBtn.addEventListener('click', () => { ppModal.classList.add('active'); document.body.classList.add('modal-open'); });
+        document.getElementById('close-modal-btn').addEventListener('click', () => { ppModal.classList.remove('active'); document.body.classList.remove('modal-open'); });
 
+        const badgeBtn = document.getElementById('badge-trigger');
+        const badgeModal = document.getElementById('badge-modal');
+        badgeBtn.addEventListener('click', () => { badgeModal.classList.add('active'); document.body.classList.add('modal-open'); });
+        document.getElementById('close-badge-btn').addEventListener('click', () => { badgeModal.classList.remove('active'); document.body.classList.remove('modal-open'); });
+
+        const dndBtn = document.getElementById('dnd-trigger');
+        const dndModal = document.getElementById('dnd-modal');
+        dndBtn.addEventListener('click', () => { dndModal.classList.add('active'); document.body.classList.add('modal-open'); });
+        document.getElementById('close-dnd-btn').addEventListener('click', () => { dndModal.classList.remove('active'); document.body.classList.remove('modal-open'); });
+
+        const artworkViewerModal = document.getElementById('artwork-viewer-modal');
+        const artworkViewerImg = document.getElementById('artwork-viewer-img');
+        const artworkViewerTitle = document.getElementById('artwork-viewer-title');
+        document.getElementById('close-artwork-btn').addEventListener('click', () => { artworkViewerModal.classList.remove('active'); });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === ppModal) { ppModal.classList.remove('active'); document.body.classList.remove('modal-open'); }
+            if (e.target === badgeModal) { badgeModal.classList.remove('active'); document.body.classList.remove('modal-open'); }
+            if (e.target === dndModal) { dndModal.classList.remove('active'); document.body.classList.remove('modal-open'); }
+            if (e.target === artworkViewerModal) { artworkViewerModal.classList.remove('active'); }
+        });
+
+
+        // =================================================================================
+        // GESTIONE ARTWORK STACK E APERTURA IMMAGINI PERSONAL PROJECTS
+        // =================================================================================
+        const artworkItems = document.querySelectorAll('.artwork-item');
+        artworkItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                const parentStack = item.closest('.artwork-stack');
+                if (parentStack && !parentStack.classList.contains('expanded')) {
+                    parentStack.classList.add('expanded');
+                    return; 
+                }
+                e.stopPropagation(); 
+                const src = item.getAttribute('data-src');
+                const filename = src.split('/').pop();
+                artworkViewerImg.src = src;
+                artworkViewerTitle.textContent = filename;
+                artworkViewerModal.classList.add('active');
+            });
+        });
+
+
+        // =================================================================================
+        // GESTIONE SWIPE INDICATORI MOBILE (WIDGETS PERSONALI)
+        // =================================================================================
+        const swipeWrapper = document.getElementById('swipeWrapper');
+        const dots = document.querySelectorAll('.swipe-dots .dot');
+        if (swipeWrapper && dots.length > 0) {
+            swipeWrapper.addEventListener('scroll', () => {
+                const scrollLeft = swipeWrapper.scrollLeft;
+                const width = swipeWrapper.clientWidth;
+                const activeIndex = Math.round(scrollLeft / width);
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === activeIndex);
+                });
+            });
+        }
+
+
+        // =================================================================================
+        // D&D LOGIC (8-BIT PAGE TURN E GALLERIA)
+        // =================================================================================
+        const dndPagesContainer = document.getElementById('dnd-pages-container');
+        const dndPrevBtn = document.getElementById('dnd-prev-btn');
+        const dndNextBtn = document.getElementById('dnd-next-btn');
+        const dndPageIndicator = document.getElementById('dnd-page-indicator');
+        let dndCurrentPage = 0;
+        const dndTotalPages = 3;
+
+        function changeDndPage(newIndex) {
+            dndPrevBtn.disabled = true;
+            dndNextBtn.disabled = true;
+            dndPagesContainer.classList.add('page-flip-out');
+
+            setTimeout(() => {
+                document.getElementById(`dnd-page-${dndCurrentPage}`).classList.remove('active');
+                dndCurrentPage = newIndex;
+                document.getElementById(`dnd-page-${dndCurrentPage}`).classList.add('active');
+                dndPageIndicator.textContent = `PAGE ${dndCurrentPage + 1} / ${dndTotalPages}`;
+
+                dndPagesContainer.classList.remove('page-flip-out');
+                dndPagesContainer.classList.add('page-flip-in');
+
+                setTimeout(() => {
+                    dndPagesContainer.classList.remove('page-flip-in');
+                    dndPrevBtn.disabled = (dndCurrentPage === 0);
+                    dndNextBtn.disabled = (dndCurrentPage === dndTotalPages - 1);
+                }, 250);
+            }, 250);
+        }
+
+        dndPrevBtn.addEventListener('click', () => { if(dndCurrentPage > 0) changeDndPage(dndCurrentPage - 1); });
+        dndNextBtn.addEventListener('click', () => { if(dndCurrentPage < dndTotalPages - 1) changeDndPage(dndCurrentPage + 1); });
+
+        // Dati Galleria D&D
         const dndGalleryData = [
             { src: "ded/screen1.png", desc: "ASCII Dungeon Map Exploration" },
             { src: "ded/screen2.png", desc: "Pokemon-Style Combat Engagement" },
             { src: "ded/screen3.png", desc: "Character Stats and Inventory Menu" },
             { src: "ded/screen4.png", desc: "AI Generated Enemy Sprite" }
         ];
+
         const dndGalleryGrid = document.getElementById('dnd-gallery-grid');
         dndGalleryData.forEach((item, index) => {
             const img = document.createElement('img'); img.src = item.src; img.classList.add('dnd-thumb');
             img.onerror = function() { this.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><rect width='150' height='150' fill='#ccc'/></svg>"; };
             img.addEventListener('click', () => { 
+                dndGlassIndex = index;
                 document.getElementById('dnd-glass-img').src = item.src; 
                 document.getElementById('dnd-glass-caption').textContent = item.desc;
                 document.getElementById('dnd-glass-overlay').classList.add('active'); 
             });
             dndGalleryGrid.appendChild(img);
         });
-        
-        document.getElementById('dnd-trigger').addEventListener('click', () => { document.getElementById('dnd-modal').classList.add('active'); document.body.classList.add('modal-open'); });
-        document.getElementById('close-dnd-btn').addEventListener('click', () => { document.getElementById('dnd-modal').classList.remove('active'); document.body.classList.remove('modal-open'); });
-        document.getElementById('dnd-glass-close').addEventListener('click', () => { document.getElementById('dnd-glass-overlay').classList.remove('active'); });
 
-        let dndPg=0;
-        document.getElementById('dnd-next-btn').addEventListener('click', () => { if(dndPg<2){ document.getElementById(`dnd-page-${dndPg}`).classList.remove('active'); dndPg++; document.getElementById(`dnd-page-${dndPg}`).classList.add('active'); document.getElementById('dnd-page-indicator').textContent=`PAGE ${dndPg+1} / 3`; document.getElementById('dnd-prev-btn').disabled=false; if(dndPg==2) document.getElementById('dnd-next-btn').disabled=true;} });
-        document.getElementById('dnd-prev-btn').addEventListener('click', () => { if(dndPg>0){ document.getElementById(`dnd-page-${dndPg}`).classList.remove('active'); dndPg--; document.getElementById(`dnd-page-${dndPg}`).classList.add('active'); document.getElementById('dnd-page-indicator').textContent=`PAGE ${dndPg+1} / 3`; document.getElementById('dnd-next-btn').disabled=false; if(dndPg==0) document.getElementById('dnd-prev-btn').disabled=true;} });
+        const dndGlassOverlay = document.getElementById('dnd-glass-overlay');
+        let dndGlassIndex = 0;
+        document.getElementById('dnd-glass-close').addEventListener('click', () => { dndGlassOverlay.classList.remove('active'); });
+
+        // Swipe Touch per D&D Gallery
+        let dndTouchStartX = 0; let dndTouchEndX = 0;
+        const dndGlassImg = document.getElementById('dnd-glass-img');
+        
+        function updateDndGlass() {
+            dndGlassImg.src = dndGalleryData[dndGlassIndex].src;
+            document.getElementById('dnd-glass-caption').textContent = dndGalleryData[dndGlassIndex].desc;
+        }
+
+        dndGlassImg.addEventListener('touchstart', e => { dndTouchStartX = e.changedTouches[0].screenX; }, {passive: true});
+        dndGlassImg.addEventListener('touchend', e => {
+            dndTouchEndX = e.changedTouches[0].screenX;
+            if (dndTouchEndX < dndTouchStartX - 50) { dndGlassIndex = (dndGlassIndex < dndGalleryData.length - 1) ? dndGlassIndex + 1 : 0; updateDndGlass(); }
+            if (dndTouchEndX > dndTouchStartX + 50) { dndGlassIndex = (dndGlassIndex > 0) ? dndGlassIndex - 1 : dndGalleryData.length - 1; updateDndGlass(); }
+        }, {passive: true});
 
 
         // =================================================================================
-        // EASTER EGG: KONAMI CODE SWIPE
+        // GESTIONE OVERLAY EXERPLAZA
+        // =================================================================================
+        const exerOverlay = document.getElementById("exerplaza-overlay");
+        document.getElementById('exerplaza-trigger').addEventListener('click', () => { exerOverlay.classList.add('active'); document.body.classList.add('modal-open'); });
+        document.getElementById("close-exer-tab").addEventListener("click", () => { exerOverlay.classList.remove('active'); document.body.classList.remove('modal-open'); });
+
+
+        // =================================================================================
+        // EASTER EGG: KONAMI CODE SWIPE (FORZATO CON CAPTURE: TRUE)
         // =================================================================================
         let swipeHistory = [];
         const konamiTarget = ['U','U','D','D','L','R','L','R'];
         let tStartX = 0, tStartY = 0;
 
         document.addEventListener('touchstart', e => {
-            tStartX = e.changedTouches[0].screenX;
-            tStartY = e.changedTouches[0].screenY;
-        }, {passive: true});
+            tStartX = e.touches[0].screenX; tStartY = e.touches[0].screenY;
+        }, {passive: true, capture: true});
 
         document.addEventListener('touchend', e => {
-            let tEndX = e.changedTouches[0].screenX;
-            let tEndY = e.changedTouches[0].screenY;
-            handleGlobalSwipe(tStartX, tStartY, tEndX, tEndY);
-        }, {passive: true});
-
-        function handleGlobalSwipe(startX, startY, endX, endY) {
-            let diffX = endX - startX;
-            let diffY = endY - startY;
+            let tEndX = e.changedTouches[0].screenX; let tEndY = e.changedTouches[0].screenY;
+            let diffX = tEndX - tStartX; let diffY = tEndY - tStartY;
             let dir = '';
 
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
                 dir = diffX > 0 ? 'R' : 'L';
-            } else if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 40) {
+            } else if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 30) {
                 dir = diffY > 0 ? 'D' : 'U';
             }
 
             if(dir) {
                 swipeHistory.push(dir);
                 if(swipeHistory.length > 8) swipeHistory.shift();
-                
                 if(swipeHistory.join('') === konamiTarget.join('')) {
                     document.getElementById('konami-modal').classList.add('active');
                     document.body.classList.add('modal-open');
                     swipeHistory = []; 
                 }
             }
-        }
+        }, {passive: true, capture: true});
 
         // =================================================================================
         // MODALE KONAMI (B A START) E CARICAMENTO ANNI '90
@@ -683,350 +773,163 @@
         const targetSequence = ['B', 'A', 'START'];
 
         document.getElementById('konami-close').addEventListener('click', () => {
-            document.getElementById('konami-modal').classList.remove('active');
-            document.body.classList.remove('modal-open');
-            btnSequence = [];
+            document.getElementById('konami-modal').classList.remove('active'); document.body.classList.remove('modal-open'); btnSequence = [];
         });
 
         ['B', 'A', 'START'].forEach(btn => {
             document.getElementById(`btn-${btn}`).addEventListener('click', () => {
                 btnSequence.push(btn);
                 if(btnSequence.length > 3) btnSequence.shift();
-                
                 if(btnSequence.join('') === targetSequence.join('')) {
                     document.getElementById('konami-modal').classList.remove('active');
-                    startTetrisLoad();
-                    btnSequence = [];
+                    startTetrisLoad(); btnSequence = [];
                 }
             });
         });
 
         function startTetrisLoad() {
             const loader = document.getElementById('tetris-loader');
-            loader.style.display = 'block';
-            loader.style.animation = 'dialup-load 2s steps(8) forwards';
-            
+            loader.style.display = 'block'; loader.style.animation = 'dialup-load 2s steps(8) forwards';
             setTimeout(() => {
-                loader.style.display = 'none';
-                document.getElementById('tetris-container').style.display = 'flex';
-                initTetris();
+                loader.style.display = 'none'; document.getElementById('tetris-container').style.display = 'flex'; initTetris();
             }, 2100);
         }
 
         document.getElementById('tetris-exit').addEventListener('click', () => {
-            document.getElementById('tetris-container').style.display = 'none';
-            document.body.classList.remove('modal-open');
-            cancelAnimationFrame(tetrisRAF);
+            document.getElementById('tetris-container').style.display = 'none'; document.body.classList.remove('modal-open'); cancelAnimationFrame(tetrisRAF);
         });
 
 
         // =================================================================================
-        // WIGGLY TETRIS ENGINE (CON HOLD E 5X5 GRID)
+        // WIGGLY TETRIS ENGINE (CON HOLD E GRIGLIE 4X4)
         // =================================================================================
-        const tCanvas = document.getElementById('tetris-canvas');
-        const tCtx = tCanvas.getContext('2d');
-        tCtx.scale(20, 20); // Griglia 10x20
+        const tCanvas = document.getElementById('tetris-canvas'); const tCtx = tCanvas.getContext('2d'); tCtx.scale(20, 20); 
+        const nCanvas = document.getElementById('next-canvas'); const nCtx = nCanvas.getContext('2d'); nCtx.scale(20, 20); 
+        const hCanvas = document.getElementById('hold-canvas'); const hCtx = hCanvas.getContext('2d'); hCtx.scale(20, 20); 
 
-        const nCanvas = document.getElementById('next-canvas');
-        const nCtx = nCanvas.getContext('2d');
-        nCtx.scale(20, 20); // Griglia 5x5
-
-        const hCanvas = document.getElementById('hold-canvas');
-        const hCtx = hCanvas.getContext('2d');
-        hCtx.scale(20, 20); // Griglia 5x5
-
-        let tetrisRAF;
-        let tScore = 0;
-        let dropCounter = 0;
-        let dropInterval = 1000;
-
-        let nextPiece = null;
-        let holdPiece = null;
-        let canHold = true; // Permette un solo hold per turno
+        let tetrisRAF; let tScore = 0; let dropCounter = 0; let dropInterval = 1000;
+        let nextPiece = null; let holdPiece = null; let canHold = true; 
 
         const colors = [null, '#ff0055', '#00f0ff', '#f2e300', '#ff5900', '#00ff00', '#aa00ff', '#ffffff'];
+        const pieces = [ [], [[0,0,0],[1,1,1],[0,1,0]], [[2,2],[2,2]], [[0,3,0],[0,3,0],[0,3,0],[0,3,0]], [[0,4,4],[4,4,0],[0,0,0]], [[5,5,0],[0,5,5],[0,0,0]], [[0,6,0],[0,6,0],[6,6,0]], [[0,7,0],[0,7,0],[0,7,7]] ];
 
-        const pieces = [
-            [],
-            [[0,0,0],[1,1,1],[0,1,0]], // T
-            [[2,2],[2,2]],             // O
-            [[0,3,0],[0,3,0],[0,3,0],[0,3,0]], // I
-            [[0,4,4],[4,4,0],[0,0,0]], // S
-            [[5,5,0],[0,5,5],[0,0,0]], // Z
-            [[0,6,0],[0,6,0],[6,6,0]], // J
-            [[0,7,0],[0,7,0],[0,7,7]]  // L
-        ];
+        function createMatrix(w, h) { const matrix = []; while (h--) matrix.push(new Array(w).fill(0)); return matrix; }
 
-        function createMatrix(w, h) {
-            const matrix = [];
-            while (h--) matrix.push(new Array(w).fill(0));
-            return matrix;
-        }
+        let arena = createMatrix(10, 20); let player = { pos: {x: 0, y: 0}, matrix: null };
 
-        let arena = createMatrix(10, 20);
-        let player = { pos: {x: 0, y: 0}, matrix: null };
-
-        // Disegna la griglia di background per capire bene le dimensioni
         function drawGrid(ctx, cols, rows) {
-            ctx.strokeStyle = 'rgba(255,255,255,0.15)';
-            ctx.lineWidth = 0.05;
-            for(let i=0; i<=cols; i++) {
-                ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, rows); ctx.stroke();
-            }
-            for(let j=0; j<=rows; j++) {
-                ctx.beginPath(); ctx.moveTo(0, j); ctx.lineTo(cols, j); ctx.stroke();
-            }
+            ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 0.05;
+            for(let i=0; i<=cols; i++) { ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, rows); ctx.stroke(); }
+            for(let j=0; j<=rows; j++) { ctx.beginPath(); ctx.moveTo(0, j); ctx.lineTo(cols, j); ctx.stroke(); }
         }
 
         function drawMatrix(matrix, offset) {
             matrix.forEach((row, y) => {
                 row.forEach((value, x) => {
                     if (value !== 0) {
-                        tCtx.fillStyle = colors[value];
-                        tCtx.fillRect(x + offset.x, y + offset.y, 1, 1);
-                        tCtx.strokeStyle = '#000';
-                        tCtx.lineWidth = 0.1;
-                        tCtx.strokeRect(x + offset.x, y + offset.y, 1, 1);
+                        tCtx.fillStyle = colors[value]; tCtx.fillRect(x + offset.x, y + offset.y, 1, 1);
+                        tCtx.strokeStyle = '#000'; tCtx.lineWidth = 0.1; tCtx.strokeRect(x + offset.x, y + offset.y, 1, 1);
                     }
                 });
             });
         }
 
         function drawTetris() {
-            tCtx.fillStyle = '#111';
-            tCtx.fillRect(0, 0, tCanvas.width, tCanvas.height);
-            drawGrid(tCtx, 10, 20);
-            drawMatrix(arena, {x: 0, y: 0});
-            drawMatrix(player.matrix, player.pos);
+            tCtx.fillStyle = '#111'; tCtx.fillRect(0, 0, tCanvas.width, tCanvas.height);
+            drawGrid(tCtx, 10, 20); drawMatrix(arena, {x: 0, y: 0}); drawMatrix(player.matrix, player.pos);
         }
 
-        // Funzione per disegnare i riquadri NEXT e HOLD in una griglia 5x5 fissa
         function drawBox(ctx, matrix) {
-            ctx.fillStyle = '#111';
-            ctx.fillRect(0, 0, 5, 5);
-            drawGrid(ctx, 5, 5); // La griglia a 5 richiesta
-            
+            ctx.fillStyle = '#111'; ctx.fillRect(0, 0, 4, 4); drawGrid(ctx, 4, 4); 
             if (matrix) {
-                // Centra la matrice del tetramino dentro la griglia 5x5
-                const offsetX = Math.floor((5 - matrix[0].length) / 2);
-                const offsetY = Math.floor((5 - matrix.length) / 2);
+                const offsetX = Math.floor((4 - matrix[0].length) / 2); const offsetY = Math.floor((4 - matrix.length) / 2);
                 matrix.forEach((row, y) => {
                     row.forEach((value, x) => {
                         if (value !== 0) {
-                            ctx.fillStyle = colors[value];
-                            if(!canHold && ctx === hCtx) ctx.fillStyle = '#555'; // Se non puoi holdare, diventa grigio
+                            ctx.fillStyle = colors[value]; if(!canHold && ctx === hCtx) ctx.fillStyle = '#555'; 
                             ctx.fillRect(x + offsetX, y + offsetY, 1, 1);
-                            ctx.strokeStyle = '#000';
-                            ctx.lineWidth = 0.1;
-                            ctx.strokeRect(x + offsetX, y + offsetY, 1, 1);
+                            ctx.strokeStyle = '#000'; ctx.lineWidth = 0.1; ctx.strokeRect(x + offsetX, y + offsetY, 1, 1);
                         }
                     });
                 });
             }
         }
 
-        function updateBoxes() {
-            drawBox(hCtx, holdPiece);
-            drawBox(nCtx, nextPiece);
-        }
+        function updateBoxes() { drawBox(hCtx, holdPiece); drawBox(nCtx, nextPiece); }
 
         function hold() {
             if (!canHold) return;
-            if (holdPiece === null) {
-                holdPiece = player.matrix;
-                playerReset();
-            } else {
-                let temp = player.matrix;
-                player.matrix = holdPiece;
-                holdPiece = temp;
-                player.pos.y = 0;
-                player.pos.x = Math.floor(arena[0].length / 2) - Math.floor(player.matrix[0].length / 2);
-            }
-            canHold = false;
-            updateBoxes();
+            if (holdPiece === null) { holdPiece = player.matrix; playerReset(); } 
+            else { let temp = player.matrix; player.matrix = holdPiece; holdPiece = temp; player.pos.y = 0; player.pos.x = Math.floor(arena[0].length / 2) - Math.floor(player.matrix[0].length / 2); }
+            canHold = false; updateBoxes();
         }
 
-        function merge(arena, player) {
-            player.matrix.forEach((row, y) => {
-                row.forEach((value, x) => {
-                    if (value !== 0) { arena[y + player.pos.y][x + player.pos.x] = value; }
-                });
-            });
-        }
+        function merge(arena, player) { player.matrix.forEach((row, y) => { row.forEach((value, x) => { if (value !== 0) { arena[y + player.pos.y][x + player.pos.x] = value; } }); }); }
 
-        function collide(arena, player) {
-            const m = player.matrix; const o = player.pos;
-            for (let y = 0; y < m.length; ++y) {
-                for (let x = 0; x < m[y].length; ++x) {
-                    if (m[y][x] !== 0 && (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) { return true; }
-                }
-            }
-            return false;
-        }
+        function collide(arena, player) { const m = player.matrix; const o = player.pos; for (let y = 0; y < m.length; ++y) { for (let x = 0; x < m[y].length; ++x) { if (m[y][x] !== 0 && (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) { return true; } } } return false; }
 
-        function playerDrop() {
-            player.pos.y++;
-            if (collide(arena, player)) {
-                player.pos.y--;
-                merge(arena, player);
-                playerReset();
-                arenaSweep();
-            }
-            dropCounter = 0;
-        }
+        function playerDrop() { player.pos.y++; if (collide(arena, player)) { player.pos.y--; merge(arena, player); playerReset(); arenaSweep(); } dropCounter = 0; }
 
-        function playerMove(offset) {
-            player.pos.x += offset;
-            if (collide(arena, player)) player.pos.x -= offset;
-        }
+        function playerMove(offset) { player.pos.x += offset; if (collide(arena, player)) player.pos.x -= offset; }
 
         function playerRotate() {
-            const pos = player.pos.x;
-            let offset = 1;
-            for (let y = 0; y < player.matrix.length; ++y) {
-                for (let x = 0; x < y; ++x) {
-                    [player.matrix[x][y], player.matrix[y][x]] = [player.matrix[y][x], player.matrix[x][y]];
-                }
-            }
+            const pos = player.pos.x; let offset = 1;
+            for (let y = 0; y < player.matrix.length; ++y) { for (let x = 0; x < y; ++x) { [player.matrix[x][y], player.matrix[y][x]] = [player.matrix[y][x], player.matrix[x][y]]; } }
             player.matrix.forEach(row => row.reverse());
-            
             while (collide(arena, player)) {
-                player.pos.x += offset;
-                offset = -(offset + (offset > 0 ? 1 : -1));
-                if (offset > player.matrix[0].length) {
-                    player.matrix.forEach(row => row.reverse());
-                    for (let y = 0; y < player.matrix.length; ++y) {
-                        for (let x = 0; x < y; ++x) {
-                            [player.matrix[x][y], player.matrix[y][x]] = [player.matrix[y][x], player.matrix[x][y]];
-                        }
-                    }
-                    player.pos.x = pos;
-                    return;
-                }
+                player.pos.x += offset; offset = -(offset + (offset > 0 ? 1 : -1));
+                if (offset > player.matrix[0].length) { player.matrix.forEach(row => row.reverse()); for (let y = 0; y < player.matrix.length; ++y) { for (let x = 0; x < y; ++x) { [player.matrix[x][y], player.matrix[y][x]] = [player.matrix[y][x], player.matrix[x][y]]; } } player.pos.x = pos; return; }
             }
         }
 
         function playerReset() {
             if (nextPiece === null) nextPiece = pieces[Math.floor(Math.random() * 7) + 1];
-            player.matrix = nextPiece;
-            nextPiece = pieces[Math.floor(Math.random() * 7) + 1];
-            player.pos.y = 0;
-            player.pos.x = Math.floor(arena[0].length / 2) - Math.floor(player.matrix[0].length / 2);
-            
-            canHold = true; // Sblocca la funzione Hold
-            updateBoxes();
-
-            if (collide(arena, player)) {
-                arena.forEach(row => row.fill(0));
-                tScore = 0; document.getElementById('t-score').innerText = tScore;
-                holdPiece = null;
-                updateBoxes();
-            }
+            player.matrix = nextPiece; nextPiece = pieces[Math.floor(Math.random() * 7) + 1];
+            player.pos.y = 0; player.pos.x = Math.floor(arena[0].length / 2) - Math.floor(player.matrix[0].length / 2);
+            canHold = true; updateBoxes();
+            if (collide(arena, player)) { arena.forEach(row => row.fill(0)); tScore = 0; document.getElementById('t-score').innerText = tScore; holdPiece = null; updateBoxes(); }
         }
 
         function arenaSweep() {
             let rowCount = 1; let linesCleared = 0;
             outer: for (let y = arena.length - 1; y > 0; --y) {
                 for (let x = 0; x < arena[y].length; ++x) { if (arena[y][x] === 0) continue outer; }
-                const row = arena.splice(y, 1)[0].fill(0);
-                arena.unshift(row);
-                ++y; tScore += rowCount * 10; rowCount *= 2; linesCleared++;
+                const row = arena.splice(y, 1)[0].fill(0); arena.unshift(row); ++y; tScore += rowCount * 10; rowCount *= 2; linesCleared++;
             }
             document.getElementById('t-score').innerText = tScore;
             if (linesCleared >= 4) { playToasty(); }
         }
 
         let lastTime = 0;
-        function update(time = 0) {
-            const deltaTime = time - lastTime;
-            lastTime = time; dropCounter += deltaTime;
-            if (dropCounter > dropInterval) playerDrop();
-            drawTetris();
-            tetrisRAF = requestAnimationFrame(update);
-        }
+        function update(time = 0) { const deltaTime = time - lastTime; lastTime = time; dropCounter += deltaTime; if (dropCounter > dropInterval) playerDrop(); drawTetris(); tetrisRAF = requestAnimationFrame(update); }
 
-        // GESTIONE CONTROLLI TOUCH AVANZATI TETRIS
-        let tetrisTouchX = 0, tetrisTouchY = 0;
-        let tetrisTouchStart = 0;
-        const swipeStep = 25; // Sensibilità swipe per movimento
-
+        let tetrisTouchX = 0, tetrisTouchY = 0; let tetrisTouchStart = 0; const swipeStep = 25; 
         const tContainer = document.getElementById('tetris-container');
-        
-        tContainer.addEventListener('touchstart', e => {
-            tetrisTouchX = e.touches[0].clientX;
-            tetrisTouchY = e.touches[0].clientY;
-            tetrisTouchStart = Date.now();
-        }, {passive: false});
-
+        tContainer.addEventListener('touchstart', e => { tetrisTouchX = e.touches[0].clientX; tetrisTouchY = e.touches[0].clientY; tetrisTouchStart = Date.now(); }, {passive: false});
         tContainer.addEventListener('touchmove', e => {
-            // Ignora se sto toccando l'exit o l'hold box
             if (e.target.id === 'tetris-exit' || e.target.id === 'hold-canvas') return;
             e.preventDefault(); 
-            
-            let cx = e.touches[0].clientX;
-            let cy = e.touches[0].clientY;
-            
-            let diffX = cx - tetrisTouchX;
-            let diffY = cy - tetrisTouchY;
-
-            // Swipe laterale continuo
-            if (Math.abs(diffX) > swipeStep) {
-                playerMove(diffX > 0 ? 1 : -1);
-                tetrisTouchX = cx; // Resetta per il prossimo gradino di swipe
-            }
-
-            // Swipe basso continuo per scendere veloce
-            if (diffY > swipeStep * 1.5) {
-                playerDrop();
-                tetrisTouchY = cy;
-            }
+            let cx = e.touches[0].clientX; let cy = e.touches[0].clientY; let diffX = cx - tetrisTouchX; let diffY = cy - tetrisTouchY;
+            if (Math.abs(diffX) > swipeStep) { playerMove(diffX > 0 ? 1 : -1); tetrisTouchX = cx; }
+            if (diffY > swipeStep * 1.5) { playerDrop(); tetrisTouchY = cy; }
         }, {passive: false});
-
         tContainer.addEventListener('touchend', e => {
             if (e.target.id === 'tetris-exit' || e.target.id === 'hold-canvas') return;
-            let cx = e.changedTouches[0].clientX;
-            let cy = e.changedTouches[0].clientY;
-            
-            // Se ho mosso il dito di poco ed è stato un tap rapido -> ROTAZIONE
-            if(Date.now() - tetrisTouchStart < 250 && Math.abs(cx - tetrisTouchX) < 15 && Math.abs(cy - tetrisTouchY) < 15) {
-                playerRotate();
-            }
+            let cx = e.changedTouches[0].clientX; let cy = e.changedTouches[0].clientY;
+            if(Date.now() - tetrisTouchStart < 250 && Math.abs(cx - tetrisTouchX) < 15 && Math.abs(cy - tetrisTouchY) < 15) { playerRotate(); }
         }, {passive: false});
 
-        // Trigger Hold toccando il canvas HOLD
-        document.getElementById('hold-canvas').addEventListener('touchstart', (e) => {
-            e.preventDefault(); e.stopPropagation();
-            hold();
-        }, {passive: false});
+        document.getElementById('hold-canvas').addEventListener('touchstart', (e) => { e.preventDefault(); e.stopPropagation(); hold(); }, {passive: false});
 
-        function initTetris() {
-            arena.forEach(row => row.fill(0));
-            tScore = 0; document.getElementById('t-score').innerText = tScore;
-            holdPiece = null;
-            playerReset();
-            updateBoxes();
-            update();
-        }
+        function initTetris() { arena.forEach(row => row.fill(0)); tScore = 0; document.getElementById('t-score').innerText = tScore; holdPiece = null; playerReset(); updateBoxes(); update(); }
 
-        // SOUND SYNTHESIS & TOASTY ANIMATION
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playToasty() {
-            const img = document.getElementById('toasty-img');
-            img.classList.add('show');
-            setTimeout(() => { img.classList.remove('show'); }, 1000);
-
+            const img = document.getElementById('toasty-img'); img.classList.add('show'); setTimeout(() => { img.classList.remove('show'); }, 1000);
             if(audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            
-            osc.type = 'square';
-            osc.frequency.setValueAtTime(880, audioCtx.currentTime);
-            osc.frequency.setValueAtTime(1100, audioCtx.currentTime + 0.1); 
-            
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.3);
-            
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.type = 'square'; osc.frequency.setValueAtTime(880, audioCtx.currentTime); osc.frequency.setValueAtTime(1100, audioCtx.currentTime + 0.1); 
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.3);
             osc.start(); osc.stop(audioCtx.currentTime + 0.3);
         }
 
