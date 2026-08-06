@@ -2,19 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Meta tag anti-zoom aggiunto per disabilitare il doppio tap fastidioso -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gianluca Frassoni | BRC Blog Portfolio</title>
+    <title>Gianluca Frassoni | Portfolio</title>
     
-    <!-- Font Pixelato e Font Script -->
+    <!-- FONT MOBILE -->
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
     
-    <!-- IMPORT D3.JS PER LA LAVA LAMP -->
+    <!-- FONT DESKTOP (Averia Serif Libre) -->
+    <link href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+    
+    <!-- IMPORT D3.JS PER LE LAVA LAMP -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     
+    <!-- STILE INIZIALE PER NASCONDERE SOLO IL MENU DURANTE L'INTRO -->
+    <style id="intro-hide-css">
+        @media (min-width: 769px) {
+            .desktop-link { color: transparent !important; pointer-events: none; }
+            .desktop-link::after { display: none !important; }
+        }
+    </style>
+
     <style>
-        /* PALETTE CYBERFUNK E WIN98 */
+        /* PALETTE CYBERFUNK E WIN98 (MOBILE) */
         :root {
             --brc-yellow: #f2e300;
             --brc-orange: #ff5900;
@@ -27,6 +37,11 @@
             --win98-bg: #c0c0c0;
             --win98-blue: #000080;
             --win98-blue-grad: #1084d0;
+
+            /* COLORI DESKTOP */
+            --desk-bg: #F4EFE6;
+            --desk-text: #1C1E1C;
+            --desk-blob: #3b6e4b; /* Verde Foresta elegante */
         }
 
         body, html {
@@ -56,43 +71,163 @@
         #desktop-view { display: none; }
         #mobile-view { display: none; }
 
+        /* ==================================================
+           VISTA DESKTOP (Stile Elegante & Contenuto)
+           ================================================== */
         @media (min-width: 769px) {
+            body, html {
+                background-color: var(--desk-bg);
+                background-image: none;
+                color: var(--desk-text);
+                overflow: hidden; 
+            }
+            
+            #mobile-view { display: none !important; }
+            
             #desktop-view { 
-                display: flex; flex-direction: column; align-items: center; justify-content: center;
-                height: 100vh; color: var(--brc-cyan); font-size: 3rem; text-align: center;
+                display: flex; 
+                flex-direction: column; 
+                justify-content: flex-start; 
+                height: 100vh; 
+                padding: 25px 17px 0 17px; 
+                box-sizing: border-box;
+                position: relative; 
+            }
+
+            /* GOOEY BACKGROUND ANIMATO A DESTRA (OTTIMIZZATO) */
+            #desktop-gooey-bg {
+                position: fixed;
+                top: 0;
+                right: -5vw; 
+                width: 45vw; 
+                height: 100vh;
+                z-index: 1; 
+                pointer-events: none;
+                opacity: 0.95;
+            }
+
+            /* FADE OTTIMIZZATO: Livello statico sopra ai blob per non pesare sulla CPU */
+            #desktop-gooey-bg::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                /* Il panna pieno a sinistra sfuma verso il trasparente a destra */
+                background: linear-gradient(to right, var(--desk-bg) 0%, var(--desk-bg) 10%, transparent 40%, transparent 100%);
+                z-index: 2;
+            }
+
+            /* Contenitori in primissimo piano */
+            .desktop-logo-wrapper {
+                position: relative;
+                z-index: 10;
+                width: 74vw; 
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                
+                /* OUTLINE OTTIMIZZATO GPU: 4 ombre nette (nessun lag SVG) */
+                filter: drop-shadow(3px 0px 0px var(--desk-bg))
+                        drop-shadow(-3px 0px 0px var(--desk-bg))
+                        drop-shadow(0px 3px 0px var(--desk-bg))
+                        drop-shadow(0px -3px 0px var(--desk-bg));
+                will-change: filter;
+                transform: translateZ(0); /* Accelera l'hardware */
+            }
+
+            .desktop-pre-title {
+                font-family: 'Averia Serif Libre', serif;
+                font-size: 1.8rem; 
+                font-weight: 400;
+                color: var(--desk-text);
+                letter-spacing: -0.03em; 
+                margin-left: 8vw; 
+                margin-bottom: -5px; 
+            }
+
+            .desktop-logo {
+                width: 100%;
+                height: 25vw; 
+                background-color: var(--desk-text);
+                -webkit-mask-image: url('Desktop/logo.png');
+                -webkit-mask-size: 100% auto; 
+                -webkit-mask-repeat: no-repeat;
+                -webkit-mask-position: left top;
+                mask-image: url('Desktop/logo.png');
+                mask-size: 100% auto;
+                mask-repeat: no-repeat;
+                mask-position: left top;
+            }
+
+            /* MENU ANCORATO AL FONDO */
+            .desktop-nav {
+                position: absolute;
+                bottom: 25px; 
+                left: 17px; 
+                display: flex;
+                flex-direction: column;
+                gap: 20px; 
+                width: calc(100% - 34px);
+                max-width: 600px; 
+                z-index: 10;
+            }
+
+            .desktop-link {
+                position: relative;
+                width: fit-content; 
+                display: block;
+                font-family: 'Averia Serif Libre', serif;
+                font-weight: 400;
+                color: var(--desk-text) !important;
+                text-decoration: none;
+                font-size: 1.8rem; 
+                padding: 4px 0; 
+                letter-spacing: -0.03em; 
+                cursor: pointer;
+            }
+
+            .desktop-link::after {
+                content: '';
+                position: absolute;
+                bottom: 2px; 
+                left: 0;
+                width: 0;
+                height: 2px;
+                background-color: var(--desk-text);
+                transition: width 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+
+            .desktop-link:hover::after {
+                width: 100%;
             }
         }
 
+        /* VISTA MOBILE */
         @media (max-width: 768px) {
             #mobile-view { display: block; }
         }
 
         /* --------------------------------------------------
-           CSS MOBILE 
+           CSS MOBILE E MODALS (INVARIATO)
            -------------------------------------------------- */
         .blog-container { max-width: 750px; margin: 0 auto 40px auto; padding: 0 10px; display: flex; flex-direction: column; gap: 25px; }
-
         header { text-align: center; display: flex; flex-direction: column; align-items: center; padding-top: 100px; gap: 15px; margin-bottom: 20px; }
         .logo-container { width: 100%; max-width: 500px; position: relative; z-index: 2; }
         .logo-container img { width: 100%; height: auto; display: block; filter: drop-shadow(4px 4px 0px var(--black)); }
-        
         .marquee-wrapper { background-color: var(--black); color: var(--brc-yellow); font-family: 'VT323', monospace; font-size: 1.3rem; padding: 4px 0; margin: 10px -20px 0 -20px; width: calc(100% + 40px); transform: skewY(-2deg); border-top: 2px solid var(--brc-yellow); border-bottom: 2px solid var(--brc-yellow); box-shadow: 0px 5px 0px rgba(0,0,0,0.5); text-shadow: 0 0 6px var(--brc-yellow); background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 3px 3px; letter-spacing: 3px; }
-
         .section-title { font-size: 1.8rem; color: var(--white); border-bottom: 4px dashed var(--brc-cyan); padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; }
-
         .about-section { display: flex; flex-direction: column; gap: 15px; }
         .about-desc { font-family: 'Google Sans', 'Product Sans', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-size: 1rem; line-height: 1.6; color: #f0f0f0; font-weight: 300; }
         .about-desc p { margin: 0 0 15px 0; }
-
         .sketch-grid { display: flex; flex-direction: column; gap: 15px; margin-top: 0; }
         .swipe-wrapper { display: flex; flex-direction: row; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; gap: 0; width: 100%; padding-bottom: 5px; align-items: center; }
         .swipe-wrapper::-webkit-scrollbar { display: none; }
         .swipe-slide { flex: 0 0 100%; width: 100%; scroll-snap-align: center; display: flex; justify-content: center; align-items: center; box-sizing: border-box; padding: 0; }
-        
         .folder-container { display: flex; justify-content: center; align-items: center; width: 100%; }
         .folder-wrapper { position: relative; transition: transform 0.2s; cursor: pointer; width: 100%; max-width: 260px; margin: 0 auto; }
         .folder-wrapper:hover { transform: translate(-4px, -4px); }
-
         .sparkle-group { position: absolute; width: 40px; height: 40px; z-index: 10; }
         .sparkle-group.top-right { top: -15px; right: -15px; }
         .sparkle-group.bottom-left { bottom: -15px; left: -15px; }
@@ -101,15 +236,12 @@
         .s-med { width: 14px; height: 14px; top: 20px; left: 0; animation-delay: 0.1s; }
         .s-small { width: 10px; height: 10px; top: 25px; left: 25px; animation-delay: 0.2s; }
         @keyframes scatto-crt { 0%, 49.99% { transform: rotate(0deg); } 50%, 100% { transform: rotate(45deg); } }
-
         .folder-tab { width: 45%; height: 25px; background-color: var(--win98-blue); border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #000000; border-bottom: none; box-shadow: inset -2px 0 #808080, inset 2px 2px #1084d0; margin-left: 10px; }
         .folder-body { position: relative; background-color: var(--win98-blue); border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #000000; border-bottom: 2px solid #000000; box-shadow: inset -2px -2px #808080, inset 2px 2px #1084d0, 6px 6px 0px var(--black); aspect-ratio: 1.4 / 1; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        
         .wiggly-text { font-family: 'Gloria Hallelujah', cursive; color: #ffffff; display: block; text-align: center; filter: url(#wiggly-filter); }
         .wiggly-text.title { font-size: 2.5rem; text-align: left; margin: 0; text-shadow: 2px 2px 0px var(--black); }
         .wiggly-text .line-1 { font-size: 2.2rem; transform: rotate(-3deg); display: block;}
         .wiggly-text .line-2 { font-size: 2.2rem; transform: rotate(2deg); display: block; margin-top: 5px; margin-left: 15px;}
-
         .win98-window { background-color: var(--win98-bg); border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #000000; border-bottom: 2px solid #000000; box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf; padding: 2px; font-family: 'Arial', sans-serif; color: var(--black); display: flex; flex-direction: column; transform: none !important; }
         .win98-titlebar { background: linear-gradient(90deg, var(--win98-blue), var(--win98-blue-grad)); color: white; padding: 2px 4px; font-size: 14px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; overflow: hidden; }
         .win98-titlebar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px; }
@@ -118,22 +250,18 @@
         .win98-btn { background-color: var(--win98-bg); border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #000000; border-bottom: 2px solid #000000; box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf; padding: 5px 15px; font-family: 'Arial', sans-serif; font-weight: bold; font-size: 14px; cursor: pointer; color: var(--black); }
         .win98-btn:active { border-top: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #ffffff; border-bottom: 2px solid #ffffff; box-shadow: inset 1px 1px #808080; }
         .win98-btn:disabled { color: #888; text-shadow: 1px 1px #fff; cursor: not-allowed; }
-
         .win98-window *::-webkit-scrollbar { width: 18px; }
         .win98-window *::-webkit-scrollbar-track { background: #dfdfdf; border-left: 1px solid #808080; }
         .win98-window *::-webkit-scrollbar-thumb { background-color: #c0c0c0; border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #000000; border-bottom: 2px solid #000000; }
         .win98-window *::-webkit-scrollbar-button:single-button { background-color: #c0c0c0; display: block; height: 18px; width: 18px; border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #000000; border-bottom: 2px solid #000000; }
-
         .window-square { aspect-ratio: 1 / 1; width: 100%; max-width: 260px !important; margin: 0 auto; }
         .window-content { flex-grow: 1; display: flex; flex-direction: column; color: #333; margin: 2px; border: 1px solid #808080; border-right: 1px solid #fff; border-bottom: 1px solid #fff; background: #000; position: relative; overflow: hidden; }
         .crt-overlay::after { content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.10) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.04)); z-index: 2; background-size: 100% 4px, 3px 100%; pointer-events: none; }
         #source-video { display: none; }
         #webcam-canvas { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(10%) contrast(110%) brightness(1.05); } 
-
         .lava-window { width: 100%; height: 120px; background: transparent; border: none; box-shadow: none; overflow: hidden; position: relative; margin-top: 10px; margin-bottom: 50px; pointer-events: none; }
         .swipe-dots { display: flex !important; justify-content: center; gap: 12px; font-size: 2.2rem; font-weight: bold; color: #555; line-height: 0.5; margin-top: 10px; }
         .swipe-dots .dot.active { color: var(--white); }
-
         .retro-folder { color: var(--win98-blue); cursor: pointer; transition: color 0.2s; margin-top: 10px; }
         .retro-folder:hover { color: var(--brc-pink); }
         .retro-folder-content { border-left: 2px dashed #aaa; padding-left: 15px; margin-left: 10px; margin-top: 10px; margin-bottom: 20px; }
@@ -143,7 +271,6 @@
         .ps1-artwork { transform-style: preserve-3d; animation: ps1-spin 8s linear infinite; }
         @keyframes ps1-spin { 0% { transform: rotateX(-15deg) rotateY(0deg); } 100% { transform: rotateX(-15deg) rotateY(360deg); } }
         .artwork-disclaimer { font-family: 'Arial', sans-serif; font-size: 1rem; color: #555; background: #fff; border-left: 4px solid var(--brc-pink); padding: 10px; margin: 15px 0; line-height: 1.4; }
-
         .misc-container { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; margin-top: 15px; padding: 20px; background-color: transparent; }
         .artwork-stack { position: relative; width: 120px; height: 120px; flex-shrink: 0; cursor: pointer; transition: all 0.3s ease; }
         .stacked-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border: 2px solid #000; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); background-color: #fff; }
@@ -154,31 +281,25 @@
         .artwork-stack.expanded .stacked-img { position: relative; transform: none !important; z-index: 1; }
         .misc-text { font-family: 'Arial', sans-serif; font-size: 1.1rem; color: #222; line-height: 1.4; text-align: center; max-width: 100%; }
         .misc-text .subtext { font-size: 0.9rem; color: #888; font-style: italic; margin-top: 5px; display: block;}
-
         .works-timeline { display: flex; flex-direction: column; gap: 25px; margin-bottom: 0;}
         .year-block { display: flex; flex-direction: column; align-items: flex-start; padding-left: 10px; }
         .year-title { font-size: 1.8rem; color: var(--white); font-weight: normal; margin: 0; text-shadow: 1px 1px 0 var(--black); }
         .year-title::before { content: "> "; color: var(--brc-cyan); }
         .dashed-line { width: calc(100% - 10px); margin: 5px 0 15px 10px; }
         .blinkie-img { image-rendering: pixelated; box-shadow: 4px 4px 0px var(--black); border: 2px solid var(--black); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; width: 100%; max-width: 180px; height: auto; margin-left: 15px; }
-
         .custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; }
         .custom-modal.active { display: flex; }
         .modal-content-win98 { width: 90%; max-width: 600px; box-shadow: 4px 4px 10px rgba(0,0,0,0.5); opacity: 0; display: flex; flex-direction: column; max-height: 90vh; }
-        
         .custom-modal.active::before { content: ''; position: absolute; width: 90%; max-width: 600px; min-height: 400px; border: 2px dashed #fff; z-index: 1001; pointer-events: none; opacity: 0; animation: ghost-zoom 0.3s forwards steps(1); }
         @keyframes ghost-zoom { 0% { transform: scale(0.2); opacity: 1; } 25% { transform: scale(0.5); opacity: 1; } 50% { transform: scale(0.75); opacity: 1; } 75% { transform: scale(0.9); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
         .custom-modal.active .modal-content-win98 { animation: final-window-pop 0s 0.3s forwards; }
         @keyframes final-window-pop { to { opacity: 1; } }
-
         #data-expansion details { margin-bottom: 20px; transform: skewX(-3deg); }
         #data-expansion details > summary { background-color: var(--brc-cyan); color: var(--black); border: 4px solid var(--black); padding: 10px; font-size: 1.2rem; font-weight: bold; text-transform: uppercase; cursor: pointer; box-shadow: 6px 6px 0px var(--black); list-style: none; transition: background-color 0.2s; }
         #data-expansion details > summary::-webkit-details-marker { display: none; }
         #data-expansion details[open] > summary { background-color: var(--brc-orange); color: var(--white); box-shadow: 6px 0px 0px var(--black); }
         #data-expansion details .accordion-content { background-color: var(--white); color: var(--black); border: 4px solid var(--black); border-top: none; padding: 12px; font-size: 1rem; box-shadow: 6px 6px 0px var(--black); transform: skewX(0deg); }
         #data-expansion details .accordion-content a { color: var(--brc-pink); font-weight: bold; text-decoration: none; border-bottom: 2px dashed var(--brc-pink); cursor: pointer;}
-
-        /* Exerplaza Overlay Mobile */
         #exerplaza-overlay { position: fixed; top: -100%; left: 0; width: 100%; height: 100%; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 2000; transition: top 0.6s cubic-bezier(0.22, 1, 0.36, 1); display: flex; align-items: center; justify-content: center; overflow-y: auto; }
         #exerplaza-overlay.active { top: 0; }
         .exerplaza-content { display: flex; flex-direction: column; align-items: center; width: 90%; max-width: 1000px; padding: 40px 0; gap: 50px; color: #fff; font-family: 'Google Sans', 'Product Sans', system-ui, sans-serif; margin: auto; }
@@ -194,13 +315,9 @@
         .exer-dots .dot.active { color: var(--white); }
         .exer-tab-close { background: transparent; color: rgba(255, 255, 255, 0.4); padding: 10px 0; border: none; cursor: pointer; font-family: inherit; font-size: 1.1rem; letter-spacing: 4px; transition: color 0.3s; text-transform: uppercase; text-align: center; margin-top: 50px; width: 100%; }
         .carousel-btn { display: none; } 
-
         #artwork-viewer-modal { z-index: 3000; }
-
-        /* D&D Project Specifics */
         .dnd-modal-window { height: 80vh; max-height: none; }
         .dnd-pages-container { position: relative; flex-grow: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; background: #fff; }
-        
         .dnd-page { display: none; flex-direction: column; width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; transform-origin: center center; padding: 20px; box-sizing: border-box; }
         .dnd-page::-webkit-scrollbar { -webkit-appearance: none; width: 18px; display: block; }
         .dnd-page::-webkit-scrollbar-track { background: #dfdfdf; border-left: 1px solid #808080; }
@@ -208,7 +325,6 @@
         .dnd-page::-webkit-scrollbar-button:single-button { background-color: #c0c0c0; display: block; height: 18px; width: 18px; border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #000000; border-bottom: 2px solid #000000; }
         .dnd-page::-webkit-scrollbar-button:single-button:vertical:decrement { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16'><polygon points='4,10 12,10 8,4' fill='black'/></svg>"); background-position: center; background-repeat: no-repeat; }
         .dnd-page::-webkit-scrollbar-button:single-button:vertical:increment { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16'><polygon points='4,6 12,6 8,12' fill='black'/></svg>"); background-position: center; background-repeat: no-repeat; }
-
         .dnd-page.active { display: flex; }
         #dnd-page-0 { padding: 0; }
         @keyframes pixelFlipOut { 0% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(0); opacity: 0.5; } }
@@ -220,20 +336,15 @@
         .dnd-desc-text p { margin-bottom: 15px; }
         .dnd-gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; padding: 10px; }
         .dnd-thumb { width: 100%; aspect-ratio: 1/1; object-fit: cover; border: 2px solid #808080; box-shadow: 2px 2px 0px #000; cursor: pointer; }
-        
         #dnd-glass-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 3500; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
         #dnd-glass-overlay.active { opacity: 1; pointer-events: auto; }
         .dnd-glass-close { position: absolute; top: 20px; right: 20px; background: rgba(0, 0, 0, 0.3); color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer; z-index: 3510; }
         .dnd-glass-img { max-width: 90%; max-height: 70vh; object-fit: contain; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-radius: 8px; touch-action: pan-y; }
         .dnd-glass-caption { margin-top: 20px; font-family: 'Google Sans', sans-serif; font-size: 1.2rem; color: #222; text-shadow: 0 0 5px rgba(255,255,255,0.8); font-style: italic; text-align: center; max-width: 80%; }
-
-        /* KONAMI D-PAD */
         #konami-dpad-container { display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto 40px auto; gap: 10px; }
         .dpad-row { display: flex; gap: 10px; }
         .dpad-btn { background: var(--win98-bg); border-top: 2px solid #fff; border-left: 2px solid #fff; border-right: 2px solid #000; border-bottom: 2px solid #000; box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf; width: 45px; height: 45px; font-size: 1.2rem; font-weight: bold; cursor: pointer; color: var(--black); font-family: 'VT323', monospace; display: flex; align-items: center; justify-content: center; }
         .dpad-btn:active { border-top: 2px solid #000; border-left: 2px solid #000; border-right: 2px solid #fff; border-bottom: 2px solid #fff; box-shadow: inset 1px 1px #808080; }
-
-        /* EASTER EGG (KONAMI BOARD & TETRIS) */
         #konami-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 9000; justify-content: center; align-items: center; flex-direction: column; }
         #konami-modal.active { display: flex; }
         .konami-win { border: 2px solid #fff; border-right-color: #555; border-bottom-color: #555; background: #000; width: 300px; font-family: 'VT323', monospace; }
@@ -244,26 +355,37 @@
         .btn-wiggly:active { transform: scale(0.9); }
         .btn-round { width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; display: flex; align-items: center; justify-content: center;}
         .btn-start { padding: 10px 30px; font-size: 1.5rem; border-radius: 15px; }
-
         #tetris-loader { display: none; position: fixed; top: 0; left: 0; width: 100%; background: #000; z-index: 9998; }
         @keyframes dialup-load { 0% { height: 0; } 100% { height: 100%; } }
-
         #tetris-container { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; font-family: 'Gloria Hallelujah', cursive; color: #fff; touch-action: none; user-select: none; -webkit-user-select: none; }
         .tetris-exit { position: absolute; top: 10px; right: 15px; color: #ff0000; font-size: 2rem; text-shadow: 0 0 10px #ff0000; cursor: pointer; z-index: 10000; font-family: 'VT323', monospace; }
         .tetris-layout { display: flex; gap: 20px; align-items: flex-start; margin-top: 20px; touch-action: none; }
         .tetris-side-col { display: flex; flex-direction: column; gap: 20px; align-items: center; touch-action: none; }
         .tetris-box { text-align: center; touch-action: none; }
-
         #tetris-canvas, #next-canvas, #hold-canvas { background: #111; border: 4px solid #fff; filter: url(#wiggly-filter); touch-action: none; }
         .tetris-ui-text { font-size: 1.5rem; text-align: center; filter: url(#wiggly-filter); touch-action: none; }
-
         #toasty-img { position: fixed; bottom: -200px; right: 0; width: 120px; z-index: 10005; transition: bottom 0.2s ease; }
         #toasty-img.show { bottom: 0; }
+
+        /* ==================================================
+           FROGGER EASTER EGG (DESKTOP)
+           ================================================== */
+        #frogger-container { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #121212; z-index: 10000; flex-direction: column; align-items: center; justify-content: center; font-family: 'VT323', monospace; color: #fff; opacity: 0; transition: opacity 1.5s ease-in-out; }
+        #frogger-container.active { display: flex; }
+        #frogger-container.visible { opacity: 1; }
+        .frogger-exit { position: absolute; top: 20px; right: 30px; color: #ff0000; font-size: 2.5rem; cursor: pointer; text-shadow: 2px 2px 0 #000; transition: transform 0.1s; }
+        .frogger-exit:active { transform: scale(0.9); }
+        .frogger-title-container { display: flex; gap: 15px; margin-bottom: 50px; animation: froggerFloat 3s infinite ease-in-out; }
+        @keyframes froggerFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        .frogger-letter { width: auto; height: 12vh; image-rendering: pixelated; filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.8)); }
+        .frogger-press-start { font-size: 2.5rem; color: #f2e300; text-transform: uppercase; animation: froggerBlink 1s infinite; }
+        @keyframes froggerBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+        .frogger-credits { position: absolute; bottom: 20px; font-size: 1.2rem; color: #888; }
     </style>
 </head>
 <body>
     
-    <!-- SVG FILTRO WIGGLY -->
+    <!-- SVG FILTRI -->
     <svg width="0" height="0" style="position:absolute;z-index:-1;">
         <defs>
             <filter id="wiggly-filter">
@@ -274,13 +396,22 @@
     </svg>
 
     <!-- ==========================================
-         VISTA DESKTOP (W.I.P.)
+         VISTA DESKTOP 
          ========================================== -->
+    <div id="desktop-gooey-bg"></div>
+
     <div id="desktop-view">
-        <div>
-            <h1>[ Desktop Version ]</h1>
-            <p style="font-family: 'VT323', monospace;">Work in progress... Please visit on Mobile.</p>
+        <div class="desktop-logo-wrapper">
+            <div class="desktop-pre-title">Gianluca Frassoni's</div>
+            <div class="desktop-logo"></div>
         </div>
+        
+        <nav class="desktop-nav">
+            <a href="#about-desktop" class="desktop-link">About me</a>
+            <a href="#works-desktop" class="desktop-link">Recent Works</a>
+            <a href="#testimonials-desktop" class="desktop-link">What people says about me</a>
+            <a href="#contact-desktop" class="desktop-link">Contact me</a>
+        </nav>
     </div>
 
     <!-- ==========================================
@@ -288,7 +419,6 @@
          ========================================== -->
     <div id="mobile-view">
         <div class="blog-container">
-            
             <header>
                 <div class="logo-container">
                     <img src="portfolio_Logo.png" alt="Portfolio Logo">
@@ -303,8 +433,10 @@
             <section id="about-me" class="about-section">
                 <h2 class="wiggly-text title">About Me</h2>
                 <div class="about-desc">
-                    <p>Hi, I'm Gianluca Frassoni, a budding Computer Engineer. I proudly identify as a nerd; my hobbies include developing and playing video games, as well as a strong passion for music. Throughout my life, I've played both the piano and the guitar, and I've always stayed active by practicing a wide variety of sports. I am currently in my final year of university and will be graduating soon.</p>
-                    <p>While I am eager to explore various opportunities across the tech industry, my true predisposition lies in frontend development and UI/UX, driven by the challenge of crafting intuitive interfaces and dynamic interactive visualizations. I'm now seeking a stimulating role that will challenge me and allow me to grow.</p>
+                    <p>Hi, I'm Gianluca Frassoni, a final-year Computer Engineering student.</p>
+                    <p>While my academic background has provided me with a solid foundation across the tech stack, my true expertise and passion lie in frontend development and UI/UX design. I am highly driven by the challenge of programming dynamic, interactive data visualizations and crafting intuitive interfaces that elevate the overall user experience.</p>
+                    <p>Beyond coding, my lifelong background in team sports and music has instilled in me a strong sense of discipline, collaboration, and creative problem-solving. Furthermore, my deep passion for the video game ecosystem—both developing and analyzing them—has heavily influenced my approach to interactive design, giving me a sharp eye for user engagement and responsive logic.</p>
+                    <p>I am currently seeking a stimulating role that will challenge my technical skills, allow me to contribute to innovative projects, and help me continuously grow as a professional.</p>
                 </div>
             </section>
 
@@ -504,9 +636,8 @@
 
 
     <!-- ======================================================================
-         EASTER EGG (KONAMI COMMAND BOARD & TETRIS)
+         EASTER EGG (TETRIS MOBILE) 
          ====================================================================== -->
-    
     <div id="konami-modal">
         <div class="konami-win">
             <div class="konami-title">
@@ -527,26 +658,37 @@
 
     <div id="tetris-container">
         <div class="tetris-exit" id="tetris-exit">EXIT</div>
-        
         <div class="tetris-layout">
-            <div class="tetris-main-col">
-                <canvas id="tetris-canvas" width="200" height="400"></canvas>
-            </div>
+            <div class="tetris-main-col"><canvas id="tetris-canvas" width="200" height="400"></canvas></div>
             <div class="tetris-side-col">
                 <div class="tetris-score tetris-ui-text">SCORE<br><span id="t-score">0</span></div>
-                <div class="tetris-box">
-                    <div class="tetris-ui-text">NEXT</div>
-                    <canvas id="next-canvas" width="80" height="80"></canvas>
-                </div>
-                <div class="tetris-box">
-                    <div class="tetris-ui-text">HOLD</div>
-                    <canvas id="hold-canvas" width="80" height="80"></canvas>
-                </div>
+                <div class="tetris-box"><div class="tetris-ui-text">NEXT</div><canvas id="next-canvas" width="80" height="80"></canvas></div>
+                <div class="tetris-box"><div class="tetris-ui-text">HOLD</div><canvas id="hold-canvas" width="80" height="80"></canvas></div>
             </div>
         </div>
-        
-        <!-- Toasty Tetris Piece (T-Piece Viola) in SVG -->
         <img id="toasty-img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'><rect x='10' y='0' width='10' height='10' fill='%23aa00ff' stroke='black' stroke-width='1'/><rect x='0' y='10' width='10' height='10' fill='%23aa00ff' stroke='black' stroke-width='1'/><rect x='10' y='10' width='10' height='10' fill='%23aa00ff' stroke='black' stroke-width='1'/><rect x='20' y='10' width='10' height='10' fill='%23aa00ff' stroke='black' stroke-width='1'/></svg>">
+    </div>
+
+
+    <!-- ======================================================================
+         EASTER EGG (FROGGER DESKTOP - MENU)
+         ====================================================================== -->
+    <div id="frogger-container">
+        <div class="frogger-exit" id="frogger-exit">X</div>
+        
+        <div class="frogger-title-container">
+            <img src="Frogger/Sprites/open_f.png" class="frogger-letter" alt="F">
+            <img src="Frogger/Sprites/open_r.png" class="frogger-letter" alt="R">
+            <img src="Frogger/Sprites/open_o.png" class="frogger-letter" alt="O">
+            <img src="Frogger/Sprites/open_g.png" class="frogger-letter" alt="G">
+            <img src="Frogger/Sprites/open_g.png" class="frogger-letter" alt="G">
+            <img src="Frogger/Sprites/open_e.png" class="frogger-letter" alt="E">
+            <img src="Frogger/Sprites/open_r.png" class="frogger-letter" alt="R">
+        </div>
+
+        <div class="frogger-press-start">PRESS ENTER TO START</div>
+        
+        <div class="frogger-credits">EASTER EGG EDITION</div>
     </div>
 
 
@@ -554,10 +696,7 @@
         // 0. WIGGLY TEXT
         const turb = document.getElementById('wiggle-turb');
         let frames = 0;
-        setInterval(() => {
-            frames++;
-            if (turb) { turb.setAttribute('seed', frames); }
-        }, 120);
+        setInterval(() => { frames++; if (turb) { turb.setAttribute('seed', frames); } }, 120);
 
         function toggleFolder(contentId, element) {
             const content = document.getElementById(contentId);
@@ -565,18 +704,18 @@
             element.classList.toggle("open");
         }
 
-        // MARQUEE
         const marqueeElement = document.getElementById('dynamic-marquee');
         const nerdQuotes = ["Hey, Listen!!", "Salta il crepaccio, SALTA IL CREPACCIO!", "Quanto a te, quanto a quel che non puoi fare che tu...", "The cake is a lie!", "Praise the Sun! \\o/"];
         marqueeElement.textContent = "/// Welcome to the Gianluca Frassoni's portfolio /// " + nerdQuotes[Math.floor(Math.random() * nerdQuotes.length)] + " ///";
 
-        // WEBCAM & LAVA LAMP
+        // WEBCAM E LAVA LAMP MOBILE
         const video = document.getElementById('source-video'); const canvas = document.getElementById('webcam-canvas'); const ctx = canvas.getContext('2d');
         let lastDrawTime = 0;
         function renderWebcamFrame(timestamp) { requestAnimationFrame(renderWebcamFrame); const elapsed = timestamp - lastDrawTime; if (elapsed >= 1000/6) { lastDrawTime = timestamp - (elapsed % (1000/6)); if (video.videoWidth > 0) { canvas.width = video.videoWidth; canvas.height = video.videoHeight; } if (video.readyState >= 2) { ctx.drawImage(video, 0, 0, canvas.width, canvas.height); } } }
         video.play().catch(e=>e); requestAnimationFrame(renderWebcamFrame);
 
         const isMobile = window.innerWidth <= 768;
+        
         const svgLava = d3.select("#lava-container").append("svg").attr("width", "100%").attr("height", "100%").style("filter", "url(#gooey)");
         const defsLava = svgLava.append("defs"); const filterLava = defsLava.append("filter").attr("id", "gooey");
         filterLava.append("feGaussianBlur").attr("in", "SourceGraphic").attr("stdDeviation", isMobile ? 8 : 15).attr("result", "blur"); filterLava.append("feColorMatrix").attr("in", "blur").attr("mode", "matrix").attr("values", "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10");
@@ -584,22 +723,80 @@
         function lavaPhysics() { let el = d3.select(this); let isAtBottom = parseFloat(el.attr("cy")) > 50; let ty = isAtBottom ? (Math.random() * 40 + 10) : (Math.random() * 20 + 100); let tx = Math.max(5, Math.min(95, parseFloat(el.attr("cx")) + (Math.random() * 30 - 15))); el.transition().duration(Math.random() * 8000 + 12000).ease(d3.easeSinInOut).attr("cx", tx + "%").attr("cy", ty + "%").on("end", lavaPhysics); }
         blobs.each(function(d, i) { setTimeout(() => { lavaPhysics.call(this); }, i * 1500); });
 
+        // LAVA LAMP DESKTOP (VERDE FORESTA)
+        const desktopGooey = d3.select("#desktop-gooey-bg");
+        if (desktopGooey.node()) {
+            const svgDeskLava = desktopGooey.append("svg").attr("width", "100%").attr("height", "100%").style("filter", "url(#desk-gooey-filter)");
+            const defsDesk = svgDeskLava.append("defs"); 
+            const filterDesk = defsDesk.append("filter").attr("id", "desk-gooey-filter");
+            filterDesk.append("feGaussianBlur").attr("in", "SourceGraphic").attr("stdDeviation", 25).attr("result", "blur"); 
+            filterDesk.append("feColorMatrix").attr("in", "blur").attr("mode", "matrix").attr("values", "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 25 -10");
+            const deskBlobs = svgDeskLava.selectAll("circle").data(d3.range(12)).enter().append("circle").attr("fill", "var(--desk-blob)").attr("r", () => Math.random() * 50 + 35).attr("cx", () => (Math.random() * 80 + 10) + "%").attr("cy", () => (Math.random() * 120 - 10) + "%"); 
+            function deskLavaPhysics() { let el = d3.select(this); let ty = Math.random() * 120 - 10; let tx = parseFloat(el.attr("cx")) + (Math.random() * 20 - 10); tx = Math.max(5, Math.min(95, tx)); el.transition().duration(Math.random() * 10000 + 12000).ease(d3.easeSinInOut).attr("cx", tx + "%").attr("cy", ty + "%").on("end", deskLavaPhysics); }
+            deskBlobs.each(function(d, i) { setTimeout(() => { deskLavaPhysics.call(this); }, i * 1200); });
+        }
 
         // =================================================================================
-        // GESTIONE MODALS WIN98 GLOBALI E CLICK FUORI DALLA FINESTRA
+        // ANIMAZIONE INTRO DESKTOP (TYPEWRITER SOLO MENU)
         // =================================================================================
-        const folderBtn = document.getElementById('folder-trigger');
-        const ppModal = document.getElementById('personal-projects-modal');
+        if (!isMobile) {
+            const links = document.querySelectorAll('.desktop-link');
+            const lTexts = Array.from(links).map(l => l.textContent.trim());
+
+            // Rimuovo il testo solo ai link
+            links.forEach(l => { l.innerHTML = '&#8203;'; });
+
+            // Rimuovo il CSS che li nascondeva
+            const hideCss = document.getElementById('intro-hide-css');
+            if(hideCss) hideCss.remove();
+
+            function typeChar(element, text, speed) {
+                return new Promise(resolve => {
+                    let i = 0;
+                    element.innerHTML = '&#8203;'; 
+                    function type() {
+                        if (i < text.length) {
+                            element.innerHTML += text.charAt(i);
+                            i++;
+                            setTimeout(type, speed);
+                        } else {
+                            resolve();
+                        }
+                    }
+                    type();
+                });
+            }
+
+            async function runIntro() {
+                // Piccolo ritardo prima di far apparire il menu
+                await new Promise(r => setTimeout(r, 600));
+                
+                // Digita le voci del menù una ad una
+                for (let i = 0; i < links.length; i++) {
+                    await typeChar(links[i], lTexts[i], 35); 
+                    await new Promise(r => setTimeout(r, 80)); 
+                }
+                
+                // Fine Animazione: Ripristina l'interattività dei link (Hover per la linea)
+                links.forEach(l => l.style.pointerEvents = 'auto');
+            }
+            
+            runIntro();
+        }
+
+
+        // =================================================================================
+        // GESTIONE MODALS 
+        // =================================================================================
+        const folderBtn = document.getElementById('folder-trigger'); const ppModal = document.getElementById('personal-projects-modal');
         folderBtn.addEventListener('click', () => { ppModal.classList.add('active'); document.body.classList.add('modal-open'); });
         document.getElementById('close-modal-btn').addEventListener('click', () => { ppModal.classList.remove('active'); document.body.classList.remove('modal-open'); });
 
-        const badgeBtn = document.getElementById('badge-trigger');
-        const badgeModal = document.getElementById('badge-modal');
+        const badgeBtn = document.getElementById('badge-trigger'); const badgeModal = document.getElementById('badge-modal');
         badgeBtn.addEventListener('click', () => { badgeModal.classList.add('active'); document.body.classList.add('modal-open'); });
         document.getElementById('close-badge-btn').addEventListener('click', () => { badgeModal.classList.remove('active'); document.body.classList.remove('modal-open'); });
 
-        const dndBtn = document.getElementById('dnd-trigger');
-        const dndModal = document.getElementById('dnd-modal');
+        const dndBtn = document.getElementById('dnd-trigger'); const dndModal = document.getElementById('dnd-modal');
         dndBtn.addEventListener('click', () => { dndModal.classList.add('active'); document.body.classList.add('modal-open'); });
         document.getElementById('close-dnd-btn').addEventListener('click', () => { dndModal.classList.remove('active'); document.body.classList.remove('modal-open'); });
 
@@ -616,395 +813,153 @@
         });
 
         // =================================================================================
-        // GESTIONE ARTWORK STACK E APERTURA IMMAGINI PERSONAL PROJECTS
+        // ARTWORK STACK & D&D LOGIC
         // =================================================================================
         const artworkItems = document.querySelectorAll('.artwork-item');
-        artworkItems.forEach(item => {
-            item.addEventListener('click', (e) => {
-                const parentStack = item.closest('.artwork-stack');
-                if (parentStack && !parentStack.classList.contains('expanded')) {
-                    parentStack.classList.add('expanded');
-                    return; 
-                }
-                e.stopPropagation(); 
-                const src = item.getAttribute('data-src');
-                const filename = src.split('/').pop();
-                artworkViewerImg.src = src;
-                artworkViewerTitle.textContent = filename;
-                artworkViewerModal.classList.add('active');
-            });
-        });
+        artworkItems.forEach(item => { item.addEventListener('click', (e) => { const parentStack = item.closest('.artwork-stack'); if (parentStack && !parentStack.classList.contains('expanded')) { parentStack.classList.add('expanded'); return; } e.stopPropagation(); const src = item.getAttribute('data-src'); const filename = src.split('/').pop(); artworkViewerImg.src = src; artworkViewerTitle.textContent = filename; artworkViewerModal.classList.add('active'); }); });
+        
+        const swipeWrapper = document.getElementById('swipeWrapper'); const dots = document.querySelectorAll('.swipe-dots .dot');
+        if (swipeWrapper && dots.length > 0) { swipeWrapper.addEventListener('scroll', () => { const scrollLeft = swipeWrapper.scrollLeft; const width = swipeWrapper.clientWidth; const activeIndex = Math.round(scrollLeft / width); dots.forEach((dot, index) => { dot.classList.toggle('active', index === activeIndex); }); }); }
 
-        // =================================================================================
-        // GESTIONE SWIPE INDICATORI MOBILE (WIDGETS PERSONALI)
-        // =================================================================================
-        const swipeWrapper = document.getElementById('swipeWrapper');
-        const dots = document.querySelectorAll('.swipe-dots .dot');
-        if (swipeWrapper && dots.length > 0) {
-            swipeWrapper.addEventListener('scroll', () => {
-                const scrollLeft = swipeWrapper.scrollLeft;
-                const width = swipeWrapper.clientWidth;
-                const activeIndex = Math.round(scrollLeft / width);
-                dots.forEach((dot, index) => {
-                    dot.classList.toggle('active', index === activeIndex);
-                });
-            });
-        }
-
-        // =================================================================================
-        // D&D LOGIC (8-BIT PAGE TURN E GALLERIA)
-        // =================================================================================
-        const dndPagesContainer = document.getElementById('dnd-pages-container');
-        const dndPrevBtn = document.getElementById('dnd-prev-btn');
-        const dndNextBtn = document.getElementById('dnd-next-btn');
-        const dndPageIndicator = document.getElementById('dnd-page-indicator');
-        let dndCurrentPage = 0;
-        const dndTotalPages = 3;
-
-        function changeDndPage(newIndex) {
-            dndPrevBtn.disabled = true;
-            dndNextBtn.disabled = true;
-            dndPagesContainer.classList.add('page-flip-out');
-
-            setTimeout(() => {
-                document.getElementById(`dnd-page-${dndCurrentPage}`).classList.remove('active');
-                dndCurrentPage = newIndex;
-                document.getElementById(`dnd-page-${dndCurrentPage}`).classList.add('active');
-                dndPageIndicator.textContent = `PAGE ${dndCurrentPage + 1} / ${dndTotalPages}`;
-
-                dndPagesContainer.classList.remove('page-flip-out');
-                dndPagesContainer.classList.add('page-flip-in');
-
-                setTimeout(() => {
-                    dndPagesContainer.classList.remove('page-flip-in');
-                    dndPrevBtn.disabled = (dndCurrentPage === 0);
-                    dndNextBtn.disabled = (dndCurrentPage === dndTotalPages - 1);
-                }, 250);
-            }, 250);
-        }
-
+        const dndPagesContainer = document.getElementById('dnd-pages-container'); const dndPrevBtn = document.getElementById('dnd-prev-btn'); const dndNextBtn = document.getElementById('dnd-next-btn'); const dndPageIndicator = document.getElementById('dnd-page-indicator');
+        let dndCurrentPage = 0; const dndTotalPages = 3;
+        function changeDndPage(newIndex) { dndPrevBtn.disabled = true; dndNextBtn.disabled = true; dndPagesContainer.classList.add('page-flip-out'); setTimeout(() => { document.getElementById(`dnd-page-${dndCurrentPage}`).classList.remove('active'); dndCurrentPage = newIndex; document.getElementById(`dnd-page-${dndCurrentPage}`).classList.add('active'); dndPageIndicator.textContent = `PAGE ${dndCurrentPage + 1} / ${dndTotalPages}`; dndPagesContainer.classList.remove('page-flip-out'); dndPagesContainer.classList.add('page-flip-in'); setTimeout(() => { dndPagesContainer.classList.remove('page-flip-in'); dndPrevBtn.disabled = (dndCurrentPage === 0); dndNextBtn.disabled = (dndCurrentPage === dndTotalPages - 1); }, 250); }, 250); }
         dndPrevBtn.addEventListener('click', () => { if(dndCurrentPage > 0) changeDndPage(dndCurrentPage - 1); });
         dndNextBtn.addEventListener('click', () => { if(dndCurrentPage < dndTotalPages - 1) changeDndPage(dndCurrentPage + 1); });
 
-        // =================================================================================
-        // ⬇️⬇️⬇️ MODIFICA QUI LE IMMAGINI E DIDASCALIE DELLA GALLERIA DI D&D ⬇️⬇️⬇️
-        // =================================================================================
-        const dndGalleryData = [
-            { src: "ded/screen1.png", desc: "ASCII Dungeon Map Exploration" },
-            { src: "ded/screen2.png", desc: "Pokemon-Style Combat Engagement" },
-            { src: "ded/screen3.png", desc: "Character Stats and Inventory Menu" },
-            { src: "ded/screen4.png", desc: "AI Generated Enemy Sprite" }
-        ];
-        // =================================================================================
-        // ⬆️⬆️⬆️ FINE ZONA MODIFICA ⬆️⬆️⬆️
-        // =================================================================================
-
+        const dndGalleryData = [ { src: "ded/screen1.png", desc: "ASCII Dungeon Map Exploration" }, { src: "ded/screen2.png", desc: "Pokemon-Style Combat Engagement" }, { src: "ded/screen3.png", desc: "Character Stats and Inventory Menu" }, { src: "ded/screen4.png", desc: "AI Generated Enemy Sprite" } ];
         const dndGalleryGrid = document.getElementById('dnd-gallery-grid');
-        dndGalleryData.forEach((item, index) => {
-            const img = document.createElement('img'); img.src = item.src; img.classList.add('dnd-thumb');
-            img.onerror = function() { this.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><rect width='150' height='150' fill='#ccc'/></svg>"; };
-            img.addEventListener('click', () => { 
-                dndGlassIndex = index;
-                updateDndGlass();
-                document.getElementById('dnd-glass-overlay').classList.add('active'); 
-            });
-            dndGalleryGrid.appendChild(img);
-        });
-
-        const dndGlassOverlay = document.getElementById('dnd-glass-overlay');
-        let dndGlassIndex = 0;
-        
+        dndGalleryData.forEach((item, index) => { const img = document.createElement('img'); img.src = item.src; img.classList.add('dnd-thumb'); img.onerror = function() { this.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><rect width='150' height='150' fill='#ccc'/></svg>"; }; img.addEventListener('click', () => { dndGlassIndex = index; updateDndGlass(); document.getElementById('dnd-glass-overlay').classList.add('active'); }); dndGalleryGrid.appendChild(img); });
+        const dndGlassOverlay = document.getElementById('dnd-glass-overlay'); let dndGlassIndex = 0;
         document.getElementById('dnd-glass-close').addEventListener('click', () => { dndGlassOverlay.classList.remove('active'); });
-
-        // Swipe Touch per D&D Gallery
-        let dndTouchStartX = 0; let dndTouchEndX = 0;
-        const dndGlassImg = document.getElementById('dnd-glass-img');
-        
-        function updateDndGlass() {
-            dndGlassImg.src = dndGalleryData[dndGlassIndex].src;
-            document.getElementById('dnd-glass-caption').textContent = dndGalleryData[dndGlassIndex].desc;
-        }
-
+        let dndTouchStartX = 0; let dndTouchEndX = 0; const dndGlassImg = document.getElementById('dnd-glass-img');
+        function updateDndGlass() { dndGlassImg.src = dndGalleryData[dndGlassIndex].src; document.getElementById('dnd-glass-caption').textContent = dndGalleryData[dndGlassIndex].desc; }
         dndGlassImg.addEventListener('touchstart', e => { dndTouchStartX = e.changedTouches[0].screenX; }, {passive: true});
-        dndGlassImg.addEventListener('touchend', e => {
-            dndTouchEndX = e.changedTouches[0].screenX;
-            if (dndTouchEndX < dndTouchStartX - 50) { dndGlassIndex = (dndGlassIndex < dndGalleryData.length - 1) ? dndGlassIndex + 1 : 0; updateDndGlass(); }
-            if (dndTouchEndX > dndTouchStartX + 50) { dndGlassIndex = (dndGlassIndex > 0) ? dndGlassIndex - 1 : dndGalleryData.length - 1; updateDndGlass(); }
-        }, {passive: true});
+        dndGlassImg.addEventListener('touchend', e => { dndTouchEndX = e.changedTouches[0].screenX; if (dndTouchEndX < dndTouchStartX - 50) { dndGlassIndex = (dndGlassIndex < dndGalleryData.length - 1) ? dndGlassIndex + 1 : 0; updateDndGlass(); } if (dndTouchEndX > dndTouchStartX + 50) { dndGlassIndex = (dndGlassIndex > 0) ? dndGlassIndex - 1 : dndGalleryData.length - 1; updateDndGlass(); } }, {passive: true});
 
-        // =================================================================================
-        // GESTIONE OVERLAY EXERPLAZA
-        // =================================================================================
         const exerOverlay = document.getElementById("exerplaza-overlay");
         document.getElementById('exerplaza-trigger').addEventListener('click', () => { exerOverlay.classList.add('active'); document.body.classList.add('modal-open'); });
         document.getElementById("close-exer-tab").addEventListener("click", () => { exerOverlay.classList.remove('active'); document.body.classList.remove('modal-open'); });
 
 
         // =================================================================================
-        // EASTER EGG: KONAMI D-PAD BUTTONS E MUSIC SETUP
+        // EASTER EGG (TETRIS MOBILE) 
         // =================================================================================
-        let swipeHistory = [];
-        const konamiTarget = ['U','U','D','D','L','R','L','R'];
+        let mobileSwipeHistory = [];
+        const konamiTargetMobile = ['U','U','D','D','L','R','L','R'];
 
-        // SETUP AUDIO ENGINE (TETRIS THEME & TOASTY)
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        let isMusicPlaying = false;
-        let noteIndex = 0;
-        let nextNoteTime = 0;
-        const beatLen = 0.2; // 200ms
+        let isMusicPlaying = false; let noteIndex = 0; let nextNoteTime = 0; const beatLen = 0.2; 
+        const tetrisMelody = [ [659.25, 2], [493.88, 1], [523.25, 1], [587.33, 2], [523.25, 1], [493.88, 1], [440.00, 2], [440.00, 1], [523.25, 1], [659.25, 2], [587.33, 1], [523.25, 1], [493.88, 3], [523.25, 1], [587.33, 2], [659.25, 2], [523.25, 2], [440.00, 2], [440.00, 2], [0, 2] ];
         
-        // 8-Bit Tetris Theme (Korobeiniki) [Frequenza, Durata]
-        const tetrisMelody = [
-            [659.25, 2], [493.88, 1], [523.25, 1], [587.33, 2], [523.25, 1], [493.88, 1],
-            [440.00, 2], [440.00, 1], [523.25, 1], [659.25, 2], [587.33, 1], [523.25, 1],
-            [493.88, 3], [523.25, 1], [587.33, 2], [659.25, 2],
-            [523.25, 2], [440.00, 2], [440.00, 2], [0, 2]
-        ];
-
-        function scheduleMusic() {
-            if (!isMusicPlaying) return;
-            while (nextNoteTime < audioCtx.currentTime + 0.1) {
-                const note = tetrisMelody[noteIndex];
-                if (note[0] !== 0) {
-                    const osc = audioCtx.createOscillator();
-                    const gain = audioCtx.createGain();
-                    osc.type = 'square';
-                    osc.frequency.value = note[0];
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
-                    gain.gain.setValueAtTime(0.02, nextNoteTime); // Volume basso per sottofondo
-                    gain.gain.setTargetAtTime(0.0001, nextNoteTime + (note[1] * beatLen) - 0.02, 0.015);
-                    osc.start(nextNoteTime);
-                    osc.stop(nextNoteTime + (note[1] * beatLen));
-                }
-                nextNoteTime += note[1] * beatLen;
-                noteIndex = (noteIndex + 1) % tetrisMelody.length;
-            }
-            requestAnimationFrame(scheduleMusic);
-        }
+        function scheduleMusic() { if (!isMusicPlaying) return; while (nextNoteTime < audioCtx.currentTime + 0.1) { const note = tetrisMelody[noteIndex]; if (note[0] !== 0) { const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.type = 'square'; osc.frequency.value = note[0]; osc.connect(gain); gain.connect(audioCtx.destination); gain.gain.setValueAtTime(0.02, nextNoteTime); gain.gain.setTargetAtTime(0.0001, nextNoteTime + (note[1] * beatLen) - 0.02, 0.015); osc.start(nextNoteTime); osc.stop(nextNoteTime + (note[1] * beatLen)); } nextNoteTime += note[1] * beatLen; noteIndex = (noteIndex + 1) % tetrisMelody.length; } requestAnimationFrame(scheduleMusic); }
 
         document.querySelectorAll('.dpad-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                if(audioCtx.state === 'suspended') audioCtx.resume(); // Sblocca l'audio su mobile
-                
+                if(audioCtx.state === 'suspended') audioCtx.resume(); 
                 let dir = e.target.getAttribute('data-key');
-                swipeHistory.push(dir);
-                if(swipeHistory.length > 8) swipeHistory.shift();
-                
-                if(swipeHistory.join('') === konamiTarget.join('')) {
-                    document.getElementById('konami-modal').classList.add('active');
-                    document.body.classList.add('modal-open');
-                    swipeHistory = []; 
-                }
+                mobileSwipeHistory.push(dir);
+                if(mobileSwipeHistory.length > 8) mobileSwipeHistory.shift();
+                if(mobileSwipeHistory.join('') === konamiTargetMobile.join('')) { document.getElementById('konami-modal').classList.add('active'); document.body.classList.add('modal-open'); mobileSwipeHistory = []; }
             });
         });
 
-        // =================================================================================
-        // MODALE KONAMI (B A START) E CARICAMENTO ANNI '90
-        // =================================================================================
         let btnSequence = [];
         const targetSequence = ['B', 'A', 'START'];
-
-        document.getElementById('konami-close').addEventListener('click', () => {
-            document.getElementById('konami-modal').classList.remove('active'); document.body.classList.remove('modal-open'); btnSequence = [];
-        });
-
+        document.getElementById('konami-close').addEventListener('click', () => { document.getElementById('konami-modal').classList.remove('active'); document.body.classList.remove('modal-open'); btnSequence = []; });
+        
+        function unlockSafariAudio() { if (audioCtx.state === 'suspended') { audioCtx.resume(); } const buffer = audioCtx.createBuffer(1, 1, 22050); const source = audioCtx.createBufferSource(); source.buffer = buffer; source.connect(audioCtx.destination); source.start(0); }
+        
         ['B', 'A', 'START'].forEach(btn => {
-            document.getElementById(`btn-${btn}`).addEventListener('click', () => {
-                if(audioCtx.state === 'suspended') audioCtx.resume();
-                btnSequence.push(btn);
-                if(btnSequence.length > 3) btnSequence.shift();
-                
-                if(btnSequence.join('') === targetSequence.join('')) {
-                    document.getElementById('konami-modal').classList.remove('active');
-                    startTetrisLoad(); btnSequence = [];
-                }
-            });
+            document.getElementById(`btn-${btn}`).addEventListener('click', () => { unlockSafariAudio(); btnSequence.push(btn); if(btnSequence.length > 3) btnSequence.shift(); if(btnSequence.join('') === targetSequence.join('')) { document.getElementById('konami-modal').classList.remove('active'); startTetrisLoad(); btnSequence = []; } });
         });
 
-        function startTetrisLoad() {
-            const loader = document.getElementById('tetris-loader');
-            loader.style.display = 'block'; loader.style.animation = 'dialup-load 2s steps(8) forwards';
-            setTimeout(() => {
-                loader.style.display = 'none'; document.getElementById('tetris-container').style.display = 'flex'; initTetris();
-            }, 2100);
-        }
+        function startTetrisLoad() { const loader = document.getElementById('tetris-loader'); loader.style.display = 'block'; loader.style.animation = 'dialup-load 2s forwards'; setTimeout(() => { loader.style.display = 'none'; document.getElementById('tetris-container').style.display = 'flex'; initTetris(); }, 2100); }
+        document.getElementById('tetris-exit').addEventListener('click', () => { document.getElementById('tetris-container').style.display = 'none'; document.body.classList.remove('modal-open'); cancelAnimationFrame(tetrisRAF); isMusicPlaying = false; });
 
-        document.getElementById('tetris-exit').addEventListener('click', () => {
-            document.getElementById('tetris-container').style.display = 'none'; 
-            document.body.classList.remove('modal-open'); 
-            cancelAnimationFrame(tetrisRAF);
-            isMusicPlaying = false; // Ferma la musica
-        });
-
-        // =================================================================================
-        // WIGGLY TETRIS ENGINE (CON HOLD E GRIGLIE 4X4)
-        // =================================================================================
         const tCanvas = document.getElementById('tetris-canvas'); const tCtx = tCanvas.getContext('2d'); tCtx.scale(20, 20); 
         const nCanvas = document.getElementById('next-canvas'); const nCtx = nCanvas.getContext('2d'); nCtx.scale(20, 20); 
         const hCanvas = document.getElementById('hold-canvas'); const hCtx = hCanvas.getContext('2d'); hCtx.scale(20, 20); 
-
-        let tetrisRAF; let tScore = 0; let dropCounter = 0; let dropInterval = 1000;
-        let totalLinesCleared = 0; // Traccia totale linee per incrementare difficoltà
-        let nextPiece = null; let holdPiece = null; let canHold = true; 
-
+        let tetrisRAF; let tScore = 0; let dropCounter = 0; let dropInterval = 1000; let totalLinesCleared = 0; let nextPiece = null; let holdPiece = null; let canHold = true; 
         const colors = [null, '#ff0055', '#00f0ff', '#f2e300', '#ff5900', '#00ff00', '#aa00ff', '#ffffff'];
-        
-        // MATRICI QUADRATE FIXATE (Risolto il mostro)
-        const pieces = [
-            [],
-            [[0,1,0],[1,1,1],[0,0,0]], // T
-            [[2,2],[2,2]],             // O
-            [[0,0,0,0],[3,3,3,3],[0,0,0,0],[0,0,0,0]], // I
-            [[0,4,4],[4,4,0],[0,0,0]], // S
-            [[5,5,0],[0,5,5],[0,0,0]], // Z
-            [[6,0,0],[6,6,6],[0,0,0]], // J
-            [[0,0,7],[7,7,7],[0,0,0]]  // L
-        ];
-
+        const pieces = [ [], [[0,1,0],[1,1,1],[0,0,0]], [[2,2],[2,2]], [[0,0,0,0],[3,3,3,3],[0,0,0,0],[0,0,0,0]], [[0,4,4],[4,4,0],[0,0,0]], [[5,5,0],[0,5,5],[0,0,0]], [[6,0,0],[6,6,6],[0,0,0]], [[0,0,7],[7,7,7],[0,0,0]] ];
         function createMatrix(w, h) { const matrix = []; while (h--) matrix.push(new Array(w).fill(0)); return matrix; }
-
         let arena = createMatrix(10, 20); let player = { pos: {x: 0, y: 0}, matrix: null };
-
-        function drawGrid(ctx, cols, rows) {
-            ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 0.05;
-            for(let i=0; i<=cols; i++) { ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, rows); ctx.stroke(); }
-            for(let j=0; j<=rows; j++) { ctx.beginPath(); ctx.moveTo(0, j); ctx.lineTo(cols, j); ctx.stroke(); }
-        }
-
-        function drawMatrix(matrix, offset) {
-            matrix.forEach((row, y) => {
-                row.forEach((value, x) => {
-                    if (value !== 0) {
-                        tCtx.fillStyle = colors[value]; tCtx.fillRect(x + offset.x, y + offset.y, 1, 1);
-                        tCtx.strokeStyle = '#000'; tCtx.lineWidth = 0.1; tCtx.strokeRect(x + offset.x, y + offset.y, 1, 1);
-                    }
-                });
-            });
-        }
-
-        function drawTetris() {
-            tCtx.fillStyle = '#111'; tCtx.fillRect(0, 0, tCanvas.width, tCanvas.height);
-            drawGrid(tCtx, 10, 20); drawMatrix(arena, {x: 0, y: 0}); drawMatrix(player.matrix, player.pos);
-        }
-
-        function drawBox(ctx, matrix) {
-            ctx.fillStyle = '#111'; ctx.fillRect(0, 0, 4, 4); drawGrid(ctx, 4, 4); 
-            if (matrix) {
-                const offsetX = Math.floor((4 - matrix[0].length) / 2); const offsetY = Math.floor((4 - matrix.length) / 2);
-                matrix.forEach((row, y) => {
-                    row.forEach((value, x) => {
-                        if (value !== 0) {
-                            ctx.fillStyle = colors[value]; if(!canHold && ctx === hCtx) ctx.fillStyle = '#555'; 
-                            ctx.fillRect(x + offsetX, y + offsetY, 1, 1);
-                            ctx.strokeStyle = '#000'; ctx.lineWidth = 0.1; ctx.strokeRect(x + offsetX, y + offsetY, 1, 1);
-                        }
-                    });
-                });
-            }
-        }
-
+        function drawGrid(ctx, cols, rows) { ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 0.05; for(let i=0; i<=cols; i++) { ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, rows); ctx.stroke(); } for(let j=0; j<=rows; j++) { ctx.beginPath(); ctx.moveTo(0, j); ctx.lineTo(cols, j); ctx.stroke(); } }
+        function drawMatrix(matrix, offset) { matrix.forEach((row, y) => { row.forEach((value, x) => { if (value !== 0) { tCtx.fillStyle = colors[value]; tCtx.fillRect(x + offset.x, y + offset.y, 1, 1); tCtx.strokeStyle = '#000'; tCtx.lineWidth = 0.1; tCtx.strokeRect(x + offset.x, y + offset.y, 1, 1); } }); }); }
+        function drawTetris() { tCtx.fillStyle = '#111'; tCtx.fillRect(0, 0, tCanvas.width, tCanvas.height); drawGrid(tCtx, 10, 20); drawMatrix(arena, {x: 0, y: 0}); drawMatrix(player.matrix, player.pos); }
+        function drawBox(ctx, matrix) { ctx.fillStyle = '#111'; ctx.fillRect(0, 0, 4, 4); drawGrid(ctx, 4, 4); if (matrix) { const offsetX = Math.floor((4 - matrix[0].length) / 2); const offsetY = Math.floor((4 - matrix.length) / 2); matrix.forEach((row, y) => { row.forEach((value, x) => { if (value !== 0) { ctx.fillStyle = colors[value]; if(!canHold && ctx === hCtx) ctx.fillStyle = '#555'; ctx.fillRect(x + offsetX, y + offsetY, 1, 1); ctx.strokeStyle = '#000'; ctx.lineWidth = 0.1; ctx.strokeRect(x + offsetX, y + offsetY, 1, 1); } }); }); } }
         function updateBoxes() { drawBox(hCtx, holdPiece); drawBox(nCtx, nextPiece); }
-
-        function hold() {
-            if (!canHold) return;
-            if (holdPiece === null) { holdPiece = player.matrix; playerReset(); } 
-            else { let temp = player.matrix; player.matrix = holdPiece; holdPiece = temp; player.pos.y = 0; player.pos.x = Math.floor(arena[0].length / 2) - Math.floor(player.matrix[0].length / 2); }
-            canHold = false; updateBoxes();
-        }
-
+        function hold() { if (!canHold) return; if (holdPiece === null) { holdPiece = player.matrix; playerReset(); } else { let temp = player.matrix; player.matrix = holdPiece; holdPiece = temp; player.pos.y = 0; player.pos.x = Math.floor(arena[0].length / 2) - Math.floor(player.matrix[0].length / 2); } canHold = false; updateBoxes(); }
         function merge(arena, player) { player.matrix.forEach((row, y) => { row.forEach((value, x) => { if (value !== 0) { arena[y + player.pos.y][x + player.pos.x] = value; } }); }); }
-
         function collide(arena, player) { const m = player.matrix; const o = player.pos; for (let y = 0; y < m.length; ++y) { for (let x = 0; x < m[y].length; ++x) { if (m[y][x] !== 0 && (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) { return true; } } } return false; }
-
         function playerDrop() { player.pos.y++; if (collide(arena, player)) { player.pos.y--; merge(arena, player); playerReset(); arenaSweep(); } dropCounter = 0; }
-
         function playerMove(offset) { player.pos.x += offset; if (collide(arena, player)) player.pos.x -= offset; }
-
-        function playerRotate() {
-            const pos = player.pos.x; let offset = 1;
-            for (let y = 0; y < player.matrix.length; ++y) { for (let x = 0; x < y; ++x) { [player.matrix[x][y], player.matrix[y][x]] = [player.matrix[y][x], player.matrix[x][y]]; } }
-            player.matrix.forEach(row => row.reverse());
-            while (collide(arena, player)) {
-                player.pos.x += offset; offset = -(offset + (offset > 0 ? 1 : -1));
-                if (offset > player.matrix[0].length) { player.matrix.forEach(row => row.reverse()); for (let y = 0; y < player.matrix.length; ++y) { for (let x = 0; x < y; ++x) { [player.matrix[x][y], player.matrix[y][x]] = [player.matrix[y][x], player.matrix[x][y]]; } } player.pos.x = pos; return; }
-            }
-        }
-
-        function playerReset() {
-            if (nextPiece === null) nextPiece = pieces[Math.floor(Math.random() * 7) + 1];
-            player.matrix = nextPiece; nextPiece = pieces[Math.floor(Math.random() * 7) + 1];
-            player.pos.y = 0; player.pos.x = Math.floor(arena[0].length / 2) - Math.floor(player.matrix[0].length / 2);
-            canHold = true; updateBoxes();
-            if (collide(arena, player)) { 
-                // GAME OVER - RESETTA TUTTO
-                arena.forEach(row => row.fill(0)); 
-                tScore = 0; totalLinesCleared = 0; dropInterval = 1000;
-                document.getElementById('t-score').innerText = tScore; holdPiece = null; updateBoxes(); 
-            }
-        }
-
-        function arenaSweep() {
-            let rowCount = 1; let linesCleared = 0;
-            outer: for (let y = arena.length - 1; y > 0; --y) {
-                for (let x = 0; x < arena[y].length; ++x) { if (arena[y][x] === 0) continue outer; }
-                const row = arena.splice(y, 1)[0].fill(0); arena.unshift(row); ++y; tScore += rowCount * 10; rowCount *= 2; linesCleared++;
-            }
-            
-            if (linesCleared > 0) {
-                document.getElementById('t-score').innerText = tScore;
-                totalLinesCleared += linesCleared;
-                // SPEED UP: Aumenta la velocità (diminuisce l'intervallo) ogni 5 linee
-                let level = Math.floor(totalLinesCleared / 5);
-                dropInterval = Math.max(150, 1000 - (level * 150));
-                
-                if (linesCleared >= 4) { playToasty(); }
-            }
-        }
-
-        let lastTime = 0;
-        function update(time = 0) { const deltaTime = time - lastTime; lastTime = time; dropCounter += deltaTime; if (dropCounter > dropInterval) playerDrop(); drawTetris(); tetrisRAF = requestAnimationFrame(update); }
-
-        let tetrisTouchX = 0, tetrisTouchY = 0; let tetrisTouchStart = 0; const swipeStep = 25; 
+        function playerRotate() { const pos = player.pos.x; let offset = 1; for (let y = 0; y < player.matrix.length; ++y) { for (let x = 0; x < y; ++x) { [player.matrix[x][y], player.matrix[y][x]] = [player.matrix[y][x], player.matrix[x][y]]; } } player.matrix.forEach(row => row.reverse()); while (collide(arena, player)) { player.pos.x += offset; offset = -(offset + (offset > 0 ? 1 : -1)); if (offset > player.matrix[0].length) { player.matrix.forEach(row => row.reverse()); for (let y = 0; y < player.matrix.length; ++y) { for (let x = 0; x < y; ++x) { [player.matrix[x][y], player.matrix[y][x]] = [player.matrix[y][x], player.matrix[x][y]]; } } player.pos.x = pos; return; } } }
+        function playerReset() { if (nextPiece === null) nextPiece = pieces[Math.floor(Math.random() * 7) + 1]; player.matrix = nextPiece; nextPiece = pieces[Math.floor(Math.random() * 7) + 1]; player.pos.y = 0; player.pos.x = Math.floor(arena[0].length / 2) - Math.floor(player.matrix[0].length / 2); canHold = true; updateBoxes(); if (collide(arena, player)) { arena.forEach(row => row.fill(0)); tScore = 0; totalLinesCleared = 0; dropInterval = 1000; document.getElementById('t-score').innerText = tScore; holdPiece = null; updateBoxes(); } }
+        function arenaSweep() { let rowCount = 1; let linesCleared = 0; outer: for (let y = arena.length - 1; y > 0; --y) { for (let x = 0; x < arena[y].length; ++x) { if (arena[y][x] === 0) continue outer; } const row = arena.splice(y, 1)[0].fill(0); arena.unshift(row); ++y; tScore += rowCount * 10; rowCount *= 2; linesCleared++; } if (linesCleared > 0) { document.getElementById('t-score').innerText = tScore; totalLinesCleared += linesCleared; let level = Math.floor(totalLinesCleared / 5); dropInterval = Math.max(150, 1000 - (level * 150)); if (linesCleared >= 4) { playToasty(); } } }
+        let lastTime = 0; function update(time = 0) { const deltaTime = time - lastTime; lastTime = time; dropCounter += deltaTime; if (dropCounter > dropInterval) playerDrop(); drawTetris(); tetrisRAF = requestAnimationFrame(update); }
         const tContainer = document.getElementById('tetris-container');
+        let tetrisTouchX = 0, tetrisTouchY = 0; let tetrisTouchStart = 0; const swipeStep = 25; 
         tContainer.addEventListener('touchstart', e => { tetrisTouchX = e.touches[0].clientX; tetrisTouchY = e.touches[0].clientY; tetrisTouchStart = Date.now(); }, {passive: false});
-        tContainer.addEventListener('touchmove', e => {
-            if (e.target.id === 'tetris-exit' || e.target.id === 'hold-canvas') return;
-            e.preventDefault(); 
-            let cx = e.touches[0].clientX; let cy = e.touches[0].clientY; let diffX = cx - tetrisTouchX; let diffY = cy - tetrisTouchY;
-            if (Math.abs(diffX) > swipeStep) { playerMove(diffX > 0 ? 1 : -1); tetrisTouchX = cx; }
-            if (diffY > swipeStep * 1.5) { playerDrop(); tetrisTouchY = cy; }
-        }, {passive: false});
-        tContainer.addEventListener('touchend', e => {
-            if (e.target.id === 'tetris-exit' || e.target.id === 'hold-canvas') return;
-            let cx = e.changedTouches[0].clientX; let cy = e.changedTouches[0].clientY;
-            if(Date.now() - tetrisTouchStart < 250 && Math.abs(cx - tetrisTouchX) < 15 && Math.abs(cy - tetrisTouchY) < 15) { playerRotate(); }
-        }, {passive: false});
-
+        tContainer.addEventListener('touchmove', e => { if (e.target.id === 'tetris-exit' || e.target.id === 'hold-canvas') return; e.preventDefault(); let cx = e.touches[0].clientX; let cy = e.touches[0].clientY; let diffX = cx - tetrisTouchX; let diffY = cy - tetrisTouchY; if (Math.abs(diffX) > swipeStep) { playerMove(diffX > 0 ? 1 : -1); tetrisTouchX = cx; } if (diffY > swipeStep * 1.5) { playerDrop(); tetrisTouchY = cy; } }, {passive: false});
+        tContainer.addEventListener('touchend', e => { if (e.target.id === 'tetris-exit' || e.target.id === 'hold-canvas') return; let cx = e.changedTouches[0].clientX; let cy = e.changedTouches[0].clientY; if(Date.now() - tetrisTouchStart < 250 && Math.abs(cx - tetrisTouchX) < 15 && Math.abs(cy - tetrisTouchY) < 15) { playerRotate(); } }, {passive: false});
         document.getElementById('hold-canvas').addEventListener('touchstart', (e) => { e.preventDefault(); e.stopPropagation(); hold(); }, {passive: false});
+        function initTetris() { arena.forEach(row => row.fill(0)); tScore = 0; totalLinesCleared = 0; dropInterval = 1000; document.getElementById('t-score').innerText = tScore; holdPiece = null; playerReset(); updateBoxes(); isMusicPlaying = true; nextNoteTime = audioCtx.currentTime + 0.1; scheduleMusic(); update(); }
+        function playToasty() { const img = document.getElementById('toasty-img'); img.classList.add('show'); setTimeout(() => { img.classList.remove('show'); }, 1000); if(audioCtx.state === 'suspended') audioCtx.resume(); const toastyOsc = audioCtx.createOscillator(); const toastyGain = audioCtx.createGain(); toastyOsc.connect(toastyGain); toastyGain.connect(audioCtx.destination); toastyOsc.type = 'square'; toastyOsc.frequency.setValueAtTime(880, audioCtx.currentTime); toastyOsc.frequency.setValueAtTime(1100, audioCtx.currentTime + 0.1); toastyGain.gain.setValueAtTime(0.1, audioCtx.currentTime); toastyGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.3); toastyOsc.start(); toastyOsc.stop(audioCtx.currentTime + 0.3); }
 
-        function initTetris() { 
-            arena.forEach(row => row.fill(0)); 
-            tScore = 0; totalLinesCleared = 0; dropInterval = 1000;
-            document.getElementById('t-score').innerText = tScore; holdPiece = null; playerReset(); updateBoxes(); 
+
+        // =================================================================================
+        // EASTER EGG: FROGGER DESKTOP (Konami Code da tastiera)
+        // =================================================================================
+        const konamiDesktopTarget = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a', 'Enter'];
+        let desktopInputHistory = [];
+        
+        const froggerAudio = new Audio('Frogger/Sounds/A_soundtrack.wav');
+        froggerAudio.loop = true; 
+
+        window.addEventListener('keydown', (e) => {
+            if (isMobile) return;
+
+            let key = e.key;
+            if (key === 'b' || key === 'B') key = 'b';
+            if (key === 'a' || key === 'A') key = 'a';
+
+            desktopInputHistory.push(key);
             
-            // Avvia Musica!
-            if(audioCtx.state === 'suspended') audioCtx.resume();
-            isMusicPlaying = true;
-            nextNoteTime = audioCtx.currentTime + 0.1;
-            scheduleMusic();
+            if (desktopInputHistory.length > konamiDesktopTarget.length) {
+                desktopInputHistory.shift();
+            }
+
+            if (desktopInputHistory.join('') === konamiDesktopTarget.join('')) {
+                launchFroggerMenu();
+                desktopInputHistory = []; 
+            }
+        });
+
+        const froggerContainer = document.getElementById('frogger-container');
+
+        function launchFroggerMenu() {
+            document.body.classList.add('modal-open');
+            froggerContainer.classList.add('active');
             
-            update(); 
+            froggerAudio.currentTime = 0;
+            froggerAudio.play().catch(err => console.log("Audio bloccato dal browser, serve interazione"));
+
+            setTimeout(() => {
+                froggerContainer.classList.add('visible');
+            }, 50);
         }
 
-        function playToasty() {
-            const img = document.getElementById('toasty-img'); img.classList.add('show'); setTimeout(() => { img.classList.remove('show'); }, 1000);
-            if(audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.type = 'square'; osc.frequency.setValueAtTime(880, audioCtx.currentTime); osc.frequency.setValueAtTime(1100, audioCtx.currentTime + 0.1); 
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.3);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.3);
-        }
+        document.getElementById('frogger-exit').addEventListener('click', () => {
+            froggerContainer.classList.remove('visible');
+            froggerAudio.pause();
+            
+            setTimeout(() => {
+                froggerContainer.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }, 1500); 
+        });
 
     </script>
 </body>
